@@ -1,6 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>Redis进阶</title>
+    <url>/2020/03/14/Redis%E8%BF%9B%E9%98%B6/</url>
+    <content><![CDATA[<h1 id="Redis发布订阅"><a href="#Redis发布订阅" class="headerlink" title="Redis发布订阅"></a>Redis发布订阅</h1><h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><blockquote>
+<p>Redis发布订阅(pub/sub)是一种消息通信模式:发送者(pub)发送消息,订阅者(sub)接收消息。<br>Redis窖户端可以订阅任意数量的频道。</p>
+</blockquote>
+<p>下图展示了频道channe11 ，以及订阅这个频道的三个客户端 一client2 、client5 和client1之间的关系</p>
+<p><a href="/2020/03/14/Redis%E8%BF%9B%E9%98%B6/%E5%8F%91%E5%B8%83%E8%AE%A2%E9%98%85%E5%85%B3%E7%B3%BB.png" data-fancybox="group" data-caption class="fancybox"><img alt title data-src="/2020/03/14/Redis%E8%BF%9B%E9%98%B6/%E5%8F%91%E5%B8%83%E8%AE%A2%E9%98%85%E5%85%B3%E7%B3%BB.png" class="lazyload"></a></p>
+<p>当有新消息通过PUBLISH命令发送给频道channel1 时，这个消息就会被发送始订阅它的三个客户端:</p>
+<p><a href="/2020/03/14/Redis%E8%BF%9B%E9%98%B6/%E5%8F%91%E5%B8%83%E8%AE%A2%E9%98%852.png" data-fancybox="group" data-caption class="fancybox"><img alt title data-src="/2020/03/14/Redis%E8%BF%9B%E9%98%B6/%E5%8F%91%E5%B8%83%E8%AE%A2%E9%98%852.png" class="lazyload"></a></p>
+<p>配置订阅和发布</p>
+<h2 id="命令"><a href="#命令" class="headerlink" title="命令"></a>命令</h2><h3 id="订阅频道"><a href="#订阅频道" class="headerlink" title="订阅频道"></a>订阅频道</h3><blockquote>
+<p>SUBSCRIBE channel [channe1 …] :订阅给定的一个或多个频道的信息<br>PSUBSCRIBE pattern [pattern …] :订阅-一个或多个符合给定模式的频道。</p>
+</blockquote>
+<h3 id="发布频道"><a href="#发布频道" class="headerlink" title="发布频道:"></a>发布频道:</h3><blockquote>
+<p>PUBLISH channe1 message :将信息发送到指定的频道。</p>
+</blockquote>
+<h3 id="退订频道"><a href="#退订频道" class="headerlink" title="退订频道:"></a>退订频道:</h3><blockquote>
+<p>UNSUBSCRIBE [channel [channel …]] :指退订给定的频道。<br>PUNSUBSCRIBE [pattern [pattern …]]: 退订所有给定模式的频道。</p>
+</blockquote>
+<h2 id="应用场景"><a href="#应用场景" class="headerlink" title="应用场景"></a>应用场景</h2><blockquote>
+<p>这一功能最明显的用法就是构建实时消息系统,比如普通的即时聊天,群聊等功能<br>1、在一个博客网站中。有100个粉丝订阅了你,当你发布新文章。就可以推送消息给粉丝们。<br>2、微信公众号模式<br>微博,每个用户的粉丝都是该用户的订阅者，当用户发完微博 ,所有粉丝都将收 到他的动态;<br>新闻，资讯站点通常有多个频道.每个频道就是一个主题,用户可以通过主题来做订阅(如RSS) ,这样当新闻发布时,订阅者可以获得更新</p>
+<p>简单的应用场量的话，以门户网站为例当编辑更新了某推荐板块的内容后:</p>
+<p>1、CMS发布清除缓存的消息到channel (推送者推送消息)<br>2、门户网站的缓存系统通过chanel收到清除缓存的消息(订阅者收到消息) ,更新了推荐板块的缓存<br>3、还可以做集中配置中心管理,当配置信息发生更改后, 订阅配置信息的节点都可以收到通知消息</p>
+</blockquote>
+<h1 id="Redis多数据库"><a href="#Redis多数据库" class="headerlink" title="Redis多数据库"></a>Redis多数据库</h1><p>Redis下,数据库是由一个整数索引标识,而不是由一个数据库名称。默认情况下,一个客户端连接到数据库0。</p>
+<p><strong>redis配置文件中下面的参数来控制数据库总数;</strong></p>
+<div class="code-area-wrap"><div class="highlight-tools"><i class="fa fa-angle-down code-expand" aria-hidden="true"></i><div class="code_lang">Code</div><div class="copy-notice"></div><i class="fa fa-clipboard" aria-hidden="true"></i></div><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">database 16 &#x2F;&#x2F;从0开始</span><br></pre></td></tr></table></figure></div>
+
+<p><strong>select数据库 //数据库的切换</strong></p>
+<div class="code-area-wrap"><div class="highlight-tools"><i class="fa fa-angle-down code-expand" aria-hidden="true"></i><div class="code_lang">Code</div><div class="copy-notice"></div><i class="fa fa-clipboard" aria-hidden="true"></i></div><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">select index</span><br></pre></td></tr></table></figure></div>
+
+<p><strong>移动数据(将当前key移动另个库)</strong></p>
+<div class="code-area-wrap"><div class="highlight-tools"><i class="fa fa-angle-down code-expand" aria-hidden="true"></i><div class="code_lang">Code</div><div class="copy-notice"></div><i class="fa fa-clipboard" aria-hidden="true"></i></div><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">move key名称 数掘库</span><br></pre></td></tr></table></figure></div>
+
+<p>数据库清空;</p>
+<div class="code-area-wrap"><div class="highlight-tools"><i class="fa fa-angle-down code-expand" aria-hidden="true"></i><div class="code_lang">Code</div><div class="copy-notice"></div><i class="fa fa-clipboard" aria-hidden="true"></i></div><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">flushdb :清除当前数据库的所有key</span><br><span class="line">flushall :清除整个Redis的数据库所有key</span><br></pre></td></tr></table></figure></div>
+
+<h1 id="Redis事务"><a href="#Redis事务" class="headerlink" title="Redis事务"></a>Redis事务</h1><p>Redis事务可以一次执行多个命令，( 按顺序地串行化执行,执行中不会被其它命令插入，不许加塞)</p>
+<h2 id="简介-1"><a href="#简介-1" class="headerlink" title="简介"></a>简介</h2><p>Redis事务可以一次执行多个命令(允许在-一次单独的步骤中执行一组命令) ,并且带有以下两个重要的保证:</p>
+<blockquote>
+<p>批量操作在发送EXEC命令前被放入队列缓存。<br>收到EXEC命令后进入事务执行,事务中任意命令执行失败,其余的命令依然被执行。<br>在事务执行过程,其他客户端提交的命令请求不会插入到事务执行命令序列中。</p>
+</blockquote>
+<p>1、Redis会将一个事务中的所有命令序列化,然后按顺序执行<br>2、执行中不会被其它命令插入,不许出现加赛行为</p>
+<h2 id="命令-1"><a href="#命令-1" class="headerlink" title="命令"></a>命令</h2><blockquote>
+<p>DISCARD<br>            :取消事务，放弃执行事务块内的所有命令。<br>EXEC<br>            :执行所有事务块内的命令。<br>MULTI<br>            :标记一个事务决的开始。<br>UNWATCH<br>            :取消WATCH 命令对所有key的监视。<br>WATCH key [key ..]<br>            :监视一个(或多个) key， 如果在事务执行之前这个(或这些) key被其他命令所改动,那么事务将被打断。</p>
+</blockquote>
+<p><strong>一个事务从开始到执行会经历以下三个阶段:</strong><br>开始事务。<br>命令入队。<br>执行事务。</p>
+<h2 id="示例1"><a href="#示例1" class="headerlink" title="示例1"></a>示例1</h2><p>转账功能，A向B转账50元</p>
+<p><a href="/2020/03/14/Redis%E8%BF%9B%E9%98%B6/%E8%BD%AC%E8%B4%A6%E4%BA%8B%E5%8A%A1%E6%89%A7%E8%A1%8C%E8%BF%87%E7%A8%8B.png" data-fancybox="group" data-caption class="fancybox"><img alt title data-src="/2020/03/14/Redis%E8%BF%9B%E9%98%B6/%E8%BD%AC%E8%B4%A6%E4%BA%8B%E5%8A%A1%E6%89%A7%E8%A1%8C%E8%BF%87%E7%A8%8B.png" class="lazyload"></a></p>
+<p>1、输入Multi命令开始,输入的命令都会依次进入命令队列中,但不会执行<br>2、直到输入Exec后，Redis会将之前的命令队列中的命令依次执行</p>
+]]></content>
+      <tags>
+        <tag>Redis</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Linux设置固定IP地址</title>
     <url>/2020/03/11/Linux%E8%AE%BE%E7%BD%AE%E5%9B%BA%E5%AE%9AIP%E5%9C%B0%E5%9D%80/</url>
     <content><![CDATA[<h1 id="Linux设置固定IP地址"><a href="#Linux设置固定IP地址" class="headerlink" title="Linux设置固定IP地址"></a>Linux设置固定IP地址</h1><p>我这里使用的系统是 CentOS7</p>

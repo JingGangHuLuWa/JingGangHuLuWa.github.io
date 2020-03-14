@@ -1,0 +1,146 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5"><title>Redis进阶 | 惑</title><meta name="description" content="Redis进阶"><meta name="keywords" content="Redis"><meta name="author" content="惑"><meta name="copyright" content="惑"><meta name="format-detection" content="telephone=no"><link rel="shortcut icon" href="/img/favicon.ico"><link rel="preconnect" href="//cdn.jsdelivr.net"><link rel="preconnect" href="https://fonts.googleapis.com" crossorigin><link rel="preconnect" href="//busuanzi.ibruce.info"><meta name="twitter:card" content="summary"><meta name="twitter:title" content="Redis进阶"><meta name="twitter:description" content="Redis进阶"><meta name="twitter:image" content="https://i.postimg.cc/TYFqMdZD/redis-white.png"><meta property="og:type" content="article"><meta property="og:title" content="Redis进阶"><meta property="og:url" content="https://jingganghuluwa.github.io/2020/03/14/Redis%E8%BF%9B%E9%98%B6/"><meta property="og:site_name" content="惑"><meta property="og:description" content="Redis进阶"><meta property="og:image" content="https://i.postimg.cc/TYFqMdZD/redis-white.png"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><script src="https://cdn.jsdelivr.net/npm/js-cookie/dist/js.cookie.min.js"></script><script>const autoChangeMode = 'false'
+var t = Cookies.get("theme");
+if (autoChangeMode == '1'){
+const isDarkMode = window.matchMedia("(prefers-color-scheme: dark)").matches
+const isLightMode = window.matchMedia("(prefers-color-scheme: light)").matches
+const isNotSpecified = window.matchMedia("(prefers-color-scheme: no-preference)").matches
+const hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+
+if (t === undefined){
+  if (isLightMode) activateLightMode()
+  else if (isDarkMode) activateDarkMode()
+  else if (isNotSpecified || hasNoSupport){
+    console.log('You specified no preference for a color scheme or your browser does not support it. I Schedule dark mode during night time.')
+    now = new Date();
+    hour = now.getHours();
+    isNight = hour < 6 || hour >= 18
+    isNight ? activateDarkMode() : activateLightMode()
+}
+} else if (t == 'light') activateLightMode()
+else activateDarkMode()
+
+
+} else if (autoChangeMode == '2'){
+  now = new Date();
+  hour = now.getHours();
+  isNight = hour < 6 || hour >= 18
+  if(t === undefined) isNight? activateDarkMode() : activateLightMode()
+  else if (t === 'light') activateLightMode()
+  else activateDarkMode() 
+} else {
+  if ( t == 'dark' ) activateDarkMode()
+  else if ( t == 'light') activateLightMode()
+}
+
+function activateDarkMode(){
+  document.documentElement.setAttribute('data-theme', 'dark')
+  if (document.querySelector('meta[name="theme-color"]') !== null){
+    document.querySelector('meta[name="theme-color"]').setAttribute('content','#000')
+  }
+}
+function activateLightMode(){
+  document.documentElement.setAttribute('data-theme', 'light')
+  if (document.querySelector('meta[name="theme-color"]') !== null){
+  document.querySelector('meta[name="theme-color"]').setAttribute('content','#fff')
+  }
+}</script><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@latest/css/font-awesome.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css"><link rel="canonical" href="https://jingganghuluwa.github.io/2020/03/14/Redis%E8%BF%9B%E9%98%B6/"><link rel="next" title="Linux设置固定IP地址" href="https://jingganghuluwa.github.io/2020/03/11/Linux%E8%AE%BE%E7%BD%AE%E5%9B%BA%E5%AE%9AIP%E5%9C%B0%E5%9D%80/"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web"><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容:${query}"}},
+  translate: {"defaultEncoding":2,"translateDelay":0,"cookieDomain":"https://jingganghuluwa.github.io/","msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"简"},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  bookmark: {
+    title: 'Snackbar.bookmark.title',
+    message_prev: '按',
+    message_next: '键将本页加入书签'
+  },
+  runtime_unit: '天',
+  runtime: true,
+  copyright: undefined,
+  ClickShowText: undefined,
+  medium_zoom: false,
+  fancybox: true,
+  Snackbar: undefined,
+  baiduPush: false,
+  isHome: false,
+  isPost: true
+  
+}</script><meta name="generator" content="Hexo 4.2.0"></head><body><canvas class="fireworks"></canvas><header> <div id="page-header"><span class="pull_left" id="blog_name"><a class="blog_title" id="site-name" href="/">惑</a></span><span class="toggle-menu pull_right close"><a class="site-page"><i class="fa fa-bars fa-fw" aria-hidden="true"></i></a></span><span class="pull_right menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> Categories</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fa fa-link"></i><span> Link</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> About</span></a></div><div class="menus_item"><a class="site-page"><i class="fa-fw fa fa-list" aria-hidden="true"></i><span> List</span><i class="fa fa-chevron-down menus-expand" aria-hidden="true"></i></a><ul class="menus_item_child"><li><a class="site-page" href="/music/"><i class="fa-fw fa fa-music"></i><span> Music</span></a></li><li><a class="site-page" href="/movies/"><i class="fa-fw fa fa-film"></i><span> Movie</span></a></li></ul></div></div></span><span class="pull_right" id="search_button"><a class="site-page social-icon search"><i class="fa fa-search fa-fw"></i><span> 搜索</span></a></span></div></header><div id="mobile-sidebar"><div id="menu_mask"></div><div id="mobile-sidebar-menus"><div class="mobile_author_icon"><img class="avatar-img" src="/img/avatar.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"></div><div class="mobile_post_data"><div class="mobile_data_item is-center"><div class="mobile_data_link"><a href="/archives/"><div class="headline">文章</div><div class="length_num">8</div></a></div></div><div class="mobile_data_item is-center">      <div class="mobile_data_link"><a href="/tags/"><div class="headline">标签</div><div class="length_num">6</div></a></div></div></div><hr><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> Categories</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fa fa-link"></i><span> Link</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> About</span></a></div><div class="menus_item"><a class="site-page"><i class="fa-fw fa fa-list" aria-hidden="true"></i><span> List</span><i class="fa fa-chevron-down menus-expand" aria-hidden="true"></i></a><ul class="menus_item_child"><li><a class="site-page" href="/music/"><i class="fa-fw fa fa-music"></i><span> Music</span></a></li><li><a class="site-page" href="/movies/"><i class="fa-fw fa fa-film"></i><span> Movie</span></a></li></ul></div></div></div><div id="mobile-sidebar-toc"><div class="toc_mobile_headline">目录</div><div class="sidebar-toc__content"><ol class="toc_mobile_items"><li class="toc_mobile_items-item toc_mobile_items-level-1"><a class="toc_mobile_items-link" href="#Redis发布订阅"><span class="toc_mobile_items-number">1.</span> <span class="toc_mobile_items-text">Redis发布订阅</span></a><ol class="toc_mobile_items-child"><li class="toc_mobile_items-item toc_mobile_items-level-2"><a class="toc_mobile_items-link" href="#简介"><span class="toc_mobile_items-number">1.1.</span> <span class="toc_mobile_items-text">简介</span></a></li><li class="toc_mobile_items-item toc_mobile_items-level-2"><a class="toc_mobile_items-link" href="#命令"><span class="toc_mobile_items-number">1.2.</span> <span class="toc_mobile_items-text">命令</span></a><ol class="toc_mobile_items-child"><li class="toc_mobile_items-item toc_mobile_items-level-3"><a class="toc_mobile_items-link" href="#订阅频道"><span class="toc_mobile_items-number">1.2.1.</span> <span class="toc_mobile_items-text">订阅频道</span></a></li><li class="toc_mobile_items-item toc_mobile_items-level-3"><a class="toc_mobile_items-link" href="#发布频道"><span class="toc_mobile_items-number">1.2.2.</span> <span class="toc_mobile_items-text">发布频道:</span></a></li><li class="toc_mobile_items-item toc_mobile_items-level-3"><a class="toc_mobile_items-link" href="#退订频道"><span class="toc_mobile_items-number">1.2.3.</span> <span class="toc_mobile_items-text">退订频道:</span></a></li></ol></li><li class="toc_mobile_items-item toc_mobile_items-level-2"><a class="toc_mobile_items-link" href="#应用场景"><span class="toc_mobile_items-number">1.3.</span> <span class="toc_mobile_items-text">应用场景</span></a></li></ol></li><li class="toc_mobile_items-item toc_mobile_items-level-1"><a class="toc_mobile_items-link" href="#Redis多数据库"><span class="toc_mobile_items-number">2.</span> <span class="toc_mobile_items-text">Redis多数据库</span></a></li><li class="toc_mobile_items-item toc_mobile_items-level-1"><a class="toc_mobile_items-link" href="#Redis事务"><span class="toc_mobile_items-number">3.</span> <span class="toc_mobile_items-text">Redis事务</span></a><ol class="toc_mobile_items-child"><li class="toc_mobile_items-item toc_mobile_items-level-2"><a class="toc_mobile_items-link" href="#简介-1"><span class="toc_mobile_items-number">3.1.</span> <span class="toc_mobile_items-text">简介</span></a></li><li class="toc_mobile_items-item toc_mobile_items-level-2"><a class="toc_mobile_items-link" href="#命令-1"><span class="toc_mobile_items-number">3.2.</span> <span class="toc_mobile_items-text">命令</span></a></li><li class="toc_mobile_items-item toc_mobile_items-level-2"><a class="toc_mobile_items-link" href="#示例1"><span class="toc_mobile_items-number">3.3.</span> <span class="toc_mobile_items-text">示例1</span></a></li></ol></li></ol></div></div></div><div id="body-wrap"><div id="web_bg" data-type="photo"></div><i class="fa fa-arrow-right" id="toggle-sidebar" aria-hidden="true">     </i><div class="auto_open" id="sidebar"><div class="sidebar-toc"><div class="sidebar-toc__title">目录</div><div class="sidebar-toc__progress"><span class="progress-notice">你已经读了</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar">     </div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Redis发布订阅"><span class="toc-number">1.</span> <span class="toc-text">Redis发布订阅</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#简介"><span class="toc-number">1.1.</span> <span class="toc-text">简介</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#命令"><span class="toc-number">1.2.</span> <span class="toc-text">命令</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#订阅频道"><span class="toc-number">1.2.1.</span> <span class="toc-text">订阅频道</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#发布频道"><span class="toc-number">1.2.2.</span> <span class="toc-text">发布频道:</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#退订频道"><span class="toc-number">1.2.3.</span> <span class="toc-text">退订频道:</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#应用场景"><span class="toc-number">1.3.</span> <span class="toc-text">应用场景</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Redis多数据库"><span class="toc-number">2.</span> <span class="toc-text">Redis多数据库</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Redis事务"><span class="toc-number">3.</span> <span class="toc-text">Redis事务</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#简介-1"><span class="toc-number">3.1.</span> <span class="toc-text">简介</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#命令-1"><span class="toc-number">3.2.</span> <span class="toc-text">命令</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#示例1"><span class="toc-number">3.3.</span> <span class="toc-text">示例1</span></a></li></ol></li></ol></div></div></div><main id="content-outer"><div id="top-container" style="background-image: url(https://i.postimg.cc/TYFqMdZD/redis-white.png)"><div id="post-info"><div id="post-title"><div class="posttitle">Redis进阶</div></div><div id="post-meta"><time class="post-meta__date"><i class="fa fa-calendar fa-fw" aria-hidden="true"></i> 发表于 2020-03-14<span class="post-meta__separator">|</span><i class="fa fa-history fa-fw" aria-hidden="true"></i> 更新于 2020-03-14</time><div class="post-meta-wordcount"><i class="fa fa-file-word-o post-meta__icon fa-fw" aria-hidden="true"></i><span>字数总计:</span><span class="word-count">1.1k</span><span class="post-meta__separator">|</span><i class="fa fa-clock-o post-meta__icon fa-fw" aria-hidden="true"></i><span>阅读时长: 3 分钟</span><div class="post-meta-pv-cv"><span class="post-meta__separator">|</span><span><i class="fa fa-eye post-meta__icon fa-fw" aria-hidden="true"> </i>阅读量:</span><span id="busuanzi_value_page_pv"></span><span class="post-meta__separator">|</span><i class="fa fa-comments-o post-meta__icon fa-fw" aria-hidden="true"></i><span>评论数:</span><a href="/2020/03/14/Redis%E8%BF%9B%E9%98%B6/#post-comment" itemprop="discussionUrl"><span class="valine-comment-count comment-count" data-xid="/2020/03/14/Redis%E8%BF%9B%E9%98%B6/" itemprop="commentCount"></span></a></div></div></div></div></div><div class="layout layout_post" id="content-inner">   <article id="post"><div class="article-container" id="post-content"><h1 id="Redis发布订阅"><a href="#Redis发布订阅" class="headerlink" title="Redis发布订阅"></a>Redis发布订阅</h1><h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><blockquote>
+<p>Redis发布订阅(pub/sub)是一种消息通信模式:发送者(pub)发送消息,订阅者(sub)接收消息。<br>Redis窖户端可以订阅任意数量的频道。</p>
+</blockquote>
+<p>下图展示了频道channe11 ，以及订阅这个频道的三个客户端 一client2 、client5 和client1之间的关系</p>
+<p><a href="/2020/03/14/Redis%E8%BF%9B%E9%98%B6/%E5%8F%91%E5%B8%83%E8%AE%A2%E9%98%85%E5%85%B3%E7%B3%BB.png" data-fancybox="group" data-caption class="fancybox"><img alt title data-src="/2020/03/14/Redis%E8%BF%9B%E9%98%B6/%E5%8F%91%E5%B8%83%E8%AE%A2%E9%98%85%E5%85%B3%E7%B3%BB.png" class="lazyload"></a></p>
+<p>当有新消息通过PUBLISH命令发送给频道channel1 时，这个消息就会被发送始订阅它的三个客户端:</p>
+<p><a href="/2020/03/14/Redis%E8%BF%9B%E9%98%B6/%E5%8F%91%E5%B8%83%E8%AE%A2%E9%98%852.png" data-fancybox="group" data-caption class="fancybox"><img alt title data-src="/2020/03/14/Redis%E8%BF%9B%E9%98%B6/%E5%8F%91%E5%B8%83%E8%AE%A2%E9%98%852.png" class="lazyload"></a></p>
+<p>配置订阅和发布</p>
+<h2 id="命令"><a href="#命令" class="headerlink" title="命令"></a>命令</h2><h3 id="订阅频道"><a href="#订阅频道" class="headerlink" title="订阅频道"></a>订阅频道</h3><blockquote>
+<p>SUBSCRIBE channel [channe1 …] :订阅给定的一个或多个频道的信息<br>PSUBSCRIBE pattern [pattern …] :订阅-一个或多个符合给定模式的频道。</p>
+</blockquote>
+<h3 id="发布频道"><a href="#发布频道" class="headerlink" title="发布频道:"></a>发布频道:</h3><blockquote>
+<p>PUBLISH channe1 message :将信息发送到指定的频道。</p>
+</blockquote>
+<h3 id="退订频道"><a href="#退订频道" class="headerlink" title="退订频道:"></a>退订频道:</h3><blockquote>
+<p>UNSUBSCRIBE [channel [channel …]] :指退订给定的频道。<br>PUNSUBSCRIBE [pattern [pattern …]]: 退订所有给定模式的频道。</p>
+</blockquote>
+<h2 id="应用场景"><a href="#应用场景" class="headerlink" title="应用场景"></a>应用场景</h2><blockquote>
+<p>这一功能最明显的用法就是构建实时消息系统,比如普通的即时聊天,群聊等功能<br>1、在一个博客网站中。有100个粉丝订阅了你,当你发布新文章。就可以推送消息给粉丝们。<br>2、微信公众号模式<br>微博,每个用户的粉丝都是该用户的订阅者，当用户发完微博 ,所有粉丝都将收 到他的动态;<br>新闻，资讯站点通常有多个频道.每个频道就是一个主题,用户可以通过主题来做订阅(如RSS) ,这样当新闻发布时,订阅者可以获得更新</p>
+<p>简单的应用场量的话，以门户网站为例当编辑更新了某推荐板块的内容后:</p>
+<p>1、CMS发布清除缓存的消息到channel (推送者推送消息)<br>2、门户网站的缓存系统通过chanel收到清除缓存的消息(订阅者收到消息) ,更新了推荐板块的缓存<br>3、还可以做集中配置中心管理,当配置信息发生更改后, 订阅配置信息的节点都可以收到通知消息</p>
+</blockquote>
+<h1 id="Redis多数据库"><a href="#Redis多数据库" class="headerlink" title="Redis多数据库"></a>Redis多数据库</h1><p>Redis下,数据库是由一个整数索引标识,而不是由一个数据库名称。默认情况下,一个客户端连接到数据库0。</p>
+<p><strong>redis配置文件中下面的参数来控制数据库总数;</strong></p>
+<div class="code-area-wrap"><div class="highlight-tools"><i class="fa fa-angle-down code-expand" aria-hidden="true"></i><div class="code_lang">Code</div><div class="copy-notice"></div><i class="fa fa-clipboard" aria-hidden="true"></i></div><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">database 16 &#x2F;&#x2F;从0开始</span><br></pre></td></tr></table></figure></div>
+
+<p><strong>select数据库 //数据库的切换</strong></p>
+<div class="code-area-wrap"><div class="highlight-tools"><i class="fa fa-angle-down code-expand" aria-hidden="true"></i><div class="code_lang">Code</div><div class="copy-notice"></div><i class="fa fa-clipboard" aria-hidden="true"></i></div><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select index</span><br></pre></td></tr></table></figure></div>
+
+<p><strong>移动数据(将当前key移动另个库)</strong></p>
+<div class="code-area-wrap"><div class="highlight-tools"><i class="fa fa-angle-down code-expand" aria-hidden="true"></i><div class="code_lang">Code</div><div class="copy-notice"></div><i class="fa fa-clipboard" aria-hidden="true"></i></div><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">move key名称 数掘库</span><br></pre></td></tr></table></figure></div>
+
+<p>数据库清空;</p>
+<div class="code-area-wrap"><div class="highlight-tools"><i class="fa fa-angle-down code-expand" aria-hidden="true"></i><div class="code_lang">Code</div><div class="copy-notice"></div><i class="fa fa-clipboard" aria-hidden="true"></i></div><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">flushdb :清除当前数据库的所有key</span><br><span class="line">flushall :清除整个Redis的数据库所有key</span><br></pre></td></tr></table></figure></div>
+
+<h1 id="Redis事务"><a href="#Redis事务" class="headerlink" title="Redis事务"></a>Redis事务</h1><p>Redis事务可以一次执行多个命令，( 按顺序地串行化执行,执行中不会被其它命令插入，不许加塞)</p>
+<h2 id="简介-1"><a href="#简介-1" class="headerlink" title="简介"></a>简介</h2><p>Redis事务可以一次执行多个命令(允许在-一次单独的步骤中执行一组命令) ,并且带有以下两个重要的保证:</p>
+<blockquote>
+<p>批量操作在发送EXEC命令前被放入队列缓存。<br>收到EXEC命令后进入事务执行,事务中任意命令执行失败,其余的命令依然被执行。<br>在事务执行过程,其他客户端提交的命令请求不会插入到事务执行命令序列中。</p>
+</blockquote>
+<p>1、Redis会将一个事务中的所有命令序列化,然后按顺序执行<br>2、执行中不会被其它命令插入,不许出现加赛行为</p>
+<h2 id="命令-1"><a href="#命令-1" class="headerlink" title="命令"></a>命令</h2><blockquote>
+<p>DISCARD<br>            :取消事务，放弃执行事务块内的所有命令。<br>EXEC<br>            :执行所有事务块内的命令。<br>MULTI<br>            :标记一个事务决的开始。<br>UNWATCH<br>            :取消WATCH 命令对所有key的监视。<br>WATCH key [key ..]<br>            :监视一个(或多个) key， 如果在事务执行之前这个(或这些) key被其他命令所改动,那么事务将被打断。</p>
+</blockquote>
+<p><strong>一个事务从开始到执行会经历以下三个阶段:</strong><br>开始事务。<br>命令入队。<br>执行事务。</p>
+<h2 id="示例1"><a href="#示例1" class="headerlink" title="示例1"></a>示例1</h2><p>转账功能，A向B转账50元</p>
+<p><a href="/2020/03/14/Redis%E8%BF%9B%E9%98%B6/%E8%BD%AC%E8%B4%A6%E4%BA%8B%E5%8A%A1%E6%89%A7%E8%A1%8C%E8%BF%87%E7%A8%8B.png" data-fancybox="group" data-caption class="fancybox"><img alt title data-src="/2020/03/14/Redis%E8%BF%9B%E9%98%B6/%E8%BD%AC%E8%B4%A6%E4%BA%8B%E5%8A%A1%E6%89%A7%E8%A1%8C%E8%BF%87%E7%A8%8B.png" class="lazyload"></a></p>
+<p>1、输入Multi命令开始,输入的命令都会依次进入命令队列中,但不会执行<br>2、直到输入Exec后，Redis会将之前的命令队列中的命令依次执行</p>
+</div></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">惑</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://jingganghuluwa.github.io/2020/03/14/Redis%E8%BF%9B%E9%98%B6/">https://jingganghuluwa.github.io/2020/03/14/Redis%E8%BF%9B%E9%98%B6/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://jingganghuluwa.github.io">惑</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Redis/">Redis    </a></div><div class="post_share"><div class="social-share" data-image="https://i.postimg.cc/TYFqMdZD/redis-white.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js"></script></div></div><div class="post-reward"><a class="reward-button button--primary button--animated"> <i class="fa fa-qrcode"></i> 打赏<div class="reward-main"><ul class="reward-all"><li class="reward-item"><img class="lazyload post-qr-code__img" src="/img/wechat.jpg" alt="微信"><div class="post-qr-code__desc">微信</div></li><li class="reward-item"><img class="lazyload post-qr-code__img" src="/img/alipay.jpg" alt="支付寶"><div class="post-qr-code__desc">支付寶</div></li></ul></div></a></div><nav class="pagination_post" id="pagination"><div class="next-post pull-full"><a href="/2020/03/11/Linux%E8%AE%BE%E7%BD%AE%E5%9B%BA%E5%AE%9AIP%E5%9C%B0%E5%9D%80/"><img class="next_cover lazyload" data-src="https://i.postimg.cc/j2jQKLxz/Linux.png" onerror="onerror=null;src='/img/404.jpg'"><div class="label">下一篇</div><div class="next_info"><span>Linux设置固定IP地址</span></div></a></div></nav><div class="relatedPosts"><div class="relatedPosts_headline"><i class="fa fa-fw fa-thumbs-up" aria-hidden="true"></i><span> 相关推荐</span></div><div class="relatedPosts_list"><div class="relatedPosts_item"><a href="/2020/03/06/Linux命令/" title="Linux命令"><img class="relatedPosts_cover lazyload"data-src="https://i.postimg.cc/j2jQKLxz/Linux.png"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="fa fa-calendar fa-fw" aria-hidden="true"></i> 2020-03-06</div><div class="relatedPosts_title">Linux命令</div></div></a></div><div class="relatedPosts_item"><a href="/2020/03/03/Redis/" title="Redis"><img class="relatedPosts_cover lazyload"data-src="https://i.postimg.cc/TYFqMdZD/redis-white.png"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="fa fa-calendar fa-fw" aria-hidden="true"></i> 2020-03-03</div><div class="relatedPosts_title">Redis</div></div></a></div><div class="relatedPosts_item"><a href="/2020/03/05/SpringBoot整合Redis/" title="SpringBoot整合Redis"><img class="relatedPosts_cover lazyload"data-src="https://i.postimg.cc/pTcz46mQ/1ebe40e3fe58c75e392f5a2633d80527.jpg"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="fa fa-calendar fa-fw" aria-hidden="true"></i> 2020-03-05</div><div class="relatedPosts_title">SpringBoot整合Redis</div></div></a></div></div><div class="clear_both"></div></div><hr><div id="post-comment"><div class="comment_headling"><i class="fa fa-comments fa-fw" aria-hidden="true"></i><span> 评论</span></div><div class="vcomment" id="vcomment"></div><script src="https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js"></script><script>var notify = false == true ? true : false;
+var verify = true == true ? true : false;
+var GUEST_INFO = ['nick','mail','link'];
+var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+  return GUEST_INFO.indexOf(item) > -1
+});
+guest_info = guest_info.length == 0 ? GUEST_INFO :guest_info;
+
+window.valine = new Valine({
+  el:'#vcomment',
+  notify:notify,
+  verify:verify,
+  appId:'NUX37gQJU0r3YrAOapcyhb7C-gzGzoHsz',
+  appKey:'GHq929bhcc9xh2EF02O3NKx9',
+  placeholder:'Please leave your footprints',
+  avatar:'monsterid',
+  guest_info:guest_info,
+  pageSize:'10',
+  lang:'en',
+  recordIP: true
+});</script></div></div></main><footer id="footer" style="background-image: url(https://i.postimg.cc/TYFqMdZD/redis-white.png)" data-type="photo"><div id="footer-wrap"><div class="copyright">&copy;2019 - 2020 By 惑</div><div class="framework-info"><span>驱动 </span><a href="http://hexo.io" target="_blank" rel="noopener"><span>Hexo</span></a><span class="footer-separator">|</span><span>主题 </span><a href="https://github.com/jerryc127/hexo-theme-butterfly" target="_blank" rel="noopener"><span>Butterfly</span></a></div></div></footer></div><section class="rightside" id="rightside"><div id="rightside-config-hide"><i class="fa fa-book" id="readmode" title="阅读模式"></i><i class="fa fa-plus" id="font_plus" title="放大字体"></i><i class="fa fa-minus" id="font_minus" title="缩小字体"></i><a class="translate_chn_to_cht" id="translateLink" href="javascript:translatePage();" title="简繁转换" target="_self">繁</a><i class="darkmode fa fa-moon-o" id="darkmode" title="夜间模式"></i></div><div id="rightside-config-show"><div id="rightside_config" title="设置"><i class="fa fa-cog" aria-hidden="true"></i></div><a id="to_comment" href="#post-comment" title="直达评论"><i class="scroll_to_comment fa fa-comments">  </i></a><i class="fa fa-list-ul close" id="mobile-toc-button" title="目录" aria-hidden="true"></i><i class="fa fa-arrow-up" id="go-up" title="回到顶部" aria-hidden="true"></i></div></section><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.css"><script src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.css"><script>$(function () {
+  $('span.katex-display').wrap('<div class="katex-wrap"></div>')
+})</script><script src="https://cdn.jsdelivr.net/npm/animejs@latest/anime.min.js"></script><script src="https://cdn.jsdelivr.net/gh/jerryc127/butterfly_cdn@2.1.0/js/fireworks.js"></script><script id="ribbon" src="https://cdn.jsdelivr.net/gh/jerryc127/butterfly_cdn@2.1.0/js/canvas-ribbon.js" size="150" alpha="0.6" zIndex="-1" mobile="false" data-click="false"></script><script id="ribbon_piao" mobile="true" src="https://cdn.jsdelivr.net/gh/jerryc127/butterfly_cdn@2.1.0/js/piao.js"></script><script id="canvas_nest" color="0,0,255" opacity="0.7" zIndex="-1" count="99" mobile="true" src="https://cdn.jsdelivr.net/gh/jerryc127/butterfly_cdn@2.1.0/js/canvas-nest.js"></script><script src="https://cdn.jsdelivr.net/npm/activate-power-mode/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = true; 
+document.body.addEventListener('input', POWERMODE);
+</script><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page@latest/instantpage.min.js" type="module"></script><script src="https://cdn.jsdelivr.net/npm/lazysizes@latest/lazysizes.min.js" async=""></script><div class="search-dialog" id="local-search"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章"></div></div></div><hr><div id="local-search-results"><div id="local-hits"></div><div id="local-stats"><div class="local-search-stats__hr" id="hr"><span>由</span> <a href="https://github.com/wzpan/hexo-generator-search" target="_blank" rel="noopener" style="color:#49B1F5;">hexo-generator-search</a>
+ <span>提供支持</span></div></div></div><span class="search-close-button"><i class="fa fa-times"></i></span></div><div class="search-mask"></div></body></html>
