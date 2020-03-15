@@ -48,9 +48,83 @@
 <p>DISCARD<br>            :取消事务，放弃执行事务块内的所有命令。<br>EXEC<br>            :执行所有事务块内的命令。<br>MULTI<br>            :标记一个事务决的开始。<br>UNWATCH<br>            :取消WATCH 命令对所有key的监视。<br>WATCH key [key ..]<br>            :监视一个(或多个) key， 如果在事务执行之前这个(或这些) key被其他命令所改动,那么事务将被打断。</p>
 </blockquote>
 <p><strong>一个事务从开始到执行会经历以下三个阶段:</strong><br>开始事务。<br>命令入队。<br>执行事务。</p>
-<h2 id="示例1"><a href="#示例1" class="headerlink" title="示例1"></a>示例1</h2><p>转账功能，A向B转账50元</p>
+<h2 id="示例1-MULTI-EXEC"><a href="#示例1-MULTI-EXEC" class="headerlink" title="示例1 MULTI EXEC"></a>示例1 MULTI EXEC</h2><p>转账功能，A向B转账50元</p>
 <p><a href="/2020/03/14/Redis%E8%BF%9B%E9%98%B6/%E8%BD%AC%E8%B4%A6%E4%BA%8B%E5%8A%A1%E6%89%A7%E8%A1%8C%E8%BF%87%E7%A8%8B.png" data-fancybox="group" data-caption class="fancybox"><img alt title data-src="/2020/03/14/Redis%E8%BF%9B%E9%98%B6/%E8%BD%AC%E8%B4%A6%E4%BA%8B%E5%8A%A1%E6%89%A7%E8%A1%8C%E8%BF%87%E7%A8%8B.png" class="lazyload"></a></p>
 <p>1、输入Multi命令开始,输入的命令都会依次进入命令队列中,但不会执行<br>2、直到输入Exec后，Redis会将之前的命令队列中的命令依次执行</p>
+<h2 id="示例2-DISCARD-放弃队列运行"><a href="#示例2-DISCARD-放弃队列运行" class="headerlink" title="示例2 DISCARD 放弃队列运行"></a>示例2 DISCARD 放弃队列运行</h2><p><a href="/2020/03/14/Redis%E8%BF%9B%E9%98%B6/DISCARD%E6%94%BE%E5%BC%83%E9%98%9F%E5%88%97%E8%BF%90%E8%A1%8C.png" data-fancybox="group" data-caption class="fancybox"><img alt title data-src="/2020/03/14/Redis%E8%BF%9B%E9%98%B6/DISCARD%E6%94%BE%E5%BC%83%E9%98%9F%E5%88%97%E8%BF%90%E8%A1%8C.png" class="lazyload"></a></p>
+<p>1、输入Multi命令开始,输入的命令都会依次进入命令队列中,但不会执行<br>2、直到输入Exec后, Redis会将之前的命令队列中的命令依次执行。<br>3、命令队列的过程中可以通过discard来放弃队列运行</p>
+<h2 id="示例3事务的错误处理"><a href="#示例3事务的错误处理" class="headerlink" title="示例3事务的错误处理"></a>示例3事务的错误处理</h2><p>事务的错误处理:<br>如果执行的某个命令报出了错误,则只有报错的命令不会被执行,而其它的命令都会执行,不会回滚。</p>
+<p><a href="/2020/03/14/Redis%E8%BF%9B%E9%98%B6/%E4%BA%8B%E5%8A%A1%E7%9A%84%E9%94%99%E8%AF%AF%E5%A4%84%E7%90%86.png" data-fancybox="group" data-caption class="fancybox"><img alt title data-src="/2020/03/14/Redis%E8%BF%9B%E9%98%B6/%E4%BA%8B%E5%8A%A1%E7%9A%84%E9%94%99%E8%AF%AF%E5%A4%84%E7%90%86.png" class="lazyload"></a></p>
+<h2 id="示例4事务的错误处理"><a href="#示例4事务的错误处理" class="headerlink" title="示例4事务的错误处理"></a>示例4事务的错误处理</h2><p>事务的错误处理:<br>队列中的某个命令出现了报告错误,执行时整个的所有队列都会被取消。</p>
+<p><a href="/2020/03/14/Redis%E8%BF%9B%E9%98%B6/%E4%BA%8B%E5%8A%A1%E6%8A%A5%E5%91%8A%E9%94%99%E8%AF%AF%E5%A4%84%E7%90%86.png" data-fancybox="group" data-caption class="fancybox"><img alt title data-src="/2020/03/14/Redis%E8%BF%9B%E9%98%B6/%E4%BA%8B%E5%8A%A1%E6%8A%A5%E5%91%8A%E9%94%99%E8%AF%AF%E5%A4%84%E7%90%86.png" class="lazyload"></a></p>
+<h2 id="示例5事务的WATCH"><a href="#示例5事务的WATCH" class="headerlink" title="示例5事务的WATCH"></a>示例5事务的WATCH</h2><p>WATCH key [key …]<br>:监视一个(或多个) key , 如果在事务执行之前这个(或这些) key被其他命令所改动,那么事务将被打断。</p>
+<p><strong>需求:某一帐户在一事务内进行操作,在提交事务前,另一个进程对该帐户进行操作。</strong></p>
+<p><a href="/2020/03/14/Redis%E8%BF%9B%E9%98%B6/%E4%BA%8B%E5%8A%A1%E7%9A%84WATCH.png" data-fancybox="group" data-caption class="fancybox"><img alt title data-src="/2020/03/14/Redis%E8%BF%9B%E9%98%B6/%E4%BA%8B%E5%8A%A1%E7%9A%84WATCH.png" class="lazyload"></a></p>
+<h2 id="应用场景-1"><a href="#应用场景-1" class="headerlink" title="应用场景"></a>应用场景</h2><p>一组命令必须同时都执行,或者都不执行。<br>我们想要保证一组命令 在执行的过程之中不被其它命令插入。</p>
+<h1 id="Redis-数据淘汰策略-redis-conf"><a href="#Redis-数据淘汰策略-redis-conf" class="headerlink" title="Redis 数据淘汰策略 redis.conf"></a>Redis 数据淘汰策略 redis.conf</h1><blockquote>
+<p>Reds官方给的警告，当内存不足时，Redis会根据配置的缓存策略淘汰部分Keys,以保证写入成功.当无淘汰策略时或没有找到适合淘汰的Key时,Redis直接返回out of memory错误。</p>
+</blockquote>
+<h2 id="最大缓存配置"><a href="#最大缓存配置" class="headerlink" title="最大缓存配置"></a><strong>最大缓存配置</strong></h2><p>在redis中，允许用户设置最大使用内存大小<br>maxmemory 512G</p>
+<h2 id="redis提供6种数据淘汰策略"><a href="#redis提供6种数据淘汰策略" class="headerlink" title="redis提供6种数据淘汰策略:"></a>redis提供6种数据淘汰策略:</h2><ul>
+<li>volatile-lru:从已设置过期时间的数据集中挑选最近最少使用的数据淘汰</li>
+<li>volatile-lfu:从已设置过期的Keys中，删除一段时间内使用次数最少使用的</li>
+<li>volatile-ttl:从已设置过期时间的数据集中挑选最近将要过期的数据淘汰</li>
+<li>volatile-random:从已设置过期时间的数据集中随机选择数据淘汰</li>
+<li>allkeys-lru:从数据集中挑选最近最少使用的数据淘汰</li>
+<li>allkeys-lfu:从所有Keys中，删除一段时间内使用次数最少使用的</li>
+<li>allkeys-random:从数据集中随机选择数据淘汰</li>
+<li>no-enviction (驱逐):禁止驱逐数据(不采用任何淘汰策略。默认即为此配置),针对写<br>操作，返回错误信息</li>
+</ul>
+<blockquote>
+<p>建议:了解了Redis的淘汰策略之后,在平时使用时应尽量主动设置/更新key的expire时间，<br>主动剔除不活跃的旧数据,有助于提升查询性能</p>
+</blockquote>
+<h1 id="Reids-持久化"><a href="#Reids-持久化" class="headerlink" title="Reids 持久化"></a>Reids 持久化</h1><h2 id="简介-2"><a href="#简介-2" class="headerlink" title="简介"></a>简介</h2><p>数据存放于:<br>内存:高效、断电(关机)内存数据会丢失<br>硬盘:读写速度慢于内存，断电数侧不会丢失</p>
+<h2 id="RDB"><a href="#RDB" class="headerlink" title="RDB"></a>RDB</h2><p><a href="/2020/03/14/Redis%E8%BF%9B%E9%98%B6/dump.rdb.png" data-fancybox="group" data-caption class="fancybox"><img alt title data-src="/2020/03/14/Redis%E8%BF%9B%E9%98%B6/dump.rdb.png" class="lazyload"></a></p>
+<p>RDB: 是redis的默认持久化机制。<br>RDB相当于照快照，保存的是一种状态。<br>几十G数据 一》几KB快照<br>快照是默认的持久化方式。这种方式是就是将内存中数据以快照的方式写入到二进制文件中,默认的文件名为dump. rdb.</p>
+<p><strong>优点:</strong><br>快照保存数据极快，还原数据极快<br>适用于灾难备份</p>
+<p><strong>缺点</strong>：小内存机器不适合使用。RDB机制符合要求就会使用</p>
+<p><strong>快照条件</strong>：</p>
+<p><a href="/2020/03/14/Redis%E8%BF%9B%E9%98%B6/%E5%BF%AB%E7%85%A7%E6%9D%A1%E4%BB%B6.png" data-fancybox="group" data-caption class="fancybox"><img alt title data-src="/2020/03/14/Redis%E8%BF%9B%E9%98%B6/%E5%BF%AB%E7%85%A7%E6%9D%A1%E4%BB%B6.png" class="lazyload"></a></p>
+<h2 id="AOF"><a href="#AOF" class="headerlink" title="AOF"></a>AOF</h2><blockquote>
+<p>由于快照方式是在一定间隔时间做一次的， 所以如果redis意外down掉的话,就会丢失最<br>后一次快照后的所有修改。如果应用要求不能丢失任何修改的话，可以采用aof 持久化方式。</p>
+</blockquote>
+<blockquote>
+<p>Append-only flie:aof 比快照方式有更好的持久化性，是由于在使用aof持久化方式时,redis会将每一个收到的写命令都通过 write 函數追加到文件中(默认是appendonly.aof). 当redis重启时会通过重新执行文件中保存的写命令来在内存中重建整个数据库的内容。</p>
+</blockquote>
+<p><strong>有三种方式如下（默认是：每秒 fsync 一次）</strong></p>
+<ul>
+<li>appendonly yes //启用aof 持久化方式</li>
+<li>#appendfsync always //收到写命令就立即写入磁盘，最慢，但是保证完全的持久化</li>
+<li>appendfsyne everysec //每秒钟写入磁盘一次，在性能和持久化方面做了很好的折中</li>
+<li>#appendfsync no //完全依赖os, 性能最好,持久化没保证</li>
+</ul>
+<p><strong>产生的问题</strong></p>
+<p>aof 的方式也同时带来了另一个问题。持久化文件会变的越来越大。例如我们调用incr test<br>命令100次，文件中必须保存全部的100 条 命令，其实有99 条都是多余的。</p>
+<h1 id="Redis缓存与数据库一致性"><a href="#Redis缓存与数据库一致性" class="headerlink" title="Redis缓存与数据库一致性"></a>Redis缓存与数据库一致性</h1><h2 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h2><h3 id="一、实时同步"><a href="#一、实时同步" class="headerlink" title="一、实时同步"></a>一、实时同步</h3><blockquote>
+<p>对强一致要求比较高的，应采用实时同步方案，即查询缓存查询不到再从DB查询，保存到缓存; 更新缓存时，先更新数据库，再将缓存的设置过期(建议不要去更新缓存内容，直接设置缓存过期)。<br>@Cacheable: 查询时使用,注意Long类型需转换为Sting类型,否则会抛异常<br>@CachePut: 更新时使用，使用此注解, -一定会从 DB 上查询数据<br>@CacheEvict: 删除时使用;<br>@Caching: 组合用法</p>
+</blockquote>
+<h3 id="二、异步队列"><a href="#二、异步队列" class="headerlink" title="二、异步队列"></a>二、异步队列</h3><blockquote>
+<p>对于并发程度较高的，可采用异步队列的方式同步，可采用kafka等消息中间件处理消息生产和消费。</p>
+</blockquote>
+<p><a href="/2020/03/14/Redis%E8%BF%9B%E9%98%B6/%E5%BC%82%E6%AD%A5%E9%98%9F%E5%88%97.png" data-fancybox="group" data-caption class="fancybox"><img alt title data-src="/2020/03/14/Redis%E8%BF%9B%E9%98%B6/%E5%BC%82%E6%AD%A5%E9%98%9F%E5%88%97.png" class="lazyload"></a></p>
+<h3 id="三、使用阿里的同步工具-canal"><a href="#三、使用阿里的同步工具-canal" class="headerlink" title="三、使用阿里的同步工具 canal"></a>三、使用阿里的同步工具 canal</h3><blockquote>
+<p>canal 实现方式是模拟mysql slave和master的同步机制，监控DB bitlog的日志更新来触发缓存的更新，此种方法可以解放程序员双手，减少工作量，但在使用时有些局限性。</p>
+</blockquote>
+<p><strong>MySQL主从复制实现</strong></p>
+<p><a href="/2020/03/14/Redis%E8%BF%9B%E9%98%B6/MySQL%E4%B8%BB%E4%BB%8E%E5%A4%8D%E5%88%B6%E5%AE%9E%E7%8E%B0.png" data-fancybox="group" data-caption class="fancybox"><img alt title data-src="/2020/03/14/Redis%E8%BF%9B%E9%98%B6/MySQL%E4%B8%BB%E4%BB%8E%E5%A4%8D%E5%88%B6%E5%AE%9E%E7%8E%B0.png" class="lazyload"></a></p>
+<ol>
+<li>master将改变记录到二进制日志(binary log)中(这些记录叫做二进制日志事件，<br>binary log events ,可以通过show binlog events进行查看) </li>
+<li>slave 将master的binary log events拷贝到它的中继日志(relay log);</li>
+<li>slave 重做中继日志中的事件，将改变反映它自己的数据。</li>
+</ol>
+<p><strong>canal的工作原理：</strong></p>
+<p><a href="/2020/03/14/Redis%E8%BF%9B%E9%98%B6/canal%E7%9A%84%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86.png" data-fancybox="group" data-caption class="fancybox"><img alt title data-src="/2020/03/14/Redis%E8%BF%9B%E9%98%B6/canal%E7%9A%84%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86.png" class="lazyload"></a></p>
+<ol>
+<li>canal 模拟mysql slave 的交互协议.伪装自己为mysql slave 向mysql master发送dump协议</li>
+<li>mysql master收到dump请求，开始推送binary log给 slave(也就是canal)</li>
+<li>canal解析 binary log对象(原始为byte 流)</li>
+</ol>
+<h3 id="四、采用UDF-自定义函数的方式"><a href="#四、采用UDF-自定义函数的方式" class="headerlink" title="四、采用UDF 自定义函数的方式"></a>四、采用UDF 自定义函数的方式</h3><p>面对mysql的API进行编程，利用触发器进行缓存同步，但UDF主要是c/c++语言实现，学习成本高，</p>
 ]]></content>
       <tags>
         <tag>Redis</tag>
