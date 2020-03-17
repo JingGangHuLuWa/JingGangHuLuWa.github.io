@@ -134,8 +134,113 @@
 <blockquote>
 <p>如图中所示，我们将一台Redis 服务器作主库(Master）,其他三台作为从库(Slave)，主库只负责写数据，每次有数据更新都将更新的数据同步到它所有的从库，而从库只负责读数据。这样一来，就有了两个好处:<br>1、读写分离，不仅可以提高服务器的负载能力,并且可以根据读请求的规模自由增加或者减少从库的数量。<br>2、数据被复制成了了好几份，就算有一台机器出现故障，也可以使用其他机器的数据快速恢复。<br>需要注意的是: 在Redis主从模式中，一台主库可以拥有多个从库，但是一个从<br>库只能隶属于一个主库。</p>
 </blockquote>
-<h2 id="Redis主从复制配置"><a href="#Redis主从复制配置" class="headerlink" title="Redis主从复制配置"></a>Redis主从复制配置</h2><p>在Redis中，要实现主从复制架构非常简单，只需要在从数据库的配置文件中加<br>上如下命令即可:</p>
-<p>1、主数据库不需要任务配置，创建一个从数据库：</p>
+<h2 id="Redis主从复制配置"><a href="#Redis主从复制配置" class="headerlink" title="Redis主从复制配置"></a>Redis主从复制配置</h2><p><a href="https://www.cnblogs.com/web424/p/6908647.html" target="_blank" rel="noopener">https://www.cnblogs.com/web424/p/6908647.html</a></p>
+<h1 id="Redis-Cluster-集群"><a href="#Redis-Cluster-集群" class="headerlink" title="Redis Cluster 集群"></a>Redis Cluster 集群</h1><h2 id="简介-4"><a href="#简介-4" class="headerlink" title="简介"></a>简介</h2><blockquote>
+<p>为什么使用redis-cluster?<br>为了在大流量访问下提供稳定的业务，集群化是存储的必然形态<br>未来的发展趋势肯定是云计算和大数据的紧密结合<br>只有分布式架构能满足要求</p>
+</blockquote>
+<p><a href="/2020/03/14/Redis%E8%BF%9B%E9%98%B6/Redis%E9%9B%86%E7%BE%A4%E6%90%AD%E5%BB%BA%E6%96%B9%E6%A1%88.png" data-fancybox="group" data-caption class="fancybox"><img alt title data-src="/2020/03/14/Redis%E8%BF%9B%E9%98%B6/Redis%E9%9B%86%E7%BE%A4%E6%90%AD%E5%BB%BA%E6%96%B9%E6%A1%88.png" class="lazyload"></a></p>
+<blockquote>
+<p>Redis集群搭建的方式有多种，但从redis 3. 0之后版本支持redis-cluster集群，至少需要3(Master) +3 (Slave)才能建立集群。Redis-Cluster采用无中心结构，每个节点保存数据和整个集群状态,每个节点都和其他所有节点连接。其redis-cluster架构图如上:</p>
+</blockquote>
+<h2 id="Redis-Cluster-集群特点"><a href="#Redis-Cluster-集群特点" class="headerlink" title="Redis Cluster 集群特点"></a>Redis Cluster 集群特点</h2><blockquote>
+<ol>
+<li>所有的redis节点彼此互联(PING-PONG机制)，内部使用二进制协议优化传输速度和带宽。</li>
+<li>节点的fail是通过集群中超过半数的节点检测失效时才生效。</li>
+<li>客户端与redis节点直连，不需要中间proxy层客户端不需要连接集群所有节点,连接集群中任何一个可用节点即可，</li>
+<li>redis-cluster把所有的物理节点映射到[0-16383] slot上 (不一定是平均分配) cluster负责维护</li>
+<li>Redis集群预分好 <strong>16384</strong> 个哈希槽，当需要在Redis 集群中放置一个 key-value时，redis 先对key 使用 <strong>crc16</strong> 算法算出-一个结果，然后把结果对 16384 求余数， 这样每个key 都会对应一个编号在0-16383 之间的哈希槽，redis 会根据节点数量大致均等的将哈希槽映射到不同的节点</li>
+</ol>
+</blockquote>
+<h2 id="Redis-Cluster-容错"><a href="#Redis-Cluster-容错" class="headerlink" title="Redis Cluster 容错"></a>Redis Cluster 容错</h2><blockquote>
+<p>容错性： 是指软件检测应用程序所运行的软件或硬件中发生的错误并从错误中恢复的能力，通常可以从系统的可靠性、可用性、可测性等几个方面来衡量。</p>
+</blockquote>
+<p><a href="/2020/03/14/Redis%E8%BF%9B%E9%98%B6/Redis-cluster%E5%AE%B9%E9%94%99.png" data-fancybox="group" data-caption class="fancybox"><img alt title data-src="/2020/03/14/Redis%E8%BF%9B%E9%98%B6/Redis-cluster%E5%AE%B9%E9%94%99.png" class="lazyload"></a></p>
+<h2 id="Redis-Cluster-节点分配"><a href="#Redis-Cluster-节点分配" class="headerlink" title="Redis-Cluster 节点分配"></a>Redis-Cluster 节点分配</h2><blockquote>
+<p>(官方推荐) 三个主节点分别是: A, B, C 三个节点，它们可以是一台机器上的三个端口，也可以是三台不同的服务器。那么，采用哈希槽(hash slot)的方式来分配16384个slot的话，它们三个节点分别承担的slot区间是<br>节点A覆盖9- 5460;<br>节点B覆盖5461 - 10922;<br>节点C覆盖10923 - 16383<br>新增一个主节点:<br>新增一个节点D，redis cluster的这种做法是从各个节点的前面各拿取一部分slot到D上<br>节点A覆盖1365 - 5460<br>节点B覆盖6827 - 10922<br>节点C覆盖12288 -16383<br>节点D覆盖0 - 1364, 5461-6826 ,10923 - 12287</p>
+</blockquote>
+<h2 id="Redus-Cluster-集群搭建"><a href="#Redus-Cluster-集群搭建" class="headerlink" title="Redus Cluster 集群搭建"></a>Redus Cluster 集群搭建</h2><h3 id="简介-5"><a href="#简介-5" class="headerlink" title="简介"></a>简介</h3><blockquote>
+<p>集群中至少应该有奇数个节点，所以搭建集群最少需要3台主机。同时每个节点至少有一个备份节点，所以下面最少需要创建使用6台机器，才能完成Redis Cluster集群(主节点、备份节点由redis-cluster集群确定)</p>
+<p>真集群：准备 至少 6 台服务器</p>
+<p>例： 192.168.1.1： 6379</p>
+<p>​         192.168.1.2： 6379</p>
+<p>​         192.168.1.3： 6379 .。。。。。</p>
+<p>假集群： 在一台服务器上存在 6 个 redis 服务</p>
+<p>例：192.168.1.1：6379 6380 6381 6382 .。。。。。</p>
+</blockquote>
+<h3 id="搭建流程"><a href="#搭建流程" class="headerlink" title="搭建流程"></a>搭建流程</h3><p>文献<a href="https://www.redis.com.cn/topics/cluster-tutorial" target="_blank" rel="noopener">https://www.redis.com.cn/topics/cluster-tutorial</a></p>
+<h4 id="创建节点安装目录-redis-cluster"><a href="#创建节点安装目录-redis-cluster" class="headerlink" title="创建节点安装目录 redis_cluster"></a>创建节点安装目录 <strong>redis_cluster</strong></h4><div class="code-area-wrap"><div class="highlight-tools"><i class="fa fa-angle-down code-expand" aria-hidden="true"></i><div class="code_lang">Code</div><div class="copy-notice"></div><i class="fa fa-clipboard" aria-hidden="true"></i></div><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">mkdir &#x2F;usr&#x2F;local&#x2F;redis_cluster</span><br></pre></td></tr></table></figure></div>
+
+<p>在 redis_cluster 目录下，创建 7001 到 7006 文件夹</p>
+<div class="code-area-wrap"><div class="highlight-tools"><i class="fa fa-angle-down code-expand" aria-hidden="true"></i><div class="code_lang">Code</div><div class="copy-notice"></div><i class="fa fa-clipboard" aria-hidden="true"></i></div><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">mkdir 7001 ......</span><br></pre></td></tr></table></figure></div>
+
+<p>将redis-conf 分别拷贝到 这些文件夹下</p>
+<div class="code-area-wrap"><div class="highlight-tools"><i class="fa fa-angle-down code-expand" aria-hidden="true"></i><div class="code_lang">Code</div><div class="copy-notice"></div><i class="fa fa-clipboard" aria-hidden="true"></i></div><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">cp redis.conf &#x2F;usr&#x2F;local&#x2F;redis_cluster&#x2F;7001</span><br></pre></td></tr></table></figure></div>
+
+<p>分别修改配置文件如下内容：</p>
+<p>同时protected-mode是为了禁止公网访问redis cache,加强redis安全的。<br>它启用的条件，有两个:</p>
+<p>1、没有 bind IP</p>
+<p>2、没有设置访问密码</p>
+<p>由于Linux上的redis处于安全保护模式这就让你无法从虚拟机外部去轻松建立连接。<br>如果外部访问: redis.conf中设置保护模式为 <strong>protected-mode no</strong></p>
+<h4 id="修改7001到7006下的-redis-conf-文件"><a href="#修改7001到7006下的-redis-conf-文件" class="headerlink" title="修改7001到7006下的 redis.conf 文件"></a>修改7001到7006下的 redis.conf 文件</h4><div class="code-area-wrap"><div class="highlight-tools"><i class="fa fa-angle-down code-expand" aria-hidden="true"></i><div class="code_lang">Code</div><div class="copy-notice"></div><i class="fa fa-clipboard" aria-hidden="true"></i></div><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">#关闭保护模式用于公网访问</span><br><span class="line">protected-mode no</span><br><span class="line">port 7000</span><br><span class="line"></span><br><span class="line">#开启集群模式</span><br><span class="line">cluster-enabled yes</span><br><span class="line">cluster-config-file nodes-7000.conf</span><br><span class="line">cluster-node-timeout 5000</span><br><span class="line"></span><br><span class="line">#后台启动</span><br><span class="line">daemonize yes</span><br><span class="line">pidfile &#x2F;var&#x2F;run&#x2F;redis_7000.pid &#x2F;&#x2F;可以不写</span><br><span class="line">logfile &quot;7000.log&quot;  &#x2F;&#x2F;可以不写</span><br><span class="line"></span><br><span class="line">#dir &#x2F;redis&#x2F;data</span><br><span class="line">#此处绑定ip可以是阿里内网ip和本地ip也可以直接注释掉该项</span><br><span class="line">bind 127.0.0.1</span><br><span class="line"></span><br><span class="line">#用于连接主节点密码</span><br><span class="line">masterauth yizhiduxiu</span><br><span class="line"></span><br><span class="line">#设置redis密码各个节点请保持密码一致</span><br><span class="line">requirepass yizhiduxiu</span><br></pre></td></tr></table></figure></div>
+
+<h4 id="依次启动各个节点"><a href="#依次启动各个节点" class="headerlink" title="依次启动各个节点"></a>依次启动各个节点</h4><blockquote>
+<p>将安装的redis 目录下的 src 复制到 redis_cluster下，方便启动服务器</p>
+<div class="code-area-wrap"><div class="highlight-tools"><i class="fa fa-angle-down code-expand" aria-hidden="true"></i><div class="code_lang">Code</div><div class="copy-notice"></div><i class="fa fa-clipboard" aria-hidden="true"></i></div><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">cd redis-5.0.7</span><br><span class="line">cp -r .&#x2F;src&#x2F; &#x2F;usr&#x2F;local&#x2F;redis_cluster&#x2F;  &#x2F;&#x2F;-r复制src目录下级联的所有文件</span><br></pre></td></tr></table></figure></div>
+</blockquote>
+<p>启动各个redis节点</p>
+<div class="code-area-wrap"><div class="highlight-tools"><i class="fa fa-angle-down code-expand" aria-hidden="true"></i><div class="code_lang">Code</div><div class="copy-notice"></div><i class="fa fa-clipboard" aria-hidden="true"></i></div><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">cd &#x2F;usr&#x2F;local&#x2F;redis_cluster</span><br><span class="line">.&#x2F;src&#x2F;redis-server .&#x2F;7000&#x2F;redis.conf</span><br></pre></td></tr></table></figure></div>
+
+<p><a href="/2020/03/14/Redis%E8%BF%9B%E9%98%B6/%E9%9B%86%E7%BE%A4%E8%8A%82%E7%82%B9%E5%90%AF%E5%8A%A8%E6%88%90%E5%8A%9F.png" data-fancybox="group" data-caption class="fancybox"><img alt title data-src="/2020/03/14/Redis%E8%BF%9B%E9%98%B6/%E9%9B%86%E7%BE%A4%E8%8A%82%E7%82%B9%E5%90%AF%E5%8A%A8%E6%88%90%E5%8A%9F.png" class="lazyload"></a></p>
+<p>启动成功</p>
+<h3 id="创建集群"><a href="#创建集群" class="headerlink" title="创建集群"></a>创建集群</h3><div class="code-area-wrap"><div class="highlight-tools"><i class="fa fa-angle-down code-expand" aria-hidden="true"></i><div class="code_lang">Code</div><div class="copy-notice"></div><i class="fa fa-clipboard" aria-hidden="true"></i></div><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">cd &#x2F;usr&#x2F;local&#x2F;redis_cluster</span><br><span class="line">.&#x2F;src&#x2F;redis-cli --cluster create 127.0.0.1:7001 127.0.0.1:7002 127.0.0.1:7003 127.0.0.1:7004 127.0.0.1:7005 127.0.0.1:7006 --cluster-replicas 1 -a yizhiduxiu</span><br><span class="line"></span><br><span class="line"># --cluster-replicas 1  表示主从配置比，1表示的是1:1，前三个是主，后三个是从</span><br><span class="line"># 若配置文件中设置的密码，则还需要加上-a passwod</span><br></pre></td></tr></table></figure></div>
+
+<p>创建过程中可能要求输入 yes 输入yes 就完事了</p>
+<p><a href="/2020/03/14/Redis%E8%BF%9B%E9%98%B6/%E9%9B%86%E7%BE%A4%E5%88%9B%E5%BB%BA%E6%88%90%E5%8A%9F.png" data-fancybox="group" data-caption class="fancybox"><img alt title data-src="/2020/03/14/Redis%E8%BF%9B%E9%98%B6/%E9%9B%86%E7%BE%A4%E5%88%9B%E5%BB%BA%E6%88%90%E5%8A%9F.png" class="lazyload"></a></p>
+<h3 id="Redis-Cluster-集群验证"><a href="#Redis-Cluster-集群验证" class="headerlink" title="Redis Cluster 集群验证"></a>Redis Cluster 集群验证</h3><blockquote>
+<p>在某台机器上(或)连接集群的7001端口的节点:</p>
+<div class="code-area-wrap"><div class="highlight-tools"><i class="fa fa-angle-down code-expand" aria-hidden="true"></i><div class="code_lang">Code</div><div class="copy-notice"></div><i class="fa fa-clipboard" aria-hidden="true"></i></div><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">redis-cli -h 127.0.0.1 -c -p 7001 -a yizhiduxiu  &#x2F;&#x2F; -c 可连接到集群</span><br></pre></td></tr></table></figure></div>
+
+<p>加参数 -C 可连接到集群，因为上面redis.conf 将bind改为了ip地址，所以-h参数不可以省略。<br>(在该节点下添加对应key数据)<br>启动另一个集群中的客户节点:例如: 7005 .<br>进行读取命令。</p>
+<p>redis cluster在设计的时候，就考虑到了去中心化，去中间件，也就是说，集群中的每个节点都是平等的关系，都是对等的，每个节点都保存各自的数据和整个集群的状态。每个节点都和其他所有节点连接，而且这些连接保持活跃，这样就保证了我们只需要连接集群中的任意一个节 点，就可以获取到其他节点的数据</p>
+</blockquote>
+<h3 id="基本命令"><a href="#基本命令" class="headerlink" title="基本命令"></a>基本命令</h3><p>info replication 通过Cluster Nodes命令和Cluster Info命令来看看集群效果</p>
+<p><a href="/2020/03/14/Redis%E8%BF%9B%E9%98%B6/%E4%BD%BF%E7%94%A8inforeplication.png" data-fancybox="group" data-caption class="fancybox"><img alt title data-src="/2020/03/14/Redis%E8%BF%9B%E9%98%B6/%E4%BD%BF%E7%94%A8inforeplication.png" class="lazyload"></a></p>
+<h3 id="测试集群数据"><a href="#测试集群数据" class="headerlink" title="测试集群数据"></a>测试集群数据</h3><h4 id="输入命令-cluster-nodes"><a href="#输入命令-cluster-nodes" class="headerlink" title="输入命令 cluster nodes"></a>输入命令 cluster nodes</h4><p><a href="/2020/03/14/Redis%E8%BF%9B%E9%98%B6/%E9%9B%86%E7%BE%A4id.png" data-fancybox="group" data-caption class="fancybox"><img alt title data-src="/2020/03/14/Redis%E8%BF%9B%E9%98%B6/%E9%9B%86%E7%BE%A4id.png" class="lazyload"></a></p>
+<p>每个Redis的节点都有一个ID值，此ID将被此特定redls实例永久使用，以便实例在集群上下文中具有唯一的名称。每个节点都会记住 使用此ID的每个其他节点，而不是通过IP或端口。IP地址和端口可能会发生变化，但唯一的节点标识符在节点的整个生命周期内都不会改变。我们简单地称这个标识符为节点ID。</p>
+<h3 id="测试数据"><a href="#测试数据" class="headerlink" title="测试数据"></a>测试数据</h3><p><a href="/2020/03/14/Redis%E8%BF%9B%E9%98%B6/%E6%B5%8B%E8%AF%95%E6%95%B0%E6%8D%AE.png" data-fancybox="group" data-caption class="fancybox"><img alt title data-src="/2020/03/14/Redis%E8%BF%9B%E9%98%B6/%E6%B5%8B%E8%AF%95%E6%95%B0%E6%8D%AE.png" class="lazyload"></a></p>
+<h3 id="Redis-Cluster-集群-启动关闭"><a href="#Redis-Cluster-集群-启动关闭" class="headerlink" title="Redis Cluster 集群 启动关闭"></a>Redis Cluster 集群 启动关闭</h3><h4 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h4><p><strong>/usr/local/redis_cluster 目录下编写脚本文件：vim start.sh</strong></p>
+<p>内容如下：</p>
+<div class="code-area-wrap"><div class="highlight-tools"><i class="fa fa-angle-down code-expand" aria-hidden="true"></i><div class="code_lang">Code</div><div class="copy-notice"></div><i class="fa fa-clipboard" aria-hidden="true"></i></div><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#x2F;usr&#x2F;local&#x2F;redis_cluster&#x2F;src&#x2F;redis-server .&#x2F;7001&#x2F;redis.conf</span><br><span class="line">&#x2F;usr&#x2F;local&#x2F;redis_cluster&#x2F;src&#x2F;redis-server .&#x2F;7002&#x2F;redis.conf</span><br><span class="line">&#x2F;usr&#x2F;local&#x2F;redis_cluster&#x2F;src&#x2F;redis-server .&#x2F;7003&#x2F;redis.conf</span><br><span class="line">&#x2F;usr&#x2F;local&#x2F;redis_cluster&#x2F;src&#x2F;redis-server .&#x2F;7004&#x2F;redis.conf</span><br><span class="line">&#x2F;usr&#x2F;local&#x2F;redis_cluster&#x2F;src&#x2F;redis-server .&#x2F;7005&#x2F;redis.conf</span><br><span class="line">&#x2F;usr&#x2F;local&#x2F;redis_cluster&#x2F;src&#x2F;redis-server .&#x2F;7006&#x2F;redis.conf</span><br></pre></td></tr></table></figure></div>
+
+<div class="code-area-wrap"><div class="highlight-tools"><i class="fa fa-angle-down code-expand" aria-hidden="true"></i><div class="code_lang">Code</div><div class="copy-notice"></div><i class="fa fa-clipboard" aria-hidden="true"></i></div><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">chmod u+x start.sh  &#x2F;&#x2F;然后执行将start.sh 变成可执行文件</span><br><span class="line">.&#x2F;start.sh  &#x2F;&#x2F;在当前目录下启动</span><br></pre></td></tr></table></figure></div>
+
+
+
+<h4 id="关闭"><a href="#关闭" class="headerlink" title="关闭"></a>关闭</h4><p><strong>/usr/local/redis_cluster 目录下编写脚本文件：vim shutdown.sh</strong></p>
+<p>内容如下：</p>
+<div class="code-area-wrap"><div class="highlight-tools"><i class="fa fa-angle-down code-expand" aria-hidden="true"></i><div class="code_lang">Code</div><div class="copy-notice"></div><i class="fa fa-clipboard" aria-hidden="true"></i></div><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#x2F;usr&#x2F;local&#x2F;redis_cluster&#x2F;src&#x2F;redis-cli -c -h 127.0.0.1 -p 7001 -a yizhiduxiu shutdown</span><br><span class="line">&#x2F;usr&#x2F;local&#x2F;redis_cluster&#x2F;src&#x2F;redis-cli -c -h 127.0.0.1 -p 7002 -a yizhiduxiu  shutdown</span><br><span class="line">&#x2F;usr&#x2F;local&#x2F;redis_cluster&#x2F;src&#x2F;redis-cli -c -h 127.0.0.1 -p 7003 -a yizhiduxiu  shutdown</span><br><span class="line">&#x2F;usr&#x2F;local&#x2F;redis_cluster&#x2F;src&#x2F;redis-cli -c -h 127.0.0.1 -p 7004 -a yizhiduxiu  shutdown</span><br><span class="line">&#x2F;usr&#x2F;local&#x2F;redis_cluster&#x2F;src&#x2F;redis-cli -c -h 127.0.0.1 -p 7005 -a yizhiduxiu  shutdown</span><br><span class="line">&#x2F;usr&#x2F;local&#x2F;redis_cluster&#x2F;src&#x2F;redis-cli -c -h 127.0.0.1 -p 7006 -a yizhiduxiu  shutdown</span><br></pre></td></tr></table></figure></div>
+
+<div class="code-area-wrap"><div class="highlight-tools"><i class="fa fa-angle-down code-expand" aria-hidden="true"></i><div class="code_lang">Code</div><div class="copy-notice"></div><i class="fa fa-clipboard" aria-hidden="true"></i></div><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">chmod u+x shutdown.sh  &#x2F;&#x2F;然后执行将shutdown.sh 变成可执行文件</span><br><span class="line">.&#x2F;shutdown.sh  &#x2F;&#x2F;在当前目录下启动</span><br><span class="line">查看：ps aux | grep redis</span><br><span class="line">官方：&#x2F;usr&#x2F;local&#x2F;redis_cluster&#x2F;redis-cli -a yizhiduxiu -c -h 127.0.0.1 -p 7001</span><br><span class="line">提示：-a访问服务端密码， -c 表示集群模式 -h指定ip地址 -p指定端口号</span><br></pre></td></tr></table></figure></div>
+
+
+
+<h3 id="开启端口权限"><a href="#开启端口权限" class="headerlink" title="开启端口权限"></a>开启端口权限</h3><p>如果想要通过外部访问 Redis 集群，那么就要开发端口</p>
+<p>查看已经开放的端口： </p>
+<div class="code-area-wrap"><div class="highlight-tools"><i class="fa fa-angle-down code-expand" aria-hidden="true"></i><div class="code_lang">Code</div><div class="copy-notice"></div><i class="fa fa-clipboard" aria-hidden="true"></i></div><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">firewall-cmd --list-ports</span><br></pre></td></tr></table></figure></div>
+
+<p>开启端口：</p>
+<div class="code-area-wrap"><div class="highlight-tools"><i class="fa fa-angle-down code-expand" aria-hidden="true"></i><div class="code_lang">Code</div><div class="copy-notice"></div><i class="fa fa-clipboard" aria-hidden="true"></i></div><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">firewall-cmd --zone&#x3D;public --add-port&#x3D;7001&#x2F;tcp --permanent</span><br></pre></td></tr></table></figure></div>
+
+<p>重启防火墙：</p>
+<div class="code-area-wrap"><div class="highlight-tools"><i class="fa fa-angle-down code-expand" aria-hidden="true"></i><div class="code_lang">Code</div><div class="copy-notice"></div><i class="fa fa-clipboard" aria-hidden="true"></i></div><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">firewall-cmd --reload</span><br></pre></td></tr></table></figure></div>
+
+<h3 id="Redis-Cluster总结"><a href="#Redis-Cluster总结" class="headerlink" title="Redis Cluster总结"></a>Redis Cluster总结</h3><blockquote>
+<p>Redis cluster为了保证数据的高可用性,加入了主从模式,一个主节点对应一个或多个从节点,主节点提供数据存取,从节点则是以主节点拉取数据备份,当这个主节点挂掉后,就会有这个从节点选取一个来充当主节点，从而保证集群不会挂掉。</p>
+<p>集群有ABC三个主节点如果这3个节点都没有加入从节点,如果B挂掉了,我们就无法访问整个集群了, A和C的slot也无法访问，</p>
+<p>所以我们在集群建立的时候,一定要为每个主节点都添加了从节点比如像这样，集群包含主节点A. B、 C,以及从节点A1、B1. C1, 那么即使B挂掉系统也可以继续正确工作。</p>
+<p>B1节点替代了B节点,所以Redis集群将会选择B1节点作为新的主节点,集群将会继续正确地提供服务。当B重新开启后,它就会变成B1的从节点。</p>
+<p>不过需要注意,如果节点B和B1同时挂了, Redis集群就无法继续正确地提供服务了。</p>
+</blockquote>
 ]]></content>
       <tags>
         <tag>Redis</tag>
@@ -189,7 +294,9 @@
 
 <a id="more"></a>
 
-<div class="code-area-wrap"><div class="highlight-tools"><i class="fa fa-angle-down code-expand" aria-hidden="true"></i><div class="code_lang">Code</div><div class="copy-notice"></div><i class="fa fa-clipboard" aria-hidden="true"></i></div><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">查看 Redis 服务端路径</span><br><span class="line">whereis redis-server</span><br><span class="line"></span><br><span class="line">启动服务端</span><br><span class="line">bin&#x2F;redis-server redis.conf</span><br><span class="line"></span><br><span class="line">启动客户端</span><br><span class="line">bin&#x2F;redis-cli -a 密码</span><br><span class="line"></span><br><span class="line">关闭客户端</span><br><span class="line">shutdown</span><br><span class="line"></span><br><span class="line">关闭（杀进程）</span><br><span class="line">pkill redis-server</span><br><span class="line"></span><br><span class="line">清空当前的数据库</span><br><span class="line">flushdb</span><br><span class="line"></span><br><span class="line">选择数据库（一共16个）</span><br><span class="line">select index</span><br><span class="line"></span><br><span class="line">杀掉指定的连接</span><br><span class="line">kill PID</span><br><span class="line"></span><br><span class="line">打开指定文件</span><br><span class="line">less Redis.conf</span><br><span class="line">	:q 退出</span><br><span class="line">	:wq 保存并退出</span><br><span class="line">	v i 修改文件</span><br><span class="line">	ESC 取消当前操作</span><br><span class="line">	u 撤回</span><br><span class="line">	&#x2F;关键字  查询关键字</span><br></pre></td></tr></table></figure></div>
+<div class="code-area-wrap"><div class="highlight-tools"><i class="fa fa-angle-down code-expand" aria-hidden="true"></i><div class="code_lang">Code</div><div class="copy-notice"></div><i class="fa fa-clipboard" aria-hidden="true"></i></div><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">查看 Redis 服务端路径</span><br><span class="line">whereis redis-server</span><br><span class="line"></span><br><span class="line">启动服务端</span><br><span class="line">bin&#x2F;redis-server redis.conf</span><br><span class="line"></span><br><span class="line">启动客户端</span><br><span class="line">bin&#x2F;redis-cli -a 密码</span><br><span class="line"></span><br><span class="line">关闭客户端</span><br><span class="line">shutdown</span><br><span class="line"></span><br><span class="line">关闭（杀进程）</span><br><span class="line">pkill redis-server</span><br><span class="line"></span><br><span class="line">清空当前的数据库</span><br><span class="line">flushdb</span><br><span class="line"></span><br><span class="line">选择数据库（一共16个）</span><br><span class="line">select index</span><br><span class="line"></span><br><span class="line">杀掉指定的连接</span><br><span class="line">kill PID</span><br><span class="line"></span><br><span class="line">打开指定文件</span><br><span class="line">less Redis.conf</span><br><span class="line">	:q 退出</span><br><span class="line">	:wq 保存并退出</span><br><span class="line">	v i 修改文件</span><br><span class="line">	ESC 取消当前操作</span><br><span class="line">	u 撤回</span><br><span class="line">	&#x2F;关键字  查询关键字</span><br><span class="line">	</span><br><span class="line">退出客户端连接</span><br><span class="line">quit</span><br></pre></td></tr></table></figure></div>
+
+<h1 id="防火墙"><a href="#防火墙" class="headerlink" title="防火墙"></a>防火墙</h1><div class="code-area-wrap"><div class="highlight-tools"><i class="fa fa-angle-down code-expand" aria-hidden="true"></i><div class="code_lang">Code</div><div class="copy-notice"></div><i class="fa fa-clipboard" aria-hidden="true"></i></div><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">重启防火墙</span><br><span class="line">firewall-cmd --reload</span><br><span class="line"></span><br><span class="line">开启端口</span><br><span class="line">firewall-cmd --zone&#x3D;public --add-port&#x3D;7001&#x2F;tcp --permanent</span><br><span class="line"></span><br><span class="line">查看已开放的端口</span><br><span class="line">firewall-cmd --list-ports</span><br></pre></td></tr></table></figure></div>
 
 ]]></content>
       <tags>
@@ -336,11 +443,11 @@
 </blockquote>
 <blockquote>
 <p>安装编译后的文件</p>
-<div class="code-area-wrap"><div class="highlight-tools"><i class="fa fa-angle-down code-expand" aria-hidden="true"></i><div class="code_lang">Code</div><div class="copy-notice"></div><i class="fa fa-clipboard" aria-hidden="true"></i></div><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">make PREFIX&#x3D;&#x2F;user&#x2F;local&#x2F;redis install</span><br></pre></td></tr></table></figure></div>
+<div class="code-area-wrap"><div class="highlight-tools"><i class="fa fa-angle-down code-expand" aria-hidden="true"></i><div class="code_lang">Code</div><div class="copy-notice"></div><i class="fa fa-clipboard" aria-hidden="true"></i></div><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">make PREFIX&#x3D;&#x2F;usr&#x2F;local&#x2F;redis install</span><br></pre></td></tr></table></figure></div>
 </blockquote>
 <p>没有报错的话就安装完成了</p>
 <h1 id="Redis启动"><a href="#Redis启动" class="headerlink" title="Redis启动"></a>Redis启动</h1><h2 id="启动Redis服务"><a href="#启动Redis服务" class="headerlink" title="启动Redis服务"></a>启动Redis服务</h2><p>进入对应的安装目录</p>
-<div class="code-area-wrap"><div class="highlight-tools"><i class="fa fa-angle-down code-expand" aria-hidden="true"></i><div class="code_lang">Code</div><div class="copy-notice"></div><i class="fa fa-clipboard" aria-hidden="true"></i></div><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">cd &#x2F;user&#x2F;local&#x2F;redis</span><br></pre></td></tr></table></figure></div>
+<div class="code-area-wrap"><div class="highlight-tools"><i class="fa fa-angle-down code-expand" aria-hidden="true"></i><div class="code_lang">Code</div><div class="copy-notice"></div><i class="fa fa-clipboard" aria-hidden="true"></i></div><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">cd &#x2F;usr&#x2F;local&#x2F;redis</span><br></pre></td></tr></table></figure></div>
 
 <p>执行命令</p>
 <div class="code-area-wrap"><div class="highlight-tools"><i class="fa fa-angle-down code-expand" aria-hidden="true"></i><div class="code_lang">Code</div><div class="copy-notice"></div><i class="fa fa-clipboard" aria-hidden="true"></i></div><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">.&#x2F;bin&#x2F;redis-server</span><br></pre></td></tr></table></figure></div>
@@ -350,7 +457,7 @@
 <p>Port为端口号</p>
 <h2 id="启动Redis的客户端"><a href="#启动Redis的客户端" class="headerlink" title="启动Redis的客户端"></a>启动Redis的客户端</h2><p>进入Redis客户端 （Clone Session 克隆一个窗口）</p>
 <p>进入对应的安装目录</p>
-<div class="code-area-wrap"><div class="highlight-tools"><i class="fa fa-angle-down code-expand" aria-hidden="true"></i><div class="code_lang">Code</div><div class="copy-notice"></div><i class="fa fa-clipboard" aria-hidden="true"></i></div><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">cd &#x2F;user&#x2F;local&#x2F;redis</span><br></pre></td></tr></table></figure></div>
+<div class="code-area-wrap"><div class="highlight-tools"><i class="fa fa-angle-down code-expand" aria-hidden="true"></i><div class="code_lang">Code</div><div class="copy-notice"></div><i class="fa fa-clipboard" aria-hidden="true"></i></div><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">cd &#x2F;usr&#x2F;local&#x2F;redis</span><br></pre></td></tr></table></figure></div>
 
 <p>执行命令</p>
 <div class="code-area-wrap"><div class="highlight-tools"><i class="fa fa-angle-down code-expand" aria-hidden="true"></i><div class="code_lang">Code</div><div class="copy-notice"></div><i class="fa fa-clipboard" aria-hidden="true"></i></div><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">.&#x2F;bin&#x2F;redis-cli</span><br></pre></td></tr></table></figure></div>
@@ -378,7 +485,7 @@
 
 <p><a href="/2020/03/03/Redis/redisconf.png" data-fancybox="group" data-caption class="fancybox"><img alt title data-src="/2020/03/03/Redis/redisconf.png" class="lazyload"></a></p>
 <p>下一步就是把redis.conf复制到 redis安装目录下 与bin同级</p>
-<div class="code-area-wrap"><div class="highlight-tools"><i class="fa fa-angle-down code-expand" aria-hidden="true"></i><div class="code_lang">Code</div><div class="copy-notice"></div><i class="fa fa-clipboard" aria-hidden="true"></i></div><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">cp redis.conf &#x2F;user&#x2F;local&#x2F;redis   这里是我的安装目录</span><br></pre></td></tr></table></figure></div>
+<div class="code-area-wrap"><div class="highlight-tools"><i class="fa fa-angle-down code-expand" aria-hidden="true"></i><div class="code_lang">Code</div><div class="copy-notice"></div><i class="fa fa-clipboard" aria-hidden="true"></i></div><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">cp redis.conf &#x2F;usr&#x2F;local&#x2F;redis   这里是我的安装目录</span><br></pre></td></tr></table></figure></div>
 
 <p>复制完之后进入目录查看</p>
 <p><a href="/2020/03/03/Redis/%E5%A4%8D%E5%88%B6%E6%88%90%E5%8A%9F.png" data-fancybox="group" data-caption class="fancybox"><img alt title data-src="/2020/03/03/Redis/%E5%A4%8D%E5%88%B6%E6%88%90%E5%8A%9F.png" class="lazyload"></a></p>
@@ -427,7 +534,7 @@
 <p><a href="/2020/03/03/Redis/%E5%90%AF%E5%8A%A8%E5%AE%88%E6%8A%A4%E8%BF%9B%E7%A8%8B.png" data-fancybox="group" data-caption class="fancybox"><img alt title data-src="/2020/03/03/Redis/%E5%90%AF%E5%8A%A8%E5%AE%88%E6%8A%A4%E8%BF%9B%E7%A8%8B.png" class="lazyload"></a></p>
 <p>你就可以在启动redis服务的页面继续使用命令了，没有启用之前是不可以的</p>
 <p><strong>使用编程模式修改文件</strong></p>
-<p>直接 按 v 再 按 i 就进入了修改模式 按ESC 退出</p>
+<p>使用命令 vim redis.conf 修改 文件 （在redis目录中）</p>
 <div class="code-area-wrap"><div class="highlight-tools"><i class="fa fa-angle-down code-expand" aria-hidden="true"></i><div class="code_lang">Code</div><div class="copy-notice"></div><i class="fa fa-clipboard" aria-hidden="true"></i></div><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">按ESC键 跳到命令模式，然后：</span><br><span class="line"></span><br><span class="line">:w 保存文件但不退出vi</span><br><span class="line"></span><br><span class="line">:w file 将修改另外保存到file中，不退出vi</span><br><span class="line"></span><br><span class="line">:w! 强制保存，不推出vi</span><br><span class="line"></span><br><span class="line">:wq 保存文件并退出vi</span><br><span class="line"></span><br><span class="line">:wq! 强制保存文件，并退出vi</span><br><span class="line"></span><br><span class="line">:q 不保存文件，退出vi</span><br><span class="line"></span><br><span class="line">:q! 不保存文件，强制退出vi</span><br><span class="line"></span><br><span class="line">:e! 放弃所有修改，从上次保存文件开始再编辑</span><br><span class="line"></span><br><span class="line">i 修改</span><br><span class="line">u 撤回</span><br></pre></td></tr></table></figure></div>
 
 <h2 id="自定义配置Redis"><a href="#自定义配置Redis" class="headerlink" title="自定义配置Redis"></a>自定义配置Redis</h2><p>下面几个默认配置必须修改</p>
