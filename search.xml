@@ -1,6 +1,172 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>Docker</title>
+    <url>/2020/03/21/Docker/</url>
+    <content><![CDATA[<h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><blockquote>
+<p>Docker 是一个开源的应用容器引擎，让开发者可以打包他们的应用以及依赖包到一个可移植的容器中,然后发布到任何流行的<a href="https://baike.baidu.com/item/Linux" target="_blank" rel="noopener">Linux</a>机器或Windows 机器上,也可以实现虚拟化,容器是完全使用沙箱机制,相互之间不会有任何接口。</p>
+<p><a href="https://baike.baidu.com/item/Docker/13344470?fr=aladdin" target="_blank" rel="noopener">https://baike.baidu.com/item/Docker/13344470?fr=aladdin</a></p>
+</blockquote>
+<!-- mover -->
+
+<h2 id="为什么需要Docker？"><a href="#为什么需要Docker？" class="headerlink" title="为什么需要Docker？"></a>为什么需要Docker？</h2><blockquote>
+<p>环境配置如此麻烦，换-一台机器，就要重来一次，费力费时。很多人想到，能不能从根本上解决问题，软件可以带环境安装?也就是说，安装的时候，把原始环境一模一样地复制过来。开发人员利用Docker可以消除协作编码时 “ 在我的机器上可正常工作 ” 的问题。</p>
+</blockquote>
+<p><a href="/2020/03/21/Docker/Docker%E4%BD%9C%E7%94%A8.png" data-fancybox="group" data-caption class="fancybox"><img alt title data-src="/2020/03/21/Docker/Docker%E4%BD%9C%E7%94%A8.png" class="lazyload"></a></p>
+<p><strong>一次封装，处处运行</strong></p>
+<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><p>Docker支持以下的CentOS版本</p>
+<ul>
+<li>CentOS 7（64-bit）</li>
+<li>CentOS 6.5 （64-bit）  或更高版本</li>
+</ul>
+<p><strong>前提条件</strong></p>
+<blockquote>
+<p>目前，CentOS 仅发行版本中的内核支持 Docker。<br>Docker运行在CentOS7上，要求系统为64位、系统内核版木为 3.10 以上。<br>Docker运行在Cent0S-6.5或更高的版本的CentOS.上，要求系统为64位、系统内核版本为2.6.32-431或者更高版本。</p>
+</blockquote>
+<p>查看自己的内核</p>
+<div class="code-area-wrap"><div class="highlight-tools"><i class="fa fa-angle-down code-expand" aria-hidden="true"></i><div class="code_lang">Code</div><div class="copy-notice"></div><i class="fa fa-clipboard" aria-hidden="true"></i></div><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">uname -r</span><br></pre></td></tr></table></figure></div>
+
+<div class="code-area-wrap"><div class="highlight-tools"><i class="fa fa-angle-down code-expand" aria-hidden="true"></i><div class="code_lang">Code</div><div class="copy-notice"></div><i class="fa fa-clipboard" aria-hidden="true"></i></div><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">cat &#x2F;etc&#x2F;redhat-release</span><br></pre></td></tr></table></figure></div>
+
+<h2 id="Docker的基本组成"><a href="#Docker的基本组成" class="headerlink" title="Docker的基本组成"></a>Docker的基本组成</h2><h3 id="Docker架构图"><a href="#Docker架构图" class="headerlink" title="Docker架构图"></a>Docker架构图</h3><p><a href="/2020/03/21/Docker/Docker%E6%9E%B6%E6%9E%84%E5%9B%BE.png" data-fancybox="group" data-caption class="fancybox"><img alt title data-src="/2020/03/21/Docker/Docker%E6%9E%B6%E6%9E%84%E5%9B%BE.png" class="lazyload"></a></p>
+<h3 id="镜像（image）"><a href="#镜像（image）" class="headerlink" title="镜像（image）"></a>镜像（image）</h3><p>Docker镜像(Image)就是一个只读的模板。镜像可以用来创建Docker容器，一个镜像可以创建很多容器。</p>
+<p><a href="/2020/03/21/Docker/Docker%E5%92%8CJava%E7%9A%84%E5%85%B3%E7%B3%BB.png" data-fancybox="group" data-caption class="fancybox"><img alt title data-src="/2020/03/21/Docker/Docker%E5%92%8CJava%E7%9A%84%E5%85%B3%E7%B3%BB.png" class="lazyload"></a></p>
+<h3 id="容器（container）"><a href="#容器（container）" class="headerlink" title="容器（container）"></a>容器（container）</h3><blockquote>
+<p>Docker利用容器(Container) 独立运行的一个或一组应用。容器是用镜像创建的运行实例。<br>它可以被启动、开始、停止、删除。每个容器都是相互隔离的、保证安全的平台。<br>可以把容器看做是一个简易版的Linux环境(包括root用户权限、进程空间、用户空间和网络空间等) 和运行在其中的应用程序。<br>容器的定义和镜像几乎一模-样，也是一堆层的统一视角， 唯一区别在于容器的最上面那一层是可读可写的。</p>
+</blockquote>
+<h3 id="仓库（repository）"><a href="#仓库（repository）" class="headerlink" title="仓库（repository）"></a>仓库（repository）</h3><blockquote>
+<p>仓库(Repository) 是集中存放镜像文件的场所。<br>仓库(Repository)和仓库注册服务器(Registry) 是有区别的。仓库注册服务器上往往存放着多个仓库，每个仓库中又包含了多个镜像，每个镜像有不同的标签(tag)。<br>仓库分为公开仓库(Public) 和私有仓库(Private) 两种形式。<br>最大的公开仓库是Docker Hub <a href="https://hub.docker.com/" target="_blank" rel="noopener">https://hub.docker.com/</a><br>存放了数量庞大的镜像供用户下载。国内的公开仓库包括阿里云、网易云等</p>
+</blockquote>
+<h3 id="CentOS安装"><a href="#CentOS安装" class="headerlink" title="CentOS安装"></a>CentOS安装</h3><p>安装软件包</p>
+<div class="code-area-wrap"><div class="highlight-tools"><i class="fa fa-angle-down code-expand" aria-hidden="true"></i><div class="code_lang">Code</div><div class="copy-notice"></div><i class="fa fa-clipboard" aria-hidden="true"></i></div><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">yum install -y yum-utils \</span><br><span class="line">  device-mapper-persistent-data \</span><br><span class="line">  lvm2</span><br></pre></td></tr></table></figure></div>
+
+<p>设置存储库</p>
+<div class="code-area-wrap"><div class="highlight-tools"><i class="fa fa-angle-down code-expand" aria-hidden="true"></i><div class="code_lang">Code</div><div class="copy-notice"></div><i class="fa fa-clipboard" aria-hidden="true"></i></div><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">yum-config-manager \</span><br><span class="line">    --add-repo \</span><br><span class="line">    https:&#x2F;&#x2F;download.docker.com&#x2F;linux&#x2F;centos&#x2F;docker-ce.repo</span><br></pre></td></tr></table></figure></div>
+
+<p>安装 Docker Engine</p>
+<div class="code-area-wrap"><div class="highlight-tools"><i class="fa fa-angle-down code-expand" aria-hidden="true"></i><div class="code_lang">Code</div><div class="copy-notice"></div><i class="fa fa-clipboard" aria-hidden="true"></i></div><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">yum install docker-ce docker-ce-cli containerd.io</span><br></pre></td></tr></table></figure></div>
+
+<p>启动Docker</p>
+<div class="code-area-wrap"><div class="highlight-tools"><i class="fa fa-angle-down code-expand" aria-hidden="true"></i><div class="code_lang">Code</div><div class="copy-notice"></div><i class="fa fa-clipboard" aria-hidden="true"></i></div><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">systemctl start docker</span><br></pre></td></tr></table></figure></div>
+
+<p><strong>没报错就完事了</strong></p>
+<p>使用阿里云镜像加速</p>
+<p><a href="https://cr.console.aliyun.com/cn-hangzhou/instances/mirrors" target="_blank" rel="noopener">https://cr.console.aliyun.com/cn-hangzhou/instances/mirrors</a></p>
+<p><a href="/2020/03/21/Docker/%E9%98%BF%E9%87%8C%E4%BA%91%E5%AE%B9%E5%99%A8%E9%95%9C%E5%83%8F%E6%9C%8D%E5%8A%A1.png" data-fancybox="group" data-caption class="fancybox"><img alt title data-src="/2020/03/21/Docker/%E9%98%BF%E9%87%8C%E4%BA%91%E5%AE%B9%E5%99%A8%E9%95%9C%E5%83%8F%E6%9C%8D%E5%8A%A1.png" class="lazyload"></a></p>
+<p>输入命令</p>
+<div class="code-area-wrap"><div class="highlight-tools"><i class="fa fa-angle-down code-expand" aria-hidden="true"></i><div class="code_lang">Code</div><div class="copy-notice"></div><i class="fa fa-clipboard" aria-hidden="true"></i></div><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">![run作用](Docker&#x2F;run作用.png)sudo mkdir -p &#x2F;etc&#x2F;docker</span><br><span class="line">sudo tee &#x2F;etc&#x2F;docker&#x2F;daemon.json &lt;&lt;-&#39;EOF&#39;</span><br><span class="line">&#123;</span><br><span class="line">  &quot;registry-mirrors&quot;: [&quot;你的加速地址&quot;]</span><br><span class="line">&#125;</span><br><span class="line">EOF</span><br><span class="line">sudo systemctl daemon-reload</span><br><span class="line">sudo systemctl restart docker</span><br></pre></td></tr></table></figure></div>
+
+<p>没报错就完事了</p>
+<h3 id="测试运行Hello-world"><a href="#测试运行Hello-world" class="headerlink" title="测试运行Hello-world"></a>测试运行Hello-world</h3><p>启动Docker</p>
+<div class="code-area-wrap"><div class="highlight-tools"><i class="fa fa-angle-down code-expand" aria-hidden="true"></i><div class="code_lang">Code</div><div class="copy-notice"></div><i class="fa fa-clipboard" aria-hidden="true"></i></div><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">systemctl start docker</span><br></pre></td></tr></table></figure></div>
+
+<p>运行hello-world</p>
+<div class="code-area-wrap"><div class="highlight-tools"><i class="fa fa-angle-down code-expand" aria-hidden="true"></i><div class="code_lang">Code</div><div class="copy-notice"></div><i class="fa fa-clipboard" aria-hidden="true"></i></div><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">docker run hello-world</span><br></pre></td></tr></table></figure></div>
+
+<p><a href="/2020/03/21/Docker/%E8%BF%90%E8%A1%8CHello-world.png" data-fancybox="group" data-caption class="fancybox"><img alt title data-src="/2020/03/21/Docker/%E8%BF%90%E8%A1%8CHello-world.png" class="lazyload"></a></p>
+<p><strong>run 作用</strong></p>
+<p><a href="/2020/03/21/Docker/run%E4%BD%9C%E7%94%A8.png" data-fancybox="group" data-caption class="fancybox"><img alt title data-src="/2020/03/21/Docker/run%E4%BD%9C%E7%94%A8.png" class="lazyload"></a></p>
+<h1 id="Docker底层原理"><a href="#Docker底层原理" class="headerlink" title="Docker底层原理"></a>Docker底层原理</h1><h2 id="Docker是怎么工作的？"><a href="#Docker是怎么工作的？" class="headerlink" title="Docker是怎么工作的？"></a>Docker是怎么工作的？</h2><blockquote>
+<p>Docker是一个Client-Server结构的系统，Docker守护进程运行在主机上，然后通过Socket连接 从客户端访问，守护进程从客户端接受命令并管理运行在主机上的容器。容器，是一个运行时环境，就是我们前面说到的集装箱</p>
+</blockquote>
+<p><a href="/2020/03/21/Docker/Docker%E5%B7%A5%E4%BD%9C%E5%9B%BE.png" data-fancybox="group" data-caption class="fancybox"><img alt title data-src="/2020/03/21/Docker/Docker%E5%B7%A5%E4%BD%9C%E5%9B%BE.png" class="lazyload"></a></p>
+<h2 id="为什么Docker比虚拟机快？"><a href="#为什么Docker比虚拟机快？" class="headerlink" title="为什么Docker比虚拟机快？"></a>为什么Docker比虚拟机快？</h2><ul>
+<li>docker有着比虚拟机更少的抽象层。由于docker不需要Hypervisor实现硬件资源虚拟化, 运行在docker容器上的程序直接使用的都是实际物理机的硬件资源。因此在CPU、内存利用率上docker将会在效率上有明显优势。</li>
+<li>docker利用的是宿主机的内核，而不需要Guest OS，因此当新建一个容器时,docker不需要和虚拟机一样重新加载一个操作系统内核。仍而避免引寻、加载操作系统内核返个比较费时费资源的过程,当新建一个虑拟机时,虚拟机软件需要加载Guest OS,这个新建过程是分钟级别的。而docker由于直接利用宿主机的操作系统，则省略了这个过程,因此新建一个docker容器只需要几秒钟。</li>
+</ul>
+<p><a href="/2020/03/21/Docker/%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%BA%8EDocker%E6%9E%B6%E6%9E%84%E5%AF%B9%E6%AF%94.png" data-fancybox="group" data-caption class="fancybox"><img alt title data-src="/2020/03/21/Docker/%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%BA%8EDocker%E6%9E%B6%E6%9E%84%E5%AF%B9%E6%AF%94.png" class="lazyload"></a></p>
+<p><a href="/2020/03/21/Docker/%E7%9B%B8%E5%AF%B9%E4%BA%8E%E8%99%9A%E6%8B%9F%E6%9C%BADocker%E7%9A%84%E4%BC%98%E7%82%B9.png" data-fancybox="group" data-caption class="fancybox"><img alt title data-src="/2020/03/21/Docker/%E7%9B%B8%E5%AF%B9%E4%BA%8E%E8%99%9A%E6%8B%9F%E6%9C%BADocker%E7%9A%84%E4%BC%98%E7%82%B9.png" class="lazyload"></a></p>
+<h1 id="Docker常用命令"><a href="#Docker常用命令" class="headerlink" title="Docker常用命令"></a>Docker常用命令</h1><h2 id="帮助命令"><a href="#帮助命令" class="headerlink" title="帮助命令"></a>帮助命令</h2><p>验证docker信息</p>
+<h3 id="docker-version"><a href="#docker-version" class="headerlink" title="docker version"></a>docker version</h3><p>docker安装后描述docker信息</p>
+<h3 id="docker-info"><a href="#docker-info" class="headerlink" title="docker info"></a>docker info</h3><p>帮助</p>
+<h3 id="docker-–help"><a href="#docker-–help" class="headerlink" title="docker –help"></a>docker –help</h3><h2 id="镜像命令"><a href="#镜像命令" class="headerlink" title="镜像命令"></a>镜像命令</h2><p>列出本地的镜像</p>
+<h3 id="docker-images"><a href="#docker-images" class="headerlink" title="docker images"></a><strong>docker images</strong></h3><p><a href="/2020/03/21/Docker/images%E8%AF%B4%E6%98%8E.png" data-fancybox="group" data-caption class="fancybox"><img alt title data-src="/2020/03/21/Docker/images%E8%AF%B4%E6%98%8E.png" class="lazyload"></a></p>
+<p>组合： 例如 docker images -a</p>
+<ul>
+<li><strong>-a</strong>  列出本地所有的镜像（含中间映像层）</li>
+<li><strong>-q</strong> 只显示镜像ID</li>
+<li><strong>-qa</strong> 显示所有镜像ID</li>
+<li><strong>–digests</strong> 显示镜像的摘要信息</li>
+<li><strong>–no-trunc</strong> 显示完整的镜像信息</li>
+</ul>
+<hr>
+
+<p>从Docker Hub 上查询某个 xxx 镜像</p>
+<h3 id="docker-search"><a href="#docker-search" class="headerlink" title="docker search"></a><strong>docker search</strong></h3><p><a href="/2020/03/21/Docker/DockerSearch.png" data-fancybox="group" data-caption class="fancybox"><img alt title data-src="/2020/03/21/Docker/DockerSearch.png" class="lazyload"></a></p>
+<p><strong>组合命令</strong></p>
+<ul>
+<li>-s number 用于筛选 stars 例如 docker search -s 30 tomcat ，查找 stars 数超过 30 的tomcat</li>
+<li>–no-trunc 显示完整的镜像信息</li>
+<li>–automated 只列出 automated  build类型的镜像</li>
+</ul>
+<hr>
+
+<p>下载镜像</p>
+<h3 id="docker-pull-xxx名字"><a href="#docker-pull-xxx名字" class="headerlink" title="docker pull xxx名字"></a>docker pull xxx名字</h3><p>组合命令</p>
+<ul>
+<li>docker pull xxx:版本号  如果不写就是最新版 latest</li>
+</ul>
+<hr>
+
+<p>删除镜像</p>
+<h3 id="docker-rmi-xxx"><a href="#docker-rmi-xxx" class="headerlink" title="docker rmi xxx"></a>docker rmi xxx</h3><p>xxx 可以是 <strong>ID</strong> 或者 <strong>唯一镜像名</strong></p>
+<p>组合命令</p>
+<ul>
+<li>docker rmi xxx:版本号  不写就是删除最新版 latest</li>
+<li>docker rmi -f xxx  强制删除</li>
+<li>docker rmi -f xxx1 xxx2…  一次删除多个，也可以写版本号 xxx1:latest</li>
+<li>docker rmi -f $(docker images -qa) 批量删除，删除所有镜像 $()为表达式</li>
+</ul>
+<h2 id="容器命令"><a href="#容器命令" class="headerlink" title="容器命令"></a>容器命令</h2><p><span style="color:red;">有镜像才能创建容器，这是根本前提</span></p>
+<hr>
+
+<p>新建并启动容器</p>
+<h3 id="docker-run-OPTIONS-IMAGE-COMMAND-ARG…"><a href="#docker-run-OPTIONS-IMAGE-COMMAND-ARG…" class="headerlink" title="docker run [OPTIONS] IMAGE [COMMAND] [ARG….]"></a>docker run [OPTIONS] IMAGE [COMMAND] [ARG….]</h3><p>OPTIONS说明</p>
+<ul>
+<li>–name=”容器新名字”  为容器改名</li>
+<li>-d 后台运行容器，并返回容器ID，也即启动守护式进程</li>
+<li>-i   以交互模式运行容器，通常与 -t 同时使用</li>
+<li>-t   为容器重新分配一个伪输入终端，通常与 -i 同时使用</li>
+<li>-P  随机端口映射</li>
+<li>-p 指定端口映射，有以下四种格式<ul>
+<li>ip:hostPort:containerPort</li>
+<li>ip::containerPort</li>
+<li>hostPort:containerPort</li>
+<li>containerPort</li>
+</ul>
+</li>
+</ul>
+<h2 id="小总结"><a href="#小总结" class="headerlink" title="小总结"></a>小总结</h2>]]></content>
+      <tags>
+        <tag>Docker</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>RabbitMQ</title>
+    <url>/2020/03/19/RabbitMQ/</url>
+    <content><![CDATA[<h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><blockquote>
+<p>AMQP，即Advanced Message Queuing Protocol，高级消息队列协议，是应用层协议的一个开放标准，为面向消息的<a href="http://www.diggerplus.org/archives/tag/中间件" target="_blank" rel="noopener">中间件</a>设计。消息中间件主要用于组件之间的解耦，消息的发送者无需知道消息使用者的存在，反之亦然。</p>
+<p>AMQP的主要特征是面向消息、队列、路由（包括点对点和发布/订阅）、可靠性、安全。<br>RabbitMQ是一个开源的AMQP实现，服务器端用Erlang语言编写，支持多种客户端，如：Python、Ruby、.NET、Java、JMS、C、PHP、ActionScript、XMPP、STOMP等，支持AJAX。用于在分布式系统中存储转发消息，在易用性、扩展性、高可用性等方面表现不俗。</p>
+</blockquote>
+<a id="more"></a>
+
+<h2 id="作用"><a href="#作用" class="headerlink" title="作用"></a>作用</h2><ul>
+<li>异步处理</li>
+<li>应用解耦</li>
+<li>流量削峰</li>
+<li>日志处理</li>
+<li>等等等等等。。。。。。</li>
+</ul>
+<h1 id="安装与配置"><a href="#安装与配置" class="headerlink" title="安装与配置"></a>安装与配置</h1><p><strong>官网</strong>  <a href="https://www.rabbitmq.com/" target="_blank" rel="noopener">https://www.rabbitmq.com/</a></p>
+<p>因为 RabbitMQ是用 <strong>Erlang</strong> 编写的，所以需要安装 Erlang</p>
+<p><strong>Erlang</strong>  <a href="https://www.erlang.org/downloads" target="_blank" rel="noopener">https://www.erlang.org/downloads</a></p>
+<p>先安装 Erlang</p>
+]]></content>
+      <tags>
+        <tag>RabbitMQ</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Shiro</title>
     <url>/2020/03/18/Shiro/</url>
     <content><![CDATA[<h1 id="Shiro-简介"><a href="#Shiro-简介" class="headerlink" title="Shiro 简介"></a>Shiro 简介</h1><h2 id="什么是Shiro"><a href="#什么是Shiro" class="headerlink" title="什么是Shiro"></a>什么是Shiro</h2><ul>
