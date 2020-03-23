@@ -278,28 +278,19 @@
 <h3 id="案例演示"><a href="#案例演示" class="headerlink" title="案例演示"></a>案例演示</h3><ol>
 <li><p>从Hub上下载tomcat镜像到本地并成功运行</p>
 <ul>
-<li><pre><code>docker run -it -p 8080:8080 tomcat</code></pre><ul>
-<li>-p  主机端口 ：docker 容器端口</li>
-<li>-P   大写P 随机分配端口<ul>
-<li><a href="/2020/03/21/Docker/-P%E9%9A%8F%E6%9C%BA%E7%94%9F%E6%88%90%E7%AB%AF%E5%8F%A3.png" data-fancybox="group" data-caption class="fancybox"><img alt title data-src="/2020/03/21/Docker/-P%E9%9A%8F%E6%9C%BA%E7%94%9F%E6%88%90%E7%AB%AF%E5%8F%A3.png" class="lazyload"></a></li>
+<li><pre><code>docker run -it -p 8080:8080 tomcat
+<div class="code-area-wrap"><div class="highlight-tools"><i class="fa fa-angle-down code-expand" aria-hidden="true"></i><div class="code_lang">Code</div><div class="copy-notice"></div><i class="fa fa-clipboard" aria-hidden="true"></i></div><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">     - -p  主机端口 ：docker 容器端口</span><br><span class="line">     - -P   大写P 随机分配端口</span><br><span class="line">       - ![](Docker&#x2F;-P随机生成端口.png)</span><br><span class="line">     - i  交互</span><br><span class="line">     - t  终端</span><br><span class="line"></span><br><span class="line">   - 浏览器输入 localhost:8080直接访问</span><br><span class="line"></span><br><span class="line">2. 你可以进入 tomcat 随便改</span><br></pre></td></tr></table></figure></div>
+docker exec -it 容器ID /bin/bash
+<div class="code-area-wrap"><div class="highlight-tools"><i class="fa fa-angle-down code-expand" aria-hidden="true"></i><div class="code_lang">Code</div><div class="copy-notice"></div><i class="fa fa-clipboard" aria-hidden="true"></i></div><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">3. 改完后退出来</span><br></pre></td></tr></table></figure></div>
+ctrl + p + q
+<div class="code-area-wrap"><div class="highlight-tools"><i class="fa fa-angle-down code-expand" aria-hidden="true"></i><div class="code_lang">Code</div><div class="copy-notice"></div><i class="fa fa-clipboard" aria-hidden="true"></i></div><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">4. 提交你改完的新 tomcat</span><br></pre></td></tr></table></figure></div>
+docker commit -m=&quot;提交的描述信息&quot; -a=&quot;作者&quot; 容器ID 要创建的目标镜像名:[标签名]
+<div class="code-area-wrap"><div class="highlight-tools"><i class="fa fa-angle-down code-expand" aria-hidden="true"></i><div class="code_lang">Code</div><div class="copy-notice"></div><i class="fa fa-clipboard" aria-hidden="true"></i></div><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">5. 然后查看镜像![](Docker&#x2F;mytomcat.png)</span><br><span class="line"></span><br><span class="line">6. 完成，这就是你提交的新的镜像</span><br><span class="line"></span><br><span class="line"># Docker 容器数据卷</span><br><span class="line"></span><br><span class="line">## 是什么？</span><br><span class="line"></span><br><span class="line">![](Docker&#x2F;容器数据卷是什么.png)</span><br><span class="line"></span><br><span class="line">## 能干吗？</span><br><span class="line"></span><br><span class="line">容器持久化</span><br><span class="line"></span><br><span class="line">容器间继承 + 数据共享</span><br><span class="line"></span><br><span class="line">![](Docker&#x2F;容器数据卷能干吗.png)</span><br><span class="line"></span><br><span class="line">## 数据卷</span><br><span class="line"></span><br><span class="line">### 容器内添加</span><br><span class="line"></span><br><span class="line">#### 直接命令添加</span><br><span class="line"></span><br><span class="line">命令</span><br></pre></td></tr></table></figure></div>
+docker run -it -v /宿主机绝对路径目录:/容器内目录 镜像名</code></pre></li>
 </ul>
-</li>
-<li>i  交互</li>
-<li>t  终端</li>
-</ul>
-</li>
-<li><p>浏览器输入 localhost:8080直接访问</p>
-</li>
-</ul>
-</li>
-<li><p>故意删除上一步镜像生产tomcat容器的文档</p>
-</li>
-<li><p>也即当前的tomcat运行实例是一-个没有文档内容的容器，以它为模板commit一个没有doc的tomcat 新镜像atguigu/tomcat02</p>
-</li>
-<li><p>启动我们的新镜像并和原来的对比</p>
 </li>
 </ol>
-]]></content>
+<h4 id="DockerFile-添加"><a href="#DockerFile-添加" class="headerlink" title="DockerFile 添加"></a>DockerFile 添加</h4><h4 id="备注"><a href="#备注" class="headerlink" title="备注"></a>备注</h4><h2 id="数据卷容器"><a href="#数据卷容器" class="headerlink" title="数据卷容器"></a>数据卷容器</h2>]]></content>
       <tags>
         <tag>Docker</tag>
       </tags>
