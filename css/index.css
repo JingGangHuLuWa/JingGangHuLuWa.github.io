@@ -2095,15 +2095,6 @@ blockquote footer cite:before {
   -moz-background-size: cover;
   background-size: cover;
 }
-#footer:before {
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  background-color: rgba(0,0,0,0.5);
-  content: '';
-}
 #footer-wrap {
   position: relative;
   padding: 2rem 1rem;
@@ -4158,6 +4149,210 @@ img {
   font-size: 16px;
   line-height: 29px;
   cursor: pointer;
+}
+#rightside > div > i:hover,
+#rightside > div > a:hover,
+#rightside > div > div:hover {
+  background-color: #ff7242;
+}
+#rightside #rightside_config i {
+  -webkit-animation: avatar_turn_around 2s linear infinite;
+  -moz-animation: avatar_turn_around 2s linear infinite;
+  -o-animation: avatar_turn_around 2s linear infinite;
+  -ms-animation: avatar_turn_around 2s linear infinite;
+  animation: avatar_turn_around 2s linear infinite;
+}
+#rightside #mobile-toc-button {
+  display: none;
+}
+@media screen and (max-width: 1024px) {
+  #rightside #mobile-toc-button {
+    display: block;
+  }
+}
+@-moz-keyframes rightsideIn {
+  0% {
+    -webkit-transform: translate(30px, 0);
+    -moz-transform: translate(30px, 0);
+    -o-transform: translate(30px, 0);
+    -ms-transform: translate(30px, 0);
+    transform: translate(30px, 0);
+  }
+  100% {
+    -webkit-transform: translate(0, 0);
+    -moz-transform: translate(0, 0);
+    -o-transform: translate(0, 0);
+    -ms-transform: translate(0, 0);
+    transform: translate(0, 0);
+  }
+}
+@-webkit-keyframes rightsideIn {
+  0% {
+    -webkit-transform: translate(30px, 0);
+    -moz-transform: translate(30px, 0);
+    -o-transform: translate(30px, 0);
+    -ms-transform: translate(30px, 0);
+    transform: translate(30px, 0);
+  }
+  100% {
+    -webkit-transform: translate(0, 0);
+    -moz-transform: translate(0, 0);
+    -o-transform: translate(0, 0);
+    -ms-transform: translate(0, 0);
+    transform: translate(0, 0);
+  }
+}
+@-o-keyframes rightsideIn {
+  0% {
+    -webkit-transform: translate(30px, 0);
+    -moz-transform: translate(30px, 0);
+    -o-transform: translate(30px, 0);
+    -ms-transform: translate(30px, 0);
+    transform: translate(30px, 0);
+  }
+  100% {
+    -webkit-transform: translate(0, 0);
+    -moz-transform: translate(0, 0);
+    -o-transform: translate(0, 0);
+    -ms-transform: translate(0, 0);
+    transform: translate(0, 0);
+  }
+}
+@keyframes rightsideIn {
+  0% {
+    -webkit-transform: translate(30px, 0);
+    -moz-transform: translate(30px, 0);
+    -o-transform: translate(30px, 0);
+    -ms-transform: translate(30px, 0);
+    transform: translate(30px, 0);
+  }
+  100% {
+    -webkit-transform: translate(0, 0);
+    -moz-transform: translate(0, 0);
+    -o-transform: translate(0, 0);
+    -ms-transform: translate(0, 0);
+    transform: translate(0, 0);
+  }
+}
+@-moz-keyframes rightsideOut {
+  0% {
+    -webkit-transform: translate(0, 0);
+    -moz-transform: translate(0, 0);
+    -o-transform: translate(0, 0);
+    -ms-transform: translate(0, 0);
+    transform: translate(0, 0);
+  }
+  100% {
+    -webkit-transform: translate(30px, 0);
+    -moz-transform: translate(30px, 0);
+    -o-transform: translate(30px, 0);
+    -ms-transform: translate(30px, 0);
+    transform: translate(30px, 0);
+  }
+}
+@-webkit-keyframes rightsideOut {
+  0% {
+    -webkit-transform: translate(0, 0);
+    -moz-transform: translate(0, 0);
+    -o-transform: translate(0, 0);
+    -ms-transform: translate(0, 0);
+    transform: translate(0, 0);
+  }
+  100% {
+    -webkit-transform: translate(30px, 0);
+    -moz-transform: translate(30px, 0);
+    -o-transform: translate(30px, 0);
+    -ms-transform: translate(30px, 0);
+    transform: translate(30px, 0);
+  }
+}
+@-o-keyframes rightsideOut {
+  0% {
+    -webkit-transform: translate(0, 0);
+    -moz-transform: translate(0, 0);
+    -o-transform: translate(0, 0);
+    -ms-transform: translate(0, 0);
+    transform: translate(0, 0);
+  }
+  100% {
+    -webkit-transform: translate(30px, 0);
+    -moz-transform: translate(30px, 0);
+    -o-transform: translate(30px, 0);
+    -ms-transform: translate(30px, 0);
+    transform: translate(30px, 0);
+  }
+}
+@keyframes rightsideOut {
+  0% {
+    -webkit-transform: translate(0, 0);
+    -moz-transform: translate(0, 0);
+    -o-transform: translate(0, 0);
+    -ms-transform: translate(0, 0);
+    transform: translate(0, 0);
+  }
+  100% {
+    -webkit-transform: translate(30px, 0);
+    -moz-transform: translate(30px, 0);
+    -o-transform: translate(30px, 0);
+    -ms-transform: translate(30px, 0);
+    transform: translate(30px, 0);
+  }
+}
+#rightside {
+  position: fixed;
+  right: -38px;
+  bottom: 10px;
+  opacity: 0;
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+  filter: alpha(opacity=0);
+  -webkit-transition: all 0.3s;
+  -moz-transition: all 0.3s;
+  -o-transition: all 0.3s;
+  -ms-transition: all 0.3s;
+  transition: all 0.3s;
+}
+#rightside #rightside-config-hide {
+  -webkit-transform: translate(40px, 0);
+  -moz-transform: translate(40px, 0);
+  -o-transform: translate(40px, 0);
+  -ms-transform: translate(40px, 0);
+  transform: translate(40px, 0);
+}
+#rightside .rightside-in {
+  -webkit-transform: translate(0, 0) !important;
+  -moz-transform: translate(0, 0) !important;
+  -o-transform: translate(0, 0) !important;
+  -ms-transform: translate(0, 0) !important;
+  transform: translate(0, 0) !important;
+  -webkit-animation: rightsideIn 0.3s;
+  -moz-animation: rightsideIn 0.3s;
+  -o-animation: rightsideIn 0.3s;
+  -ms-animation: rightsideIn 0.3s;
+  animation: rightsideIn 0.3s;
+}
+#rightside .rightside-out {
+  -webkit-animation: rightsideOut 0.3s;
+  -moz-animation: rightsideOut 0.3s;
+  -o-animation: rightsideOut 0.3s;
+  -ms-animation: rightsideOut 0.3s;
+  animation: rightsideOut 0.3s;
+}
+#rightside > div > i,
+#rightside > div > a,
+#rightside > div > div {
+  display: block;
+  margin-bottom: 4px;
+  margin-right: 4px;
+  width: 36px;
+  height: 36px;
+  background-color: #49b1f5;
+  color: #fff;
+  text-align: center;
+  text-decoration: none;
+  font-size: 16px;
+  line-height: 35px;
+  cursor: pointer;
+  border-radius: 3px;
 }
 #rightside > div > i:hover,
 #rightside > div > a:hover,
