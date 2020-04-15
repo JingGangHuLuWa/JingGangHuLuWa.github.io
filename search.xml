@@ -897,256 +897,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Redis进阶</title>
-    <url>/2020/03/14/Redis%E8%BF%9B%E9%98%B6/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h1 id="Redis发布订阅"><a href="#Redis发布订阅" class="headerlink" title="Redis发布订阅"></a>Redis发布订阅</h1><h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><blockquote>
-<p>Redis发布订阅(pub/sub)是一种消息通信模式:发送者(pub)发送消息,订阅者(sub)接收消息。<br>Redis窖户端可以订阅任意数量的频道。</p>
-</blockquote>
-<p>下图展示了频道channe11 ，以及订阅这个频道的三个客户端 一client2 、client5 和client1之间的关系</p>
-<p><img src="/" class="lazyload" data-src="/2020/03/14/Redis%E8%BF%9B%E9%98%B6/%E5%8F%91%E5%B8%83%E8%AE%A2%E9%98%85%E5%85%B3%E7%B3%BB.png"  alt></p>
-<p>当有新消息通过PUBLISH命令发送给频道channel1 时，这个消息就会被发送始订阅它的三个客户端:</p>
-<p><img src="/" class="lazyload" data-src="/2020/03/14/Redis%E8%BF%9B%E9%98%B6/%E5%8F%91%E5%B8%83%E8%AE%A2%E9%98%852.png"  alt></p>
-<p>配置订阅和发布</p>
-<h2 id="命令"><a href="#命令" class="headerlink" title="命令"></a>命令</h2><h3 id="订阅频道"><a href="#订阅频道" class="headerlink" title="订阅频道"></a>订阅频道</h3><blockquote>
-<p>SUBSCRIBE channel [channe1 …] :订阅给定的一个或多个频道的信息<br>PSUBSCRIBE pattern [pattern …] :订阅-一个或多个符合给定模式的频道。</p>
-</blockquote>
-<h3 id="发布频道"><a href="#发布频道" class="headerlink" title="发布频道:"></a>发布频道:</h3><blockquote>
-<p>PUBLISH channe1 message :将信息发送到指定的频道。</p>
-</blockquote>
-<h3 id="退订频道"><a href="#退订频道" class="headerlink" title="退订频道:"></a>退订频道:</h3><blockquote>
-<p>UNSUBSCRIBE [channel [channel …]] :指退订给定的频道。<br>PUNSUBSCRIBE [pattern [pattern …]]: 退订所有给定模式的频道。</p>
-</blockquote>
-<h2 id="应用场景"><a href="#应用场景" class="headerlink" title="应用场景"></a>应用场景</h2><blockquote>
-<p>这一功能最明显的用法就是构建实时消息系统,比如普通的即时聊天,群聊等功能<br>1、在一个博客网站中。有100个粉丝订阅了你,当你发布新文章。就可以推送消息给粉丝们。<br>2、微信公众号模式<br>微博,每个用户的粉丝都是该用户的订阅者，当用户发完微博 ,所有粉丝都将收 到他的动态;<br>新闻，资讯站点通常有多个频道.每个频道就是一个主题,用户可以通过主题来做订阅(如RSS) ,这样当新闻发布时,订阅者可以获得更新</p>
-<p>简单的应用场量的话，以门户网站为例当编辑更新了某推荐板块的内容后:</p>
-<p>1、CMS发布清除缓存的消息到channel (推送者推送消息)<br>2、门户网站的缓存系统通过chanel收到清除缓存的消息(订阅者收到消息) ,更新了推荐板块的缓存<br>3、还可以做集中配置中心管理,当配置信息发生更改后, 订阅配置信息的节点都可以收到通知消息</p>
-</blockquote>
-<h1 id="Redis多数据库"><a href="#Redis多数据库" class="headerlink" title="Redis多数据库"></a>Redis多数据库</h1><p>Redis下,数据库是由一个整数索引标识,而不是由一个数据库名称。默认情况下,一个客户端连接到数据库0。</p>
-<p><strong>redis配置文件中下面的参数来控制数据库总数;</strong></p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">database 16 &#x2F;&#x2F;从0开始</span><br></pre></td></tr></table></figure>
-
-<p><strong>select数据库 //数据库的切换</strong></p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">select index</span><br></pre></td></tr></table></figure>
-
-<p><strong>移动数据(将当前key移动另个库)</strong></p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">move key名称 数掘库</span><br></pre></td></tr></table></figure>
-
-<p>数据库清空;</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">flushdb :清除当前数据库的所有key</span><br><span class="line">flushall :清除整个Redis的数据库所有key</span><br></pre></td></tr></table></figure>
-
-<h1 id="Redis事务"><a href="#Redis事务" class="headerlink" title="Redis事务"></a>Redis事务</h1><p>Redis事务可以一次执行多个命令，( 按顺序地串行化执行,执行中不会被其它命令插入，不许加塞)</p>
-<h2 id="简介-1"><a href="#简介-1" class="headerlink" title="简介"></a>简介</h2><p>Redis事务可以一次执行多个命令(允许在-一次单独的步骤中执行一组命令) ,并且带有以下两个重要的保证:</p>
-<blockquote>
-<p>批量操作在发送EXEC命令前被放入队列缓存。<br>收到EXEC命令后进入事务执行,事务中任意命令执行失败,其余的命令依然被执行。<br>在事务执行过程,其他客户端提交的命令请求不会插入到事务执行命令序列中。</p>
-</blockquote>
-<p>1、Redis会将一个事务中的所有命令序列化,然后按顺序执行<br>2、执行中不会被其它命令插入,不许出现加赛行为</p>
-<h2 id="命令-1"><a href="#命令-1" class="headerlink" title="命令"></a>命令</h2><blockquote>
-<p>DISCARD<br>            :取消事务，放弃执行事务块内的所有命令。<br>EXEC<br>            :执行所有事务块内的命令。<br>MULTI<br>            :标记一个事务决的开始。<br>UNWATCH<br>            :取消WATCH 命令对所有key的监视。<br>WATCH key [key ..]<br>            :监视一个(或多个) key， 如果在事务执行之前这个(或这些) key被其他命令所改动,那么事务将被打断。</p>
-</blockquote>
-<p><strong>一个事务从开始到执行会经历以下三个阶段:</strong><br>开始事务。<br>命令入队。<br>执行事务。</p>
-<h2 id="示例1-MULTI-EXEC"><a href="#示例1-MULTI-EXEC" class="headerlink" title="示例1 MULTI EXEC"></a>示例1 MULTI EXEC</h2><p>转账功能，A向B转账50元</p>
-<p><img src="/" class="lazyload" data-src="/2020/03/14/Redis%E8%BF%9B%E9%98%B6/%E8%BD%AC%E8%B4%A6%E4%BA%8B%E5%8A%A1%E6%89%A7%E8%A1%8C%E8%BF%87%E7%A8%8B.png"  alt></p>
-<p>1、输入Multi命令开始,输入的命令都会依次进入命令队列中,但不会执行<br>2、直到输入Exec后，Redis会将之前的命令队列中的命令依次执行</p>
-<h2 id="示例2-DISCARD-放弃队列运行"><a href="#示例2-DISCARD-放弃队列运行" class="headerlink" title="示例2 DISCARD 放弃队列运行"></a>示例2 DISCARD 放弃队列运行</h2><p><img src="/" class="lazyload" data-src="/2020/03/14/Redis%E8%BF%9B%E9%98%B6/DISCARD%E6%94%BE%E5%BC%83%E9%98%9F%E5%88%97%E8%BF%90%E8%A1%8C.png"  alt></p>
-<p>1、输入Multi命令开始,输入的命令都会依次进入命令队列中,但不会执行<br>2、直到输入Exec后, Redis会将之前的命令队列中的命令依次执行。<br>3、命令队列的过程中可以通过discard来放弃队列运行</p>
-<h2 id="示例3事务的错误处理"><a href="#示例3事务的错误处理" class="headerlink" title="示例3事务的错误处理"></a>示例3事务的错误处理</h2><p>事务的错误处理:<br>如果执行的某个命令报出了错误,则只有报错的命令不会被执行,而其它的命令都会执行,不会回滚。</p>
-<p><img src="/" class="lazyload" data-src="/2020/03/14/Redis%E8%BF%9B%E9%98%B6/%E4%BA%8B%E5%8A%A1%E7%9A%84%E9%94%99%E8%AF%AF%E5%A4%84%E7%90%86.png"  alt></p>
-<h2 id="示例4事务的错误处理"><a href="#示例4事务的错误处理" class="headerlink" title="示例4事务的错误处理"></a>示例4事务的错误处理</h2><p>事务的错误处理:<br>队列中的某个命令出现了报告错误,执行时整个的所有队列都会被取消。</p>
-<p><img src="/" class="lazyload" data-src="/2020/03/14/Redis%E8%BF%9B%E9%98%B6/%E4%BA%8B%E5%8A%A1%E6%8A%A5%E5%91%8A%E9%94%99%E8%AF%AF%E5%A4%84%E7%90%86.png"  alt></p>
-<h2 id="示例5事务的WATCH"><a href="#示例5事务的WATCH" class="headerlink" title="示例5事务的WATCH"></a>示例5事务的WATCH</h2><p>WATCH key [key …]<br>:监视一个(或多个) key , 如果在事务执行之前这个(或这些) key被其他命令所改动,那么事务将被打断。</p>
-<p><strong>需求:某一帐户在一事务内进行操作,在提交事务前,另一个进程对该帐户进行操作。</strong></p>
-<p><img src="/" class="lazyload" data-src="/2020/03/14/Redis%E8%BF%9B%E9%98%B6/%E4%BA%8B%E5%8A%A1%E7%9A%84WATCH.png"  alt></p>
-<h2 id="应用场景-1"><a href="#应用场景-1" class="headerlink" title="应用场景"></a>应用场景</h2><p>一组命令必须同时都执行,或者都不执行。<br>我们想要保证一组命令 在执行的过程之中不被其它命令插入。</p>
-<h1 id="Redis-数据淘汰策略-redis-conf"><a href="#Redis-数据淘汰策略-redis-conf" class="headerlink" title="Redis 数据淘汰策略 redis.conf"></a>Redis 数据淘汰策略 redis.conf</h1><blockquote>
-<p>Reds官方给的警告，当内存不足时，Redis会根据配置的缓存策略淘汰部分Keys,以保证写入成功.当无淘汰策略时或没有找到适合淘汰的Key时,Redis直接返回out of memory错误。</p>
-</blockquote>
-<h2 id="最大缓存配置"><a href="#最大缓存配置" class="headerlink" title="最大缓存配置"></a><strong>最大缓存配置</strong></h2><p>在redis中，允许用户设置最大使用内存大小<br>maxmemory 512G</p>
-<h2 id="redis提供6种数据淘汰策略"><a href="#redis提供6种数据淘汰策略" class="headerlink" title="redis提供6种数据淘汰策略:"></a>redis提供6种数据淘汰策略:</h2><ul>
-<li>volatile-lru:从已设置过期时间的数据集中挑选最近最少使用的数据淘汰</li>
-<li>volatile-lfu:从已设置过期的Keys中，删除一段时间内使用次数最少使用的</li>
-<li>volatile-ttl:从已设置过期时间的数据集中挑选最近将要过期的数据淘汰</li>
-<li>volatile-random:从已设置过期时间的数据集中随机选择数据淘汰</li>
-<li>allkeys-lru:从数据集中挑选最近最少使用的数据淘汰</li>
-<li>allkeys-lfu:从所有Keys中，删除一段时间内使用次数最少使用的</li>
-<li>allkeys-random:从数据集中随机选择数据淘汰</li>
-<li>no-enviction (驱逐):禁止驱逐数据(不采用任何淘汰策略。默认即为此配置),针对写<br>操作，返回错误信息</li>
-</ul>
-<blockquote>
-<p>建议:了解了Redis的淘汰策略之后,在平时使用时应尽量主动设置/更新key的expire时间，<br>主动剔除不活跃的旧数据,有助于提升查询性能</p>
-</blockquote>
-<h1 id="Reids-持久化"><a href="#Reids-持久化" class="headerlink" title="Reids 持久化"></a>Reids 持久化</h1><h2 id="简介-2"><a href="#简介-2" class="headerlink" title="简介"></a>简介</h2><p>数据存放于:<br>内存:高效、断电(关机)内存数据会丢失<br>硬盘:读写速度慢于内存，断电数侧不会丢失</p>
-<h2 id="RDB"><a href="#RDB" class="headerlink" title="RDB"></a>RDB</h2><p><img src="/" class="lazyload" data-src="/2020/03/14/Redis%E8%BF%9B%E9%98%B6/dump.rdb.png"  alt></p>
-<p>RDB: 是redis的默认持久化机制。<br>RDB相当于照快照，保存的是一种状态。<br>几十G数据 一》几KB快照<br>快照是默认的持久化方式。这种方式是就是将内存中数据以快照的方式写入到二进制文件中,默认的文件名为dump. rdb.</p>
-<p><strong>优点:</strong><br>快照保存数据极快，还原数据极快<br>适用于灾难备份</p>
-<p><strong>缺点</strong>：小内存机器不适合使用。RDB机制符合要求就会使用</p>
-<p><strong>快照条件</strong>：</p>
-<p><img src="/" class="lazyload" data-src="/2020/03/14/Redis%E8%BF%9B%E9%98%B6/%E5%BF%AB%E7%85%A7%E6%9D%A1%E4%BB%B6.png"  alt></p>
-<h2 id="AOF"><a href="#AOF" class="headerlink" title="AOF"></a>AOF</h2><blockquote>
-<p>由于快照方式是在一定间隔时间做一次的， 所以如果redis意外down掉的话,就会丢失最<br>后一次快照后的所有修改。如果应用要求不能丢失任何修改的话，可以采用aof 持久化方式。</p>
-</blockquote>
-<blockquote>
-<p>Append-only flie:aof 比快照方式有更好的持久化性，是由于在使用aof持久化方式时,redis会将每一个收到的写命令都通过 write 函數追加到文件中(默认是appendonly.aof). 当redis重启时会通过重新执行文件中保存的写命令来在内存中重建整个数据库的内容。</p>
-</blockquote>
-<p><strong>有三种方式如下（默认是：每秒 fsync 一次）</strong></p>
-<ul>
-<li>appendonly yes //启用aof 持久化方式</li>
-<li>#appendfsync always //收到写命令就立即写入磁盘，最慢，但是保证完全的持久化</li>
-<li>appendfsyne everysec //每秒钟写入磁盘一次，在性能和持久化方面做了很好的折中</li>
-<li>#appendfsync no //完全依赖os, 性能最好,持久化没保证</li>
-</ul>
-<p><strong>产生的问题</strong></p>
-<p>aof 的方式也同时带来了另一个问题。持久化文件会变的越来越大。例如我们调用incr test<br>命令100次，文件中必须保存全部的100 条 命令，其实有99 条都是多余的。</p>
-<h1 id="Redis缓存与数据库一致性"><a href="#Redis缓存与数据库一致性" class="headerlink" title="Redis缓存与数据库一致性"></a>Redis缓存与数据库一致性</h1><h2 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h2><h3 id="一、实时同步"><a href="#一、实时同步" class="headerlink" title="一、实时同步"></a>一、实时同步</h3><blockquote>
-<p>对强一致要求比较高的，应采用实时同步方案，即查询缓存查询不到再从DB查询，保存到缓存; 更新缓存时，先更新数据库，再将缓存的设置过期(建议不要去更新缓存内容，直接设置缓存过期)。<br>@Cacheable: 查询时使用,注意Long类型需转换为Sting类型,否则会抛异常<br>@CachePut: 更新时使用，使用此注解, -一定会从 DB 上查询数据<br>@CacheEvict: 删除时使用;<br>@Caching: 组合用法</p>
-</blockquote>
-<h3 id="二、异步队列"><a href="#二、异步队列" class="headerlink" title="二、异步队列"></a>二、异步队列</h3><blockquote>
-<p>对于并发程度较高的，可采用异步队列的方式同步，可采用kafka等消息中间件处理消息生产和消费。</p>
-</blockquote>
-<p><img src="/" class="lazyload" data-src="/2020/03/14/Redis%E8%BF%9B%E9%98%B6/%E5%BC%82%E6%AD%A5%E9%98%9F%E5%88%97.png"  alt></p>
-<h3 id="三、使用阿里的同步工具-canal"><a href="#三、使用阿里的同步工具-canal" class="headerlink" title="三、使用阿里的同步工具 canal"></a>三、使用阿里的同步工具 canal</h3><blockquote>
-<p>canal 实现方式是模拟mysql slave和master的同步机制，监控DB bitlog的日志更新来触发缓存的更新，此种方法可以解放程序员双手，减少工作量，但在使用时有些局限性。</p>
-</blockquote>
-<p><strong>MySQL主从复制实现</strong></p>
-<p><img src="/" class="lazyload" data-src="/2020/03/14/Redis%E8%BF%9B%E9%98%B6/MySQL%E4%B8%BB%E4%BB%8E%E5%A4%8D%E5%88%B6%E5%AE%9E%E7%8E%B0.png"  alt></p>
-<ol>
-<li>master将改变记录到二进制日志(binary log)中(这些记录叫做二进制日志事件，<br>binary log events ,可以通过show binlog events进行查看) </li>
-<li>slave 将master的binary log events拷贝到它的中继日志(relay log);</li>
-<li>slave 重做中继日志中的事件，将改变反映它自己的数据。</li>
-</ol>
-<p><strong>canal的工作原理：</strong></p>
-<p><img src="/" class="lazyload" data-src="/2020/03/14/Redis%E8%BF%9B%E9%98%B6/canal%E7%9A%84%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86.png"  alt></p>
-<ol>
-<li>canal 模拟mysql slave 的交互协议.伪装自己为mysql slave 向mysql master发送dump协议</li>
-<li>mysql master收到dump请求，开始推送binary log给 slave(也就是canal)</li>
-<li>canal解析 binary log对象(原始为byte 流)</li>
-</ol>
-<h3 id="四、采用UDF-自定义函数的方式"><a href="#四、采用UDF-自定义函数的方式" class="headerlink" title="四、采用UDF 自定义函数的方式"></a>四、采用UDF 自定义函数的方式</h3><p>面对mysql的API进行编程，利用触发器进行缓存同步，但UDF主要是c/c++语言实现，学习成本高，</p>
-<h1 id="Redis-主从复制"><a href="#Redis-主从复制" class="headerlink" title="Redis 主从复制"></a>Redis 主从复制</h1><h2 id="简介-3"><a href="#简介-3" class="headerlink" title="简介"></a>简介</h2><blockquote>
-<p>应用场景：电子商务网站上的商品，一般都是一次上传，无数次浏览的，说专业点就是“多读少些”。</p>
-<p><strong>主从复制：</strong></p>
-<p>一个Redis服务可以有多个该服务的复制品，这个Redis服务称为Master，其它复制为Slaves</p>
-</blockquote>
-<p><img src="/" class="lazyload" data-src="/2020/03/14/Redis%E8%BF%9B%E9%98%B6/%E4%B8%BB%E4%BB%8E%E5%A4%8D%E5%88%B6.png"  alt></p>
-<blockquote>
-<p>如图中所示，我们将一台Redis 服务器作主库(Master）,其他三台作为从库(Slave)，主库只负责写数据，每次有数据更新都将更新的数据同步到它所有的从库，而从库只负责读数据。这样一来，就有了两个好处:<br>1、读写分离，不仅可以提高服务器的负载能力,并且可以根据读请求的规模自由增加或者减少从库的数量。<br>2、数据被复制成了了好几份，就算有一台机器出现故障，也可以使用其他机器的数据快速恢复。<br>需要注意的是: 在Redis主从模式中，一台主库可以拥有多个从库，但是一个从<br>库只能隶属于一个主库。</p>
-</blockquote>
-<h2 id="Redis主从复制配置"><a href="#Redis主从复制配置" class="headerlink" title="Redis主从复制配置"></a>Redis主从复制配置</h2><p><a href="https://www.cnblogs.com/web424/p/6908647.html" target="_blank" rel="noopener">https://www.cnblogs.com/web424/p/6908647.html</a></p>
-<h1 id="Redis-Cluster-集群"><a href="#Redis-Cluster-集群" class="headerlink" title="Redis Cluster 集群"></a>Redis Cluster 集群</h1><h2 id="简介-4"><a href="#简介-4" class="headerlink" title="简介"></a>简介</h2><blockquote>
-<p>为什么使用redis-cluster?<br>为了在大流量访问下提供稳定的业务，集群化是存储的必然形态<br>未来的发展趋势肯定是云计算和大数据的紧密结合<br>只有分布式架构能满足要求</p>
-</blockquote>
-<p><img src="/" class="lazyload" data-src="/2020/03/14/Redis%E8%BF%9B%E9%98%B6/Redis%E9%9B%86%E7%BE%A4%E6%90%AD%E5%BB%BA%E6%96%B9%E6%A1%88.png"  alt></p>
-<blockquote>
-<p>Redis集群搭建的方式有多种，但从redis 3. 0之后版本支持redis-cluster集群，至少需要3(Master) +3 (Slave)才能建立集群。Redis-Cluster采用无中心结构，每个节点保存数据和整个集群状态,每个节点都和其他所有节点连接。其redis-cluster架构图如上:</p>
-</blockquote>
-<h2 id="Redis-Cluster-集群特点"><a href="#Redis-Cluster-集群特点" class="headerlink" title="Redis Cluster 集群特点"></a>Redis Cluster 集群特点</h2><blockquote>
-<ol>
-<li>所有的redis节点彼此互联(PING-PONG机制)，内部使用二进制协议优化传输速度和带宽。</li>
-<li>节点的fail是通过集群中超过半数的节点检测失效时才生效。</li>
-<li>客户端与redis节点直连，不需要中间proxy层客户端不需要连接集群所有节点,连接集群中任何一个可用节点即可，</li>
-<li>redis-cluster把所有的物理节点映射到[0-16383] slot上 (不一定是平均分配) cluster负责维护</li>
-<li>Redis集群预分好 <strong>16384</strong> 个哈希槽，当需要在Redis 集群中放置一个 key-value时，redis 先对key 使用 <strong>crc16</strong> 算法算出-一个结果，然后把结果对 16384 求余数， 这样每个key 都会对应一个编号在0-16383 之间的哈希槽，redis 会根据节点数量大致均等的将哈希槽映射到不同的节点</li>
-</ol>
-</blockquote>
-<h2 id="Redis-Cluster-容错"><a href="#Redis-Cluster-容错" class="headerlink" title="Redis Cluster 容错"></a>Redis Cluster 容错</h2><blockquote>
-<p>容错性： 是指软件检测应用程序所运行的软件或硬件中发生的错误并从错误中恢复的能力，通常可以从系统的可靠性、可用性、可测性等几个方面来衡量。</p>
-</blockquote>
-<p><img src="/" class="lazyload" data-src="/2020/03/14/Redis%E8%BF%9B%E9%98%B6/Redis-cluster%E5%AE%B9%E9%94%99.png"  alt></p>
-<h2 id="Redis-Cluster-节点分配"><a href="#Redis-Cluster-节点分配" class="headerlink" title="Redis-Cluster 节点分配"></a>Redis-Cluster 节点分配</h2><blockquote>
-<p>(官方推荐) 三个主节点分别是: A, B, C 三个节点，它们可以是一台机器上的三个端口，也可以是三台不同的服务器。那么，采用哈希槽(hash slot)的方式来分配16384个slot的话，它们三个节点分别承担的slot区间是<br>节点A覆盖9- 5460;<br>节点B覆盖5461 - 10922;<br>节点C覆盖10923 - 16383<br>新增一个主节点:<br>新增一个节点D，redis cluster的这种做法是从各个节点的前面各拿取一部分slot到D上<br>节点A覆盖1365 - 5460<br>节点B覆盖6827 - 10922<br>节点C覆盖12288 -16383<br>节点D覆盖0 - 1364, 5461-6826 ,10923 - 12287</p>
-</blockquote>
-<h2 id="Redus-Cluster-集群搭建"><a href="#Redus-Cluster-集群搭建" class="headerlink" title="Redus Cluster 集群搭建"></a>Redus Cluster 集群搭建</h2><h3 id="简介-5"><a href="#简介-5" class="headerlink" title="简介"></a>简介</h3><blockquote>
-<p>集群中至少应该有奇数个节点，所以搭建集群最少需要3台主机。同时每个节点至少有一个备份节点，所以下面最少需要创建使用6台机器，才能完成Redis Cluster集群(主节点、备份节点由redis-cluster集群确定)</p>
-<p>真集群：准备 至少 6 台服务器</p>
-<p>例： 192.168.1.1： 6379</p>
-<p>​         192.168.1.2： 6379</p>
-<p>​         192.168.1.3： 6379 .。。。。。</p>
-<p>假集群： 在一台服务器上存在 6 个 redis 服务</p>
-<p>例：192.168.1.1：6379 6380 6381 6382 .。。。。。</p>
-</blockquote>
-<h3 id="搭建流程"><a href="#搭建流程" class="headerlink" title="搭建流程"></a>搭建流程</h3><p>文献<a href="https://www.redis.com.cn/topics/cluster-tutorial" target="_blank" rel="noopener">https://www.redis.com.cn/topics/cluster-tutorial</a></p>
-<h4 id="创建节点安装目录-redis-cluster"><a href="#创建节点安装目录-redis-cluster" class="headerlink" title="创建节点安装目录 redis_cluster"></a>创建节点安装目录 <strong>redis_cluster</strong></h4><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">mkdir &#x2F;usr&#x2F;local&#x2F;redis_cluster</span><br></pre></td></tr></table></figure>
-
-<p>在 redis_cluster 目录下，创建 7001 到 7006 文件夹</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">mkdir 7001 ......</span><br></pre></td></tr></table></figure>
-
-<p>将redis-conf 分别拷贝到 这些文件夹下</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">cp redis.conf &#x2F;usr&#x2F;local&#x2F;redis_cluster&#x2F;7001</span><br></pre></td></tr></table></figure>
-
-<p>分别修改配置文件如下内容：</p>
-<p>同时protected-mode是为了禁止公网访问redis cache,加强redis安全的。<br>它启用的条件，有两个:</p>
-<p>1、没有 bind IP</p>
-<p>2、没有设置访问密码</p>
-<p>由于Linux上的redis处于安全保护模式这就让你无法从虚拟机外部去轻松建立连接。<br>如果外部访问: redis.conf中设置保护模式为 <strong>protected-mode no</strong></p>
-<h4 id="修改7001到7006下的-redis-conf-文件"><a href="#修改7001到7006下的-redis-conf-文件" class="headerlink" title="修改7001到7006下的 redis.conf 文件"></a>修改7001到7006下的 redis.conf 文件</h4><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">#关闭保护模式用于公网访问</span><br><span class="line">protected-mode no</span><br><span class="line">port 7000</span><br><span class="line"></span><br><span class="line">#开启集群模式</span><br><span class="line">cluster-enabled yes</span><br><span class="line">cluster-config-file nodes-7000.conf</span><br><span class="line">cluster-node-timeout 5000</span><br><span class="line"></span><br><span class="line">#后台启动</span><br><span class="line">daemonize yes</span><br><span class="line">pidfile &#x2F;var&#x2F;run&#x2F;redis_7000.pid &#x2F;&#x2F;可以不写</span><br><span class="line">logfile &quot;7000.log&quot;  &#x2F;&#x2F;可以不写</span><br><span class="line"></span><br><span class="line">#dir &#x2F;redis&#x2F;data</span><br><span class="line">#此处绑定ip可以是阿里内网ip和本地ip也可以直接注释掉该项</span><br><span class="line">bind 127.0.0.1</span><br><span class="line"></span><br><span class="line">#用于连接主节点密码</span><br><span class="line">masterauth yizhiduxiu</span><br><span class="line"></span><br><span class="line">#设置redis密码各个节点请保持密码一致</span><br><span class="line">requirepass yizhiduxiu</span><br></pre></td></tr></table></figure>
-
-<h4 id="依次启动各个节点"><a href="#依次启动各个节点" class="headerlink" title="依次启动各个节点"></a>依次启动各个节点</h4><blockquote>
-<p>将安装的redis 目录下的 src 复制到 redis_cluster下，方便启动服务器</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">cd redis-5.0.7</span><br><span class="line">cp -r .&#x2F;src&#x2F; &#x2F;usr&#x2F;local&#x2F;redis_cluster&#x2F;  &#x2F;&#x2F;-r复制src目录下级联的所有文件</span><br></pre></td></tr></table></figure>
-</blockquote>
-<p>启动各个redis节点</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">cd &#x2F;usr&#x2F;local&#x2F;redis_cluster</span><br><span class="line">.&#x2F;src&#x2F;redis-server .&#x2F;7000&#x2F;redis.conf</span><br></pre></td></tr></table></figure>
-
-<p><img src="/" class="lazyload" data-src="/2020/03/14/Redis%E8%BF%9B%E9%98%B6/%E9%9B%86%E7%BE%A4%E8%8A%82%E7%82%B9%E5%90%AF%E5%8A%A8%E6%88%90%E5%8A%9F.png"  alt></p>
-<p>启动成功</p>
-<h3 id="创建集群"><a href="#创建集群" class="headerlink" title="创建集群"></a>创建集群</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">cd &#x2F;usr&#x2F;local&#x2F;redis_cluster</span><br><span class="line">.&#x2F;src&#x2F;redis-cli --cluster create 127.0.0.1:7001 127.0.0.1:7002 127.0.0.1:7003 127.0.0.1:7004 127.0.0.1:7005 127.0.0.1:7006 --cluster-replicas 1 -a yizhiduxiu</span><br><span class="line"></span><br><span class="line"># --cluster-replicas 1  表示主从配置比，1表示的是1:1，前三个是主，后三个是从</span><br><span class="line"># 若配置文件中设置的密码，则还需要加上-a passwod</span><br></pre></td></tr></table></figure>
-
-<p>创建过程中可能要求输入 yes 输入yes 就完事了</p>
-<p><img src="/" class="lazyload" data-src="/2020/03/14/Redis%E8%BF%9B%E9%98%B6/%E9%9B%86%E7%BE%A4%E5%88%9B%E5%BB%BA%E6%88%90%E5%8A%9F.png"  alt></p>
-<h3 id="Redis-Cluster-集群验证"><a href="#Redis-Cluster-集群验证" class="headerlink" title="Redis Cluster 集群验证"></a>Redis Cluster 集群验证</h3><blockquote>
-<p>在某台机器上(或)连接集群的7001端口的节点:</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">redis-cli -h 127.0.0.1 -c -p 7001 -a yizhiduxiu  &#x2F;&#x2F; -c 可连接到集群</span><br></pre></td></tr></table></figure>
-
-<p>加参数 -C 可连接到集群，因为上面redis.conf 将bind改为了ip地址，所以-h参数不可以省略。<br>(在该节点下添加对应key数据)<br>启动另一个集群中的客户节点:例如: 7005 .<br>进行读取命令。</p>
-<p>redis cluster在设计的时候，就考虑到了去中心化，去中间件，也就是说，集群中的每个节点都是平等的关系，都是对等的，每个节点都保存各自的数据和整个集群的状态。每个节点都和其他所有节点连接，而且这些连接保持活跃，这样就保证了我们只需要连接集群中的任意一个节 点，就可以获取到其他节点的数据</p>
-</blockquote>
-<h3 id="基本命令"><a href="#基本命令" class="headerlink" title="基本命令"></a>基本命令</h3><p>info replication 通过Cluster Nodes命令和Cluster Info命令来看看集群效果</p>
-<p><img src="/" class="lazyload" data-src="/2020/03/14/Redis%E8%BF%9B%E9%98%B6/%E4%BD%BF%E7%94%A8inforeplication.png"  alt></p>
-<h3 id="测试集群数据"><a href="#测试集群数据" class="headerlink" title="测试集群数据"></a>测试集群数据</h3><h4 id="输入命令-cluster-nodes"><a href="#输入命令-cluster-nodes" class="headerlink" title="输入命令 cluster nodes"></a>输入命令 cluster nodes</h4><p><img src="/" class="lazyload" data-src="/2020/03/14/Redis%E8%BF%9B%E9%98%B6/%E9%9B%86%E7%BE%A4id.png"  alt></p>
-<p>每个Redis的节点都有一个ID值，此ID将被此特定redls实例永久使用，以便实例在集群上下文中具有唯一的名称。每个节点都会记住 使用此ID的每个其他节点，而不是通过IP或端口。IP地址和端口可能会发生变化，但唯一的节点标识符在节点的整个生命周期内都不会改变。我们简单地称这个标识符为节点ID。</p>
-<h3 id="测试数据"><a href="#测试数据" class="headerlink" title="测试数据"></a>测试数据</h3><p><img src="/" class="lazyload" data-src="/2020/03/14/Redis%E8%BF%9B%E9%98%B6/%E6%B5%8B%E8%AF%95%E6%95%B0%E6%8D%AE.png"  alt></p>
-<h3 id="Redis-Cluster-集群-启动关闭"><a href="#Redis-Cluster-集群-启动关闭" class="headerlink" title="Redis Cluster 集群 启动关闭"></a>Redis Cluster 集群 启动关闭</h3><h4 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h4><p><strong>/usr/local/redis_cluster 目录下编写脚本文件：vim start.sh</strong></p>
-<p>内容如下：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#x2F;usr&#x2F;local&#x2F;redis_cluster&#x2F;src&#x2F;redis-server .&#x2F;7001&#x2F;redis.conf</span><br><span class="line">&#x2F;usr&#x2F;local&#x2F;redis_cluster&#x2F;src&#x2F;redis-server .&#x2F;7002&#x2F;redis.conf</span><br><span class="line">&#x2F;usr&#x2F;local&#x2F;redis_cluster&#x2F;src&#x2F;redis-server .&#x2F;7003&#x2F;redis.conf</span><br><span class="line">&#x2F;usr&#x2F;local&#x2F;redis_cluster&#x2F;src&#x2F;redis-server .&#x2F;7004&#x2F;redis.conf</span><br><span class="line">&#x2F;usr&#x2F;local&#x2F;redis_cluster&#x2F;src&#x2F;redis-server .&#x2F;7005&#x2F;redis.conf</span><br><span class="line">&#x2F;usr&#x2F;local&#x2F;redis_cluster&#x2F;src&#x2F;redis-server .&#x2F;7006&#x2F;redis.conf</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">chmod u+x start.sh  &#x2F;&#x2F;然后执行将start.sh 变成可执行文件</span><br><span class="line">.&#x2F;start.sh  &#x2F;&#x2F;在当前目录下启动</span><br></pre></td></tr></table></figure>
-
-
-
-<h4 id="关闭"><a href="#关闭" class="headerlink" title="关闭"></a>关闭</h4><p><strong>/usr/local/redis_cluster 目录下编写脚本文件：vim shutdown.sh</strong></p>
-<p>内容如下：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#x2F;usr&#x2F;local&#x2F;redis_cluster&#x2F;src&#x2F;redis-cli -c -h 127.0.0.1 -p 7001 -a yizhiduxiu shutdown</span><br><span class="line">&#x2F;usr&#x2F;local&#x2F;redis_cluster&#x2F;src&#x2F;redis-cli -c -h 127.0.0.1 -p 7002 -a yizhiduxiu  shutdown</span><br><span class="line">&#x2F;usr&#x2F;local&#x2F;redis_cluster&#x2F;src&#x2F;redis-cli -c -h 127.0.0.1 -p 7003 -a yizhiduxiu  shutdown</span><br><span class="line">&#x2F;usr&#x2F;local&#x2F;redis_cluster&#x2F;src&#x2F;redis-cli -c -h 127.0.0.1 -p 7004 -a yizhiduxiu  shutdown</span><br><span class="line">&#x2F;usr&#x2F;local&#x2F;redis_cluster&#x2F;src&#x2F;redis-cli -c -h 127.0.0.1 -p 7005 -a yizhiduxiu  shutdown</span><br><span class="line">&#x2F;usr&#x2F;local&#x2F;redis_cluster&#x2F;src&#x2F;redis-cli -c -h 127.0.0.1 -p 7006 -a yizhiduxiu  shutdown</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">chmod u+x shutdown.sh  &#x2F;&#x2F;然后执行将shutdown.sh 变成可执行文件</span><br><span class="line">.&#x2F;shutdown.sh  &#x2F;&#x2F;在当前目录下启动</span><br><span class="line">查看：ps aux | grep redis</span><br><span class="line">官方：&#x2F;usr&#x2F;local&#x2F;redis_cluster&#x2F;redis-cli -a yizhiduxiu -c -h 127.0.0.1 -p 7001</span><br><span class="line">提示：-a访问服务端密码， -c 表示集群模式 -h指定ip地址 -p指定端口号</span><br></pre></td></tr></table></figure>
-
-
-
-<h3 id="开启端口权限"><a href="#开启端口权限" class="headerlink" title="开启端口权限"></a>开启端口权限</h3><p>如果想要通过外部访问 Redis 集群，那么就要开发端口</p>
-<p>查看已经开放的端口： </p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">firewall-cmd --list-ports</span><br></pre></td></tr></table></figure>
-
-<p>开启端口：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">firewall-cmd --zone&#x3D;public --add-port&#x3D;7001&#x2F;tcp --permanent</span><br></pre></td></tr></table></figure>
-
-<p>重启防火墙：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">firewall-cmd --reload</span><br></pre></td></tr></table></figure>
-
-<h3 id="Redis-Cluster总结"><a href="#Redis-Cluster总结" class="headerlink" title="Redis Cluster总结"></a>Redis Cluster总结</h3><blockquote>
-<p>Redis cluster为了保证数据的高可用性,加入了主从模式,一个主节点对应一个或多个从节点,主节点提供数据存取,从节点则是以主节点拉取数据备份,当这个主节点挂掉后,就会有这个从节点选取一个来充当主节点，从而保证集群不会挂掉。</p>
-<p>集群有ABC三个主节点如果这3个节点都没有加入从节点,如果B挂掉了,我们就无法访问整个集群了, A和C的slot也无法访问，</p>
-<p>所以我们在集群建立的时候,一定要为每个主节点都添加了从节点比如像这样，集群包含主节点A. B、 C,以及从节点A1、B1. C1, 那么即使B挂掉系统也可以继续正确工作。</p>
-<p>B1节点替代了B节点,所以Redis集群将会选择B1节点作为新的主节点,集群将会继续正确地提供服务。当B重新开启后,它就会变成B1的从节点。</p>
-<p>不过需要注意,如果节点B和B1同时挂了, Redis集群就无法继续正确地提供服务了。</p>
-</blockquote>
-]]></content>
-      <categories>
-        <category>数据库</category>
-        <category>Redis</category>
-      </categories>
-      <tags>
-        <tag>Redis</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Redis</title>
     <url>/2020/03/03/Redis/</url>
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h1 id="Redis简介"><a href="#Redis简介" class="headerlink" title="Redis简介"></a>Redis简介</h1><p><img src="/" class="lazyload" data-src="/2020/03/03/Redis/redis-white.png"  alt></p>
@@ -1538,6 +1288,256 @@
       </tags>
   </entry>
   <entry>
+    <title>Redis进阶</title>
+    <url>/2020/03/14/Redis%E8%BF%9B%E9%98%B6/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h1 id="Redis发布订阅"><a href="#Redis发布订阅" class="headerlink" title="Redis发布订阅"></a>Redis发布订阅</h1><h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><blockquote>
+<p>Redis发布订阅(pub/sub)是一种消息通信模式:发送者(pub)发送消息,订阅者(sub)接收消息。<br>Redis窖户端可以订阅任意数量的频道。</p>
+</blockquote>
+<p>下图展示了频道channe11 ，以及订阅这个频道的三个客户端 一client2 、client5 和client1之间的关系</p>
+<p><img src="/" class="lazyload" data-src="/2020/03/14/Redis%E8%BF%9B%E9%98%B6/%E5%8F%91%E5%B8%83%E8%AE%A2%E9%98%85%E5%85%B3%E7%B3%BB.png"  alt></p>
+<p>当有新消息通过PUBLISH命令发送给频道channel1 时，这个消息就会被发送始订阅它的三个客户端:</p>
+<p><img src="/" class="lazyload" data-src="/2020/03/14/Redis%E8%BF%9B%E9%98%B6/%E5%8F%91%E5%B8%83%E8%AE%A2%E9%98%852.png"  alt></p>
+<p>配置订阅和发布</p>
+<h2 id="命令"><a href="#命令" class="headerlink" title="命令"></a>命令</h2><h3 id="订阅频道"><a href="#订阅频道" class="headerlink" title="订阅频道"></a>订阅频道</h3><blockquote>
+<p>SUBSCRIBE channel [channe1 …] :订阅给定的一个或多个频道的信息<br>PSUBSCRIBE pattern [pattern …] :订阅-一个或多个符合给定模式的频道。</p>
+</blockquote>
+<h3 id="发布频道"><a href="#发布频道" class="headerlink" title="发布频道:"></a>发布频道:</h3><blockquote>
+<p>PUBLISH channe1 message :将信息发送到指定的频道。</p>
+</blockquote>
+<h3 id="退订频道"><a href="#退订频道" class="headerlink" title="退订频道:"></a>退订频道:</h3><blockquote>
+<p>UNSUBSCRIBE [channel [channel …]] :指退订给定的频道。<br>PUNSUBSCRIBE [pattern [pattern …]]: 退订所有给定模式的频道。</p>
+</blockquote>
+<h2 id="应用场景"><a href="#应用场景" class="headerlink" title="应用场景"></a>应用场景</h2><blockquote>
+<p>这一功能最明显的用法就是构建实时消息系统,比如普通的即时聊天,群聊等功能<br>1、在一个博客网站中。有100个粉丝订阅了你,当你发布新文章。就可以推送消息给粉丝们。<br>2、微信公众号模式<br>微博,每个用户的粉丝都是该用户的订阅者，当用户发完微博 ,所有粉丝都将收 到他的动态;<br>新闻，资讯站点通常有多个频道.每个频道就是一个主题,用户可以通过主题来做订阅(如RSS) ,这样当新闻发布时,订阅者可以获得更新</p>
+<p>简单的应用场量的话，以门户网站为例当编辑更新了某推荐板块的内容后:</p>
+<p>1、CMS发布清除缓存的消息到channel (推送者推送消息)<br>2、门户网站的缓存系统通过chanel收到清除缓存的消息(订阅者收到消息) ,更新了推荐板块的缓存<br>3、还可以做集中配置中心管理,当配置信息发生更改后, 订阅配置信息的节点都可以收到通知消息</p>
+</blockquote>
+<h1 id="Redis多数据库"><a href="#Redis多数据库" class="headerlink" title="Redis多数据库"></a>Redis多数据库</h1><p>Redis下,数据库是由一个整数索引标识,而不是由一个数据库名称。默认情况下,一个客户端连接到数据库0。</p>
+<p><strong>redis配置文件中下面的参数来控制数据库总数;</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">database 16 &#x2F;&#x2F;从0开始</span><br></pre></td></tr></table></figure>
+
+<p><strong>select数据库 //数据库的切换</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">select index</span><br></pre></td></tr></table></figure>
+
+<p><strong>移动数据(将当前key移动另个库)</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">move key名称 数掘库</span><br></pre></td></tr></table></figure>
+
+<p>数据库清空;</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">flushdb :清除当前数据库的所有key</span><br><span class="line">flushall :清除整个Redis的数据库所有key</span><br></pre></td></tr></table></figure>
+
+<h1 id="Redis事务"><a href="#Redis事务" class="headerlink" title="Redis事务"></a>Redis事务</h1><p>Redis事务可以一次执行多个命令，( 按顺序地串行化执行,执行中不会被其它命令插入，不许加塞)</p>
+<h2 id="简介-1"><a href="#简介-1" class="headerlink" title="简介"></a>简介</h2><p>Redis事务可以一次执行多个命令(允许在-一次单独的步骤中执行一组命令) ,并且带有以下两个重要的保证:</p>
+<blockquote>
+<p>批量操作在发送EXEC命令前被放入队列缓存。<br>收到EXEC命令后进入事务执行,事务中任意命令执行失败,其余的命令依然被执行。<br>在事务执行过程,其他客户端提交的命令请求不会插入到事务执行命令序列中。</p>
+</blockquote>
+<p>1、Redis会将一个事务中的所有命令序列化,然后按顺序执行<br>2、执行中不会被其它命令插入,不许出现加赛行为</p>
+<h2 id="命令-1"><a href="#命令-1" class="headerlink" title="命令"></a>命令</h2><blockquote>
+<p>DISCARD<br>            :取消事务，放弃执行事务块内的所有命令。<br>EXEC<br>            :执行所有事务块内的命令。<br>MULTI<br>            :标记一个事务决的开始。<br>UNWATCH<br>            :取消WATCH 命令对所有key的监视。<br>WATCH key [key ..]<br>            :监视一个(或多个) key， 如果在事务执行之前这个(或这些) key被其他命令所改动,那么事务将被打断。</p>
+</blockquote>
+<p><strong>一个事务从开始到执行会经历以下三个阶段:</strong><br>开始事务。<br>命令入队。<br>执行事务。</p>
+<h2 id="示例1-MULTI-EXEC"><a href="#示例1-MULTI-EXEC" class="headerlink" title="示例1 MULTI EXEC"></a>示例1 MULTI EXEC</h2><p>转账功能，A向B转账50元</p>
+<p><img src="/" class="lazyload" data-src="/2020/03/14/Redis%E8%BF%9B%E9%98%B6/%E8%BD%AC%E8%B4%A6%E4%BA%8B%E5%8A%A1%E6%89%A7%E8%A1%8C%E8%BF%87%E7%A8%8B.png"  alt></p>
+<p>1、输入Multi命令开始,输入的命令都会依次进入命令队列中,但不会执行<br>2、直到输入Exec后，Redis会将之前的命令队列中的命令依次执行</p>
+<h2 id="示例2-DISCARD-放弃队列运行"><a href="#示例2-DISCARD-放弃队列运行" class="headerlink" title="示例2 DISCARD 放弃队列运行"></a>示例2 DISCARD 放弃队列运行</h2><p><img src="/" class="lazyload" data-src="/2020/03/14/Redis%E8%BF%9B%E9%98%B6/DISCARD%E6%94%BE%E5%BC%83%E9%98%9F%E5%88%97%E8%BF%90%E8%A1%8C.png"  alt></p>
+<p>1、输入Multi命令开始,输入的命令都会依次进入命令队列中,但不会执行<br>2、直到输入Exec后, Redis会将之前的命令队列中的命令依次执行。<br>3、命令队列的过程中可以通过discard来放弃队列运行</p>
+<h2 id="示例3事务的错误处理"><a href="#示例3事务的错误处理" class="headerlink" title="示例3事务的错误处理"></a>示例3事务的错误处理</h2><p>事务的错误处理:<br>如果执行的某个命令报出了错误,则只有报错的命令不会被执行,而其它的命令都会执行,不会回滚。</p>
+<p><img src="/" class="lazyload" data-src="/2020/03/14/Redis%E8%BF%9B%E9%98%B6/%E4%BA%8B%E5%8A%A1%E7%9A%84%E9%94%99%E8%AF%AF%E5%A4%84%E7%90%86.png"  alt></p>
+<h2 id="示例4事务的错误处理"><a href="#示例4事务的错误处理" class="headerlink" title="示例4事务的错误处理"></a>示例4事务的错误处理</h2><p>事务的错误处理:<br>队列中的某个命令出现了报告错误,执行时整个的所有队列都会被取消。</p>
+<p><img src="/" class="lazyload" data-src="/2020/03/14/Redis%E8%BF%9B%E9%98%B6/%E4%BA%8B%E5%8A%A1%E6%8A%A5%E5%91%8A%E9%94%99%E8%AF%AF%E5%A4%84%E7%90%86.png"  alt></p>
+<h2 id="示例5事务的WATCH"><a href="#示例5事务的WATCH" class="headerlink" title="示例5事务的WATCH"></a>示例5事务的WATCH</h2><p>WATCH key [key …]<br>:监视一个(或多个) key , 如果在事务执行之前这个(或这些) key被其他命令所改动,那么事务将被打断。</p>
+<p><strong>需求:某一帐户在一事务内进行操作,在提交事务前,另一个进程对该帐户进行操作。</strong></p>
+<p><img src="/" class="lazyload" data-src="/2020/03/14/Redis%E8%BF%9B%E9%98%B6/%E4%BA%8B%E5%8A%A1%E7%9A%84WATCH.png"  alt></p>
+<h2 id="应用场景-1"><a href="#应用场景-1" class="headerlink" title="应用场景"></a>应用场景</h2><p>一组命令必须同时都执行,或者都不执行。<br>我们想要保证一组命令 在执行的过程之中不被其它命令插入。</p>
+<h1 id="Redis-数据淘汰策略-redis-conf"><a href="#Redis-数据淘汰策略-redis-conf" class="headerlink" title="Redis 数据淘汰策略 redis.conf"></a>Redis 数据淘汰策略 redis.conf</h1><blockquote>
+<p>Reds官方给的警告，当内存不足时，Redis会根据配置的缓存策略淘汰部分Keys,以保证写入成功.当无淘汰策略时或没有找到适合淘汰的Key时,Redis直接返回out of memory错误。</p>
+</blockquote>
+<h2 id="最大缓存配置"><a href="#最大缓存配置" class="headerlink" title="最大缓存配置"></a><strong>最大缓存配置</strong></h2><p>在redis中，允许用户设置最大使用内存大小<br>maxmemory 512G</p>
+<h2 id="redis提供6种数据淘汰策略"><a href="#redis提供6种数据淘汰策略" class="headerlink" title="redis提供6种数据淘汰策略:"></a>redis提供6种数据淘汰策略:</h2><ul>
+<li>volatile-lru:从已设置过期时间的数据集中挑选最近最少使用的数据淘汰</li>
+<li>volatile-lfu:从已设置过期的Keys中，删除一段时间内使用次数最少使用的</li>
+<li>volatile-ttl:从已设置过期时间的数据集中挑选最近将要过期的数据淘汰</li>
+<li>volatile-random:从已设置过期时间的数据集中随机选择数据淘汰</li>
+<li>allkeys-lru:从数据集中挑选最近最少使用的数据淘汰</li>
+<li>allkeys-lfu:从所有Keys中，删除一段时间内使用次数最少使用的</li>
+<li>allkeys-random:从数据集中随机选择数据淘汰</li>
+<li>no-enviction (驱逐):禁止驱逐数据(不采用任何淘汰策略。默认即为此配置),针对写<br>操作，返回错误信息</li>
+</ul>
+<blockquote>
+<p>建议:了解了Redis的淘汰策略之后,在平时使用时应尽量主动设置/更新key的expire时间，<br>主动剔除不活跃的旧数据,有助于提升查询性能</p>
+</blockquote>
+<h1 id="Reids-持久化"><a href="#Reids-持久化" class="headerlink" title="Reids 持久化"></a>Reids 持久化</h1><h2 id="简介-2"><a href="#简介-2" class="headerlink" title="简介"></a>简介</h2><p>数据存放于:<br>内存:高效、断电(关机)内存数据会丢失<br>硬盘:读写速度慢于内存，断电数侧不会丢失</p>
+<h2 id="RDB"><a href="#RDB" class="headerlink" title="RDB"></a>RDB</h2><p><img src="/" class="lazyload" data-src="/2020/03/14/Redis%E8%BF%9B%E9%98%B6/dump.rdb.png"  alt></p>
+<p>RDB: 是redis的默认持久化机制。<br>RDB相当于照快照，保存的是一种状态。<br>几十G数据 一》几KB快照<br>快照是默认的持久化方式。这种方式是就是将内存中数据以快照的方式写入到二进制文件中,默认的文件名为dump. rdb.</p>
+<p><strong>优点:</strong><br>快照保存数据极快，还原数据极快<br>适用于灾难备份</p>
+<p><strong>缺点</strong>：小内存机器不适合使用。RDB机制符合要求就会使用</p>
+<p><strong>快照条件</strong>：</p>
+<p><img src="/" class="lazyload" data-src="/2020/03/14/Redis%E8%BF%9B%E9%98%B6/%E5%BF%AB%E7%85%A7%E6%9D%A1%E4%BB%B6.png"  alt></p>
+<h2 id="AOF"><a href="#AOF" class="headerlink" title="AOF"></a>AOF</h2><blockquote>
+<p>由于快照方式是在一定间隔时间做一次的， 所以如果redis意外down掉的话,就会丢失最<br>后一次快照后的所有修改。如果应用要求不能丢失任何修改的话，可以采用aof 持久化方式。</p>
+</blockquote>
+<blockquote>
+<p>Append-only flie:aof 比快照方式有更好的持久化性，是由于在使用aof持久化方式时,redis会将每一个收到的写命令都通过 write 函數追加到文件中(默认是appendonly.aof). 当redis重启时会通过重新执行文件中保存的写命令来在内存中重建整个数据库的内容。</p>
+</blockquote>
+<p><strong>有三种方式如下（默认是：每秒 fsync 一次）</strong></p>
+<ul>
+<li>appendonly yes //启用aof 持久化方式</li>
+<li>#appendfsync always //收到写命令就立即写入磁盘，最慢，但是保证完全的持久化</li>
+<li>appendfsyne everysec //每秒钟写入磁盘一次，在性能和持久化方面做了很好的折中</li>
+<li>#appendfsync no //完全依赖os, 性能最好,持久化没保证</li>
+</ul>
+<p><strong>产生的问题</strong></p>
+<p>aof 的方式也同时带来了另一个问题。持久化文件会变的越来越大。例如我们调用incr test<br>命令100次，文件中必须保存全部的100 条 命令，其实有99 条都是多余的。</p>
+<h1 id="Redis缓存与数据库一致性"><a href="#Redis缓存与数据库一致性" class="headerlink" title="Redis缓存与数据库一致性"></a>Redis缓存与数据库一致性</h1><h2 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h2><h3 id="一、实时同步"><a href="#一、实时同步" class="headerlink" title="一、实时同步"></a>一、实时同步</h3><blockquote>
+<p>对强一致要求比较高的，应采用实时同步方案，即查询缓存查询不到再从DB查询，保存到缓存; 更新缓存时，先更新数据库，再将缓存的设置过期(建议不要去更新缓存内容，直接设置缓存过期)。<br>@Cacheable: 查询时使用,注意Long类型需转换为Sting类型,否则会抛异常<br>@CachePut: 更新时使用，使用此注解, -一定会从 DB 上查询数据<br>@CacheEvict: 删除时使用;<br>@Caching: 组合用法</p>
+</blockquote>
+<h3 id="二、异步队列"><a href="#二、异步队列" class="headerlink" title="二、异步队列"></a>二、异步队列</h3><blockquote>
+<p>对于并发程度较高的，可采用异步队列的方式同步，可采用kafka等消息中间件处理消息生产和消费。</p>
+</blockquote>
+<p><img src="/" class="lazyload" data-src="/2020/03/14/Redis%E8%BF%9B%E9%98%B6/%E5%BC%82%E6%AD%A5%E9%98%9F%E5%88%97.png"  alt></p>
+<h3 id="三、使用阿里的同步工具-canal"><a href="#三、使用阿里的同步工具-canal" class="headerlink" title="三、使用阿里的同步工具 canal"></a>三、使用阿里的同步工具 canal</h3><blockquote>
+<p>canal 实现方式是模拟mysql slave和master的同步机制，监控DB bitlog的日志更新来触发缓存的更新，此种方法可以解放程序员双手，减少工作量，但在使用时有些局限性。</p>
+</blockquote>
+<p><strong>MySQL主从复制实现</strong></p>
+<p><img src="/" class="lazyload" data-src="/2020/03/14/Redis%E8%BF%9B%E9%98%B6/MySQL%E4%B8%BB%E4%BB%8E%E5%A4%8D%E5%88%B6%E5%AE%9E%E7%8E%B0.png"  alt></p>
+<ol>
+<li>master将改变记录到二进制日志(binary log)中(这些记录叫做二进制日志事件，<br>binary log events ,可以通过show binlog events进行查看) </li>
+<li>slave 将master的binary log events拷贝到它的中继日志(relay log);</li>
+<li>slave 重做中继日志中的事件，将改变反映它自己的数据。</li>
+</ol>
+<p><strong>canal的工作原理：</strong></p>
+<p><img src="/" class="lazyload" data-src="/2020/03/14/Redis%E8%BF%9B%E9%98%B6/canal%E7%9A%84%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86.png"  alt></p>
+<ol>
+<li>canal 模拟mysql slave 的交互协议.伪装自己为mysql slave 向mysql master发送dump协议</li>
+<li>mysql master收到dump请求，开始推送binary log给 slave(也就是canal)</li>
+<li>canal解析 binary log对象(原始为byte 流)</li>
+</ol>
+<h3 id="四、采用UDF-自定义函数的方式"><a href="#四、采用UDF-自定义函数的方式" class="headerlink" title="四、采用UDF 自定义函数的方式"></a>四、采用UDF 自定义函数的方式</h3><p>面对mysql的API进行编程，利用触发器进行缓存同步，但UDF主要是c/c++语言实现，学习成本高，</p>
+<h1 id="Redis-主从复制"><a href="#Redis-主从复制" class="headerlink" title="Redis 主从复制"></a>Redis 主从复制</h1><h2 id="简介-3"><a href="#简介-3" class="headerlink" title="简介"></a>简介</h2><blockquote>
+<p>应用场景：电子商务网站上的商品，一般都是一次上传，无数次浏览的，说专业点就是“多读少些”。</p>
+<p><strong>主从复制：</strong></p>
+<p>一个Redis服务可以有多个该服务的复制品，这个Redis服务称为Master，其它复制为Slaves</p>
+</blockquote>
+<p><img src="/" class="lazyload" data-src="/2020/03/14/Redis%E8%BF%9B%E9%98%B6/%E4%B8%BB%E4%BB%8E%E5%A4%8D%E5%88%B6.png"  alt></p>
+<blockquote>
+<p>如图中所示，我们将一台Redis 服务器作主库(Master）,其他三台作为从库(Slave)，主库只负责写数据，每次有数据更新都将更新的数据同步到它所有的从库，而从库只负责读数据。这样一来，就有了两个好处:<br>1、读写分离，不仅可以提高服务器的负载能力,并且可以根据读请求的规模自由增加或者减少从库的数量。<br>2、数据被复制成了了好几份，就算有一台机器出现故障，也可以使用其他机器的数据快速恢复。<br>需要注意的是: 在Redis主从模式中，一台主库可以拥有多个从库，但是一个从<br>库只能隶属于一个主库。</p>
+</blockquote>
+<h2 id="Redis主从复制配置"><a href="#Redis主从复制配置" class="headerlink" title="Redis主从复制配置"></a>Redis主从复制配置</h2><p><a href="https://www.cnblogs.com/web424/p/6908647.html" target="_blank" rel="noopener">https://www.cnblogs.com/web424/p/6908647.html</a></p>
+<h1 id="Redis-Cluster-集群"><a href="#Redis-Cluster-集群" class="headerlink" title="Redis Cluster 集群"></a>Redis Cluster 集群</h1><h2 id="简介-4"><a href="#简介-4" class="headerlink" title="简介"></a>简介</h2><blockquote>
+<p>为什么使用redis-cluster?<br>为了在大流量访问下提供稳定的业务，集群化是存储的必然形态<br>未来的发展趋势肯定是云计算和大数据的紧密结合<br>只有分布式架构能满足要求</p>
+</blockquote>
+<p><img src="/" class="lazyload" data-src="/2020/03/14/Redis%E8%BF%9B%E9%98%B6/Redis%E9%9B%86%E7%BE%A4%E6%90%AD%E5%BB%BA%E6%96%B9%E6%A1%88.png"  alt></p>
+<blockquote>
+<p>Redis集群搭建的方式有多种，但从redis 3. 0之后版本支持redis-cluster集群，至少需要3(Master) +3 (Slave)才能建立集群。Redis-Cluster采用无中心结构，每个节点保存数据和整个集群状态,每个节点都和其他所有节点连接。其redis-cluster架构图如上:</p>
+</blockquote>
+<h2 id="Redis-Cluster-集群特点"><a href="#Redis-Cluster-集群特点" class="headerlink" title="Redis Cluster 集群特点"></a>Redis Cluster 集群特点</h2><blockquote>
+<ol>
+<li>所有的redis节点彼此互联(PING-PONG机制)，内部使用二进制协议优化传输速度和带宽。</li>
+<li>节点的fail是通过集群中超过半数的节点检测失效时才生效。</li>
+<li>客户端与redis节点直连，不需要中间proxy层客户端不需要连接集群所有节点,连接集群中任何一个可用节点即可，</li>
+<li>redis-cluster把所有的物理节点映射到[0-16383] slot上 (不一定是平均分配) cluster负责维护</li>
+<li>Redis集群预分好 <strong>16384</strong> 个哈希槽，当需要在Redis 集群中放置一个 key-value时，redis 先对key 使用 <strong>crc16</strong> 算法算出-一个结果，然后把结果对 16384 求余数， 这样每个key 都会对应一个编号在0-16383 之间的哈希槽，redis 会根据节点数量大致均等的将哈希槽映射到不同的节点</li>
+</ol>
+</blockquote>
+<h2 id="Redis-Cluster-容错"><a href="#Redis-Cluster-容错" class="headerlink" title="Redis Cluster 容错"></a>Redis Cluster 容错</h2><blockquote>
+<p>容错性： 是指软件检测应用程序所运行的软件或硬件中发生的错误并从错误中恢复的能力，通常可以从系统的可靠性、可用性、可测性等几个方面来衡量。</p>
+</blockquote>
+<p><img src="/" class="lazyload" data-src="/2020/03/14/Redis%E8%BF%9B%E9%98%B6/Redis-cluster%E5%AE%B9%E9%94%99.png"  alt></p>
+<h2 id="Redis-Cluster-节点分配"><a href="#Redis-Cluster-节点分配" class="headerlink" title="Redis-Cluster 节点分配"></a>Redis-Cluster 节点分配</h2><blockquote>
+<p>(官方推荐) 三个主节点分别是: A, B, C 三个节点，它们可以是一台机器上的三个端口，也可以是三台不同的服务器。那么，采用哈希槽(hash slot)的方式来分配16384个slot的话，它们三个节点分别承担的slot区间是<br>节点A覆盖9- 5460;<br>节点B覆盖5461 - 10922;<br>节点C覆盖10923 - 16383<br>新增一个主节点:<br>新增一个节点D，redis cluster的这种做法是从各个节点的前面各拿取一部分slot到D上<br>节点A覆盖1365 - 5460<br>节点B覆盖6827 - 10922<br>节点C覆盖12288 -16383<br>节点D覆盖0 - 1364, 5461-6826 ,10923 - 12287</p>
+</blockquote>
+<h2 id="Redus-Cluster-集群搭建"><a href="#Redus-Cluster-集群搭建" class="headerlink" title="Redus Cluster 集群搭建"></a>Redus Cluster 集群搭建</h2><h3 id="简介-5"><a href="#简介-5" class="headerlink" title="简介"></a>简介</h3><blockquote>
+<p>集群中至少应该有奇数个节点，所以搭建集群最少需要3台主机。同时每个节点至少有一个备份节点，所以下面最少需要创建使用6台机器，才能完成Redis Cluster集群(主节点、备份节点由redis-cluster集群确定)</p>
+<p>真集群：准备 至少 6 台服务器</p>
+<p>例： 192.168.1.1： 6379</p>
+<p>​         192.168.1.2： 6379</p>
+<p>​         192.168.1.3： 6379 .。。。。。</p>
+<p>假集群： 在一台服务器上存在 6 个 redis 服务</p>
+<p>例：192.168.1.1：6379 6380 6381 6382 .。。。。。</p>
+</blockquote>
+<h3 id="搭建流程"><a href="#搭建流程" class="headerlink" title="搭建流程"></a>搭建流程</h3><p>文献<a href="https://www.redis.com.cn/topics/cluster-tutorial" target="_blank" rel="noopener">https://www.redis.com.cn/topics/cluster-tutorial</a></p>
+<h4 id="创建节点安装目录-redis-cluster"><a href="#创建节点安装目录-redis-cluster" class="headerlink" title="创建节点安装目录 redis_cluster"></a>创建节点安装目录 <strong>redis_cluster</strong></h4><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">mkdir &#x2F;usr&#x2F;local&#x2F;redis_cluster</span><br></pre></td></tr></table></figure>
+
+<p>在 redis_cluster 目录下，创建 7001 到 7006 文件夹</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">mkdir 7001 ......</span><br></pre></td></tr></table></figure>
+
+<p>将redis-conf 分别拷贝到 这些文件夹下</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">cp redis.conf &#x2F;usr&#x2F;local&#x2F;redis_cluster&#x2F;7001</span><br></pre></td></tr></table></figure>
+
+<p>分别修改配置文件如下内容：</p>
+<p>同时protected-mode是为了禁止公网访问redis cache,加强redis安全的。<br>它启用的条件，有两个:</p>
+<p>1、没有 bind IP</p>
+<p>2、没有设置访问密码</p>
+<p>由于Linux上的redis处于安全保护模式这就让你无法从虚拟机外部去轻松建立连接。<br>如果外部访问: redis.conf中设置保护模式为 <strong>protected-mode no</strong></p>
+<h4 id="修改7001到7006下的-redis-conf-文件"><a href="#修改7001到7006下的-redis-conf-文件" class="headerlink" title="修改7001到7006下的 redis.conf 文件"></a>修改7001到7006下的 redis.conf 文件</h4><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">#关闭保护模式用于公网访问</span><br><span class="line">protected-mode no</span><br><span class="line">port 7000</span><br><span class="line"></span><br><span class="line">#开启集群模式</span><br><span class="line">cluster-enabled yes</span><br><span class="line">cluster-config-file nodes-7000.conf</span><br><span class="line">cluster-node-timeout 5000</span><br><span class="line"></span><br><span class="line">#后台启动</span><br><span class="line">daemonize yes</span><br><span class="line">pidfile &#x2F;var&#x2F;run&#x2F;redis_7000.pid &#x2F;&#x2F;可以不写</span><br><span class="line">logfile &quot;7000.log&quot;  &#x2F;&#x2F;可以不写</span><br><span class="line"></span><br><span class="line">#dir &#x2F;redis&#x2F;data</span><br><span class="line">#此处绑定ip可以是阿里内网ip和本地ip也可以直接注释掉该项</span><br><span class="line">bind 127.0.0.1</span><br><span class="line"></span><br><span class="line">#用于连接主节点密码</span><br><span class="line">masterauth yizhiduxiu</span><br><span class="line"></span><br><span class="line">#设置redis密码各个节点请保持密码一致</span><br><span class="line">requirepass yizhiduxiu</span><br></pre></td></tr></table></figure>
+
+<h4 id="依次启动各个节点"><a href="#依次启动各个节点" class="headerlink" title="依次启动各个节点"></a>依次启动各个节点</h4><blockquote>
+<p>将安装的redis 目录下的 src 复制到 redis_cluster下，方便启动服务器</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">cd redis-5.0.7</span><br><span class="line">cp -r .&#x2F;src&#x2F; &#x2F;usr&#x2F;local&#x2F;redis_cluster&#x2F;  &#x2F;&#x2F;-r复制src目录下级联的所有文件</span><br></pre></td></tr></table></figure>
+</blockquote>
+<p>启动各个redis节点</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">cd &#x2F;usr&#x2F;local&#x2F;redis_cluster</span><br><span class="line">.&#x2F;src&#x2F;redis-server .&#x2F;7000&#x2F;redis.conf</span><br></pre></td></tr></table></figure>
+
+<p><img src="/" class="lazyload" data-src="/2020/03/14/Redis%E8%BF%9B%E9%98%B6/%E9%9B%86%E7%BE%A4%E8%8A%82%E7%82%B9%E5%90%AF%E5%8A%A8%E6%88%90%E5%8A%9F.png"  alt></p>
+<p>启动成功</p>
+<h3 id="创建集群"><a href="#创建集群" class="headerlink" title="创建集群"></a>创建集群</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">cd &#x2F;usr&#x2F;local&#x2F;redis_cluster</span><br><span class="line">.&#x2F;src&#x2F;redis-cli --cluster create 127.0.0.1:7001 127.0.0.1:7002 127.0.0.1:7003 127.0.0.1:7004 127.0.0.1:7005 127.0.0.1:7006 --cluster-replicas 1 -a yizhiduxiu</span><br><span class="line"></span><br><span class="line"># --cluster-replicas 1  表示主从配置比，1表示的是1:1，前三个是主，后三个是从</span><br><span class="line"># 若配置文件中设置的密码，则还需要加上-a passwod</span><br></pre></td></tr></table></figure>
+
+<p>创建过程中可能要求输入 yes 输入yes 就完事了</p>
+<p><img src="/" class="lazyload" data-src="/2020/03/14/Redis%E8%BF%9B%E9%98%B6/%E9%9B%86%E7%BE%A4%E5%88%9B%E5%BB%BA%E6%88%90%E5%8A%9F.png"  alt></p>
+<h3 id="Redis-Cluster-集群验证"><a href="#Redis-Cluster-集群验证" class="headerlink" title="Redis Cluster 集群验证"></a>Redis Cluster 集群验证</h3><blockquote>
+<p>在某台机器上(或)连接集群的7001端口的节点:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">redis-cli -h 127.0.0.1 -c -p 7001 -a yizhiduxiu  &#x2F;&#x2F; -c 可连接到集群</span><br></pre></td></tr></table></figure>
+
+<p>加参数 -C 可连接到集群，因为上面redis.conf 将bind改为了ip地址，所以-h参数不可以省略。<br>(在该节点下添加对应key数据)<br>启动另一个集群中的客户节点:例如: 7005 .<br>进行读取命令。</p>
+<p>redis cluster在设计的时候，就考虑到了去中心化，去中间件，也就是说，集群中的每个节点都是平等的关系，都是对等的，每个节点都保存各自的数据和整个集群的状态。每个节点都和其他所有节点连接，而且这些连接保持活跃，这样就保证了我们只需要连接集群中的任意一个节 点，就可以获取到其他节点的数据</p>
+</blockquote>
+<h3 id="基本命令"><a href="#基本命令" class="headerlink" title="基本命令"></a>基本命令</h3><p>info replication 通过Cluster Nodes命令和Cluster Info命令来看看集群效果</p>
+<p><img src="/" class="lazyload" data-src="/2020/03/14/Redis%E8%BF%9B%E9%98%B6/%E4%BD%BF%E7%94%A8inforeplication.png"  alt></p>
+<h3 id="测试集群数据"><a href="#测试集群数据" class="headerlink" title="测试集群数据"></a>测试集群数据</h3><h4 id="输入命令-cluster-nodes"><a href="#输入命令-cluster-nodes" class="headerlink" title="输入命令 cluster nodes"></a>输入命令 cluster nodes</h4><p><img src="/" class="lazyload" data-src="/2020/03/14/Redis%E8%BF%9B%E9%98%B6/%E9%9B%86%E7%BE%A4id.png"  alt></p>
+<p>每个Redis的节点都有一个ID值，此ID将被此特定redls实例永久使用，以便实例在集群上下文中具有唯一的名称。每个节点都会记住 使用此ID的每个其他节点，而不是通过IP或端口。IP地址和端口可能会发生变化，但唯一的节点标识符在节点的整个生命周期内都不会改变。我们简单地称这个标识符为节点ID。</p>
+<h3 id="测试数据"><a href="#测试数据" class="headerlink" title="测试数据"></a>测试数据</h3><p><img src="/" class="lazyload" data-src="/2020/03/14/Redis%E8%BF%9B%E9%98%B6/%E6%B5%8B%E8%AF%95%E6%95%B0%E6%8D%AE.png"  alt></p>
+<h3 id="Redis-Cluster-集群-启动关闭"><a href="#Redis-Cluster-集群-启动关闭" class="headerlink" title="Redis Cluster 集群 启动关闭"></a>Redis Cluster 集群 启动关闭</h3><h4 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h4><p><strong>/usr/local/redis_cluster 目录下编写脚本文件：vim start.sh</strong></p>
+<p>内容如下：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#x2F;usr&#x2F;local&#x2F;redis_cluster&#x2F;src&#x2F;redis-server .&#x2F;7001&#x2F;redis.conf</span><br><span class="line">&#x2F;usr&#x2F;local&#x2F;redis_cluster&#x2F;src&#x2F;redis-server .&#x2F;7002&#x2F;redis.conf</span><br><span class="line">&#x2F;usr&#x2F;local&#x2F;redis_cluster&#x2F;src&#x2F;redis-server .&#x2F;7003&#x2F;redis.conf</span><br><span class="line">&#x2F;usr&#x2F;local&#x2F;redis_cluster&#x2F;src&#x2F;redis-server .&#x2F;7004&#x2F;redis.conf</span><br><span class="line">&#x2F;usr&#x2F;local&#x2F;redis_cluster&#x2F;src&#x2F;redis-server .&#x2F;7005&#x2F;redis.conf</span><br><span class="line">&#x2F;usr&#x2F;local&#x2F;redis_cluster&#x2F;src&#x2F;redis-server .&#x2F;7006&#x2F;redis.conf</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">chmod u+x start.sh  &#x2F;&#x2F;然后执行将start.sh 变成可执行文件</span><br><span class="line">.&#x2F;start.sh  &#x2F;&#x2F;在当前目录下启动</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="关闭"><a href="#关闭" class="headerlink" title="关闭"></a>关闭</h4><p><strong>/usr/local/redis_cluster 目录下编写脚本文件：vim shutdown.sh</strong></p>
+<p>内容如下：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#x2F;usr&#x2F;local&#x2F;redis_cluster&#x2F;src&#x2F;redis-cli -c -h 127.0.0.1 -p 7001 -a yizhiduxiu shutdown</span><br><span class="line">&#x2F;usr&#x2F;local&#x2F;redis_cluster&#x2F;src&#x2F;redis-cli -c -h 127.0.0.1 -p 7002 -a yizhiduxiu  shutdown</span><br><span class="line">&#x2F;usr&#x2F;local&#x2F;redis_cluster&#x2F;src&#x2F;redis-cli -c -h 127.0.0.1 -p 7003 -a yizhiduxiu  shutdown</span><br><span class="line">&#x2F;usr&#x2F;local&#x2F;redis_cluster&#x2F;src&#x2F;redis-cli -c -h 127.0.0.1 -p 7004 -a yizhiduxiu  shutdown</span><br><span class="line">&#x2F;usr&#x2F;local&#x2F;redis_cluster&#x2F;src&#x2F;redis-cli -c -h 127.0.0.1 -p 7005 -a yizhiduxiu  shutdown</span><br><span class="line">&#x2F;usr&#x2F;local&#x2F;redis_cluster&#x2F;src&#x2F;redis-cli -c -h 127.0.0.1 -p 7006 -a yizhiduxiu  shutdown</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">chmod u+x shutdown.sh  &#x2F;&#x2F;然后执行将shutdown.sh 变成可执行文件</span><br><span class="line">.&#x2F;shutdown.sh  &#x2F;&#x2F;在当前目录下启动</span><br><span class="line">查看：ps aux | grep redis</span><br><span class="line">官方：&#x2F;usr&#x2F;local&#x2F;redis_cluster&#x2F;redis-cli -a yizhiduxiu -c -h 127.0.0.1 -p 7001</span><br><span class="line">提示：-a访问服务端密码， -c 表示集群模式 -h指定ip地址 -p指定端口号</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="开启端口权限"><a href="#开启端口权限" class="headerlink" title="开启端口权限"></a>开启端口权限</h3><p>如果想要通过外部访问 Redis 集群，那么就要开发端口</p>
+<p>查看已经开放的端口： </p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">firewall-cmd --list-ports</span><br></pre></td></tr></table></figure>
+
+<p>开启端口：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">firewall-cmd --zone&#x3D;public --add-port&#x3D;7001&#x2F;tcp --permanent</span><br></pre></td></tr></table></figure>
+
+<p>重启防火墙：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">firewall-cmd --reload</span><br></pre></td></tr></table></figure>
+
+<h3 id="Redis-Cluster总结"><a href="#Redis-Cluster总结" class="headerlink" title="Redis Cluster总结"></a>Redis Cluster总结</h3><blockquote>
+<p>Redis cluster为了保证数据的高可用性,加入了主从模式,一个主节点对应一个或多个从节点,主节点提供数据存取,从节点则是以主节点拉取数据备份,当这个主节点挂掉后,就会有这个从节点选取一个来充当主节点，从而保证集群不会挂掉。</p>
+<p>集群有ABC三个主节点如果这3个节点都没有加入从节点,如果B挂掉了,我们就无法访问整个集群了, A和C的slot也无法访问，</p>
+<p>所以我们在集群建立的时候,一定要为每个主节点都添加了从节点比如像这样，集群包含主节点A. B、 C,以及从节点A1、B1. C1, 那么即使B挂掉系统也可以继续正确工作。</p>
+<p>B1节点替代了B节点,所以Redis集群将会选择B1节点作为新的主节点,集群将会继续正确地提供服务。当B重新开启后,它就会变成B1的从节点。</p>
+<p>不过需要注意,如果节点B和B1同时挂了, Redis集群就无法继续正确地提供服务了。</p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>数据库</category>
+        <category>Redis</category>
+      </categories>
+      <tags>
+        <tag>Redis</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Shiro</title>
     <url>/2020/03/18/Shiro/</url>
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h1 id="Shiro-简介"><a href="#Shiro-简介" class="headerlink" title="Shiro 简介"></a>Shiro 简介</h1><h2 id="什么是Shiro"><a href="#什么是Shiro" class="headerlink" title="什么是Shiro"></a>什么是Shiro</h2><ul>
@@ -1602,24 +1602,6 @@
       </categories>
       <tags>
         <tag>Shiro</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>SpringCloud</title>
-    <url>/2020/03/31/SpringCloud/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><blockquote>
-<p>微服务架构是“新常态”。构建小型，独立且可运行的应用程序可以带来极大的灵活性，并为您的代码增加弹性。Spring Boot的许多专用功能使在大规模生产中轻松构建和运行微服务变得容易。而且请不要忘记，没有<a href="https://spring.io/cloud" target="_blank" rel="noopener">Spring Cloud</a> ‒简化管理并提高容错能力，任何微服务架构都是不完整的。</p>
-</blockquote>
-<p>脑图连接</p>
-<p><a href="https://www.processon.com/mindmap/5e918f635653bb1a6856fac6" target="_blank" rel="noopener">https://www.processon.com/mindmap/5e918f635653bb1a6856fac6</a></p>
-<p><img src="/" class="lazyload" data-src="/2020/03/31/SpringCloud/QQ%E5%9B%BE%E7%89%8720200411173623.png"  alt></p>
-]]></content>
-      <categories>
-        <category>框架</category>
-        <category>SpringCloud</category>
-      </categories>
-      <tags>
-        <tag>SpringCloud</tag>
       </tags>
   </entry>
   <entry>
@@ -1982,240 +1964,21 @@
       </tags>
   </entry>
   <entry>
-    <title>Thymeleaf 模板引擎</title>
-    <url>/2020/02/25/Thymeleaf-%E6%A8%A1%E6%9D%BF%E5%BC%95%E6%93%8E/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h1 id="Thymeleaf-简介"><a href="#Thymeleaf-简介" class="headerlink" title="Thymeleaf 简介"></a>Thymeleaf 简介</h1><p><img src="/" class="lazyload" data-src="/2020/02/25/Thymeleaf-%E6%A8%A1%E6%9D%BF%E5%BC%95%E6%93%8E/Thymeleay.png"  alt></p>
-<blockquote>
-<p>官网部分翻译：反正就是各种好</p>
-<ul>
-<li>Thymeleaf是用来开发Web和独立环境项目的服务器端的Java模版引擎</li>
-<li>Spring官方支持的服务的渲染模板中，并不包含jsp。而是Thymeleaf和Freemarker等，而Thymeleaf与SpringMVC的视图技术，及SpringBoot的自动化配置集成非常完美，几乎没有任何成本，你只用关注Thymeleaf的语法即可。</li>
-</ul>
+    <title>SpringCloud</title>
+    <url>/2020/03/31/SpringCloud/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><blockquote>
+<p>微服务架构是“新常态”。构建小型，独立且可运行的应用程序可以带来极大的灵活性，并为您的代码增加弹性。Spring Boot的许多专用功能使在大规模生产中轻松构建和运行微服务变得容易。而且请不要忘记，没有<a href="https://spring.io/cloud" target="_blank" rel="noopener">Spring Cloud</a> ‒简化管理并提高容错能力，任何微服务架构都是不完整的。</p>
 </blockquote>
-<a id="more"></a>
-
-<h1 id="导入"><a href="#导入" class="headerlink" title="导入"></a>导入</h1><p>创建SpringBoot项目，在选择模块 <strong>Template Engines</strong> 中勾选 <strong>Thymeleaf</strong>，</p>
-<p>或者在创好项目之后再pom.xml文件中导入依赖 </p>
-<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>nz.net.ultraq.thymeleaf<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>thymeleaf-layout-dialect<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<p>在项目resource目录中的templates创建html页面</p>
-<p>创建好html后需要在顶部的 html 标签中声明 thymeleaf 就可以使用它的语法了</p>
-<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">"en"</span> <span class="attr">xmlns:th</span>=<span class="string">"http://www.thymeleaf.org"</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<blockquote>
-<p>使用前在application.properties中配置</p>
-<figure class="highlight properties"><table><tr><td class="code"><pre><span class="line"><span class="meta">spring.thymeleaf.cache</span>=<span class="string">false</span></span><br></pre></td></tr></table></figure>
-</blockquote>
-<p>作用：关闭Thymeleaf的缓存，修改页面后立即生效</p>
-</blockquote>
-<h1 id="语法"><a href="#语法" class="headerlink" title="语法"></a>语法</h1><h2 id="一、标准表达式语法"><a href="#一、标准表达式语法" class="headerlink" title="一、标准表达式语法"></a>一、标准表达式语法</h2><h3 id="它又分为："><a href="#它又分为：" class="headerlink" title="它又分为："></a>它又分为：</h3><ul>
-<li>消息</li>
-<li>变量</li>
-<li>选择表达式</li>
-<li>链接URL</li>
-<li>片段</li>
-<li>文字</li>
-<li>附加文本</li>
-<li>字面替代</li>
-<li>算术运算</li>
-<li>比较与平等</li>
-<li>条件表达式</li>
-<li>默认表达式</li>
-<li>无操作令牌</li>
-<li>数据转换/格式化</li>
-<li>预处理</li>
-</ul>
-<h4 id="变量"><a href="#变量" class="headerlink" title="变量"></a>变量</h4><figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">p</span>&gt;</span>Today is: <span class="tag">&lt;<span class="name">span</span> <span class="attr">th:text</span>=<span class="string">"$&#123;today&#125;"</span>&gt;</span>13 february 2011<span class="tag">&lt;/<span class="name">span</span>&gt;</span>.<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>意味着 &lt; span &gt;标签中的内容会被表达式${today}的值所替代，无论模板中它的内容是什么，之所以在模板中“多此一举“地填充它的内容，完全是为了它能够作为原型在浏览器中直接显示出来。<br>假设today的值为2015年8月14日，那么渲染结果为：&lt; p &gt;Today is: 2015年8月14日.&lt; /p &gt;。可见Thymeleaf的基本变量和JSP一样，都使用${.}表示获取变量的值。</p>
-</blockquote>
-<h4 id="URL"><a href="#URL" class="headerlink" title="URL"></a>URL</h4><p>URL在Web应用模板中占据着十分重要的地位，需要特别注意的是Thymeleaf对于URL的处理是通过语法@{…}来处理的。Thymeleaf支持绝对路径URL：</p>
-<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">th:href</span>=<span class="string">"@&#123;http://www.thymeleaf.org&#125;"</span>&gt;</span>Thymeleaf<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<p>同时也能够支持相对路径URL：</p>
-<p>另外，如果需要Thymeleaf对URL进行渲染，那么务必使用<code>th:href</code>，<code>th:src</code>等属性，下面是一个例子</p>
-<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="comment">&lt;!-- Will produce 'http://localhost:8080/gtvg/order/details?orderId=3' (plus rewriting) --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"details.html"</span> </span></span><br><span class="line"><span class="tag">   <span class="attr">th:href</span>=<span class="string">"@&#123;http://localhost:8080/gtvg/order/details(orderId=$&#123;o.id&#125;)&#125;"</span>&gt;</span>view<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!-- Will produce '/gtvg/order/details?orderId=3' (plus rewriting) --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"details.html"</span> <span class="attr">th:href</span>=<span class="string">"@&#123;/order/details(orderId=$&#123;o.id&#125;)&#125;"</span>&gt;</span>view<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!-- Will produce '/gtvg/order/3/details' (plus rewriting) --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"details.html"</span> <span class="attr">th:href</span>=<span class="string">"@&#123;/order/&#123;orderId&#125;/details(orderId=$&#123;o.id&#125;)&#125;"</span>&gt;</span>view<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<p>几点说明：<br>上例中URL最后的(orderId=${o.id})表示将括号内的内容作为URL参数处理，该语法避免使用字符串拼接，大大提高了可读性@{…}表达式中可以通过{orderId}访问Context中的orderId变量@{/order}是Context相关的相对路径，在渲染时会自动添加上当前Web应用的Context名字，假设context名字为app，那么结果应该是/app/order</p>
-<h4 id="字符串替换"><a href="#字符串替换" class="headerlink" title="字符串替换"></a>字符串替换</h4><figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">span</span> <span class="attr">th:text</span>=<span class="string">"'Welcome to our application, ' + $&#123;user.name&#125; + '!'"</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<p>一种更简洁的方式是：</p>
-<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">span</span> <span class="attr">th:text</span>=<span class="string">"|Welcome to our application, $&#123;user.name&#125;!|"</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<p>当然这种形式限制比较多，|…|中只能包含变量表达式${…}，不能包含其他常量、条件表达式等</p>
-<h4 id="运算符"><a href="#运算符" class="headerlink" title="运算符"></a>运算符</h4><figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">span</span> <span class="attr">th:with</span>=<span class="string">"isEven=($&#123;prodStat.count&#125; % 2 == 0)"</span>&gt;</span><span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<p>逻辑运算符<code>&gt;, &lt;, &lt;=,&gt;=，==,!=</code>都可以使用，唯一需要注意的是使用&lt;,&gt;时需要用它的HTML转义符：</p>
-<h2 id="二、常用的表达式"><a href="#二、常用的表达式" class="headerlink" title="二、常用的表达式"></a>二、常用的表达式</h2><h4 id="for循环"><a href="#for循环" class="headerlink" title="for循环"></a>for循环</h4><p>使用<code>th:each</code>标签</p>
-<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">table</span> <span class="attr">border</span>=<span class="string">"1"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">tr</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">th</span>&gt;</span>usrId<span class="tag">&lt;/<span class="name">th</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">th</span>&gt;</span>usrName<span class="tag">&lt;/<span class="name">th</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">th</span>&gt;</span>usrRoleId<span class="tag">&lt;/<span class="name">th</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">th</span>&gt;</span>index<span class="tag">&lt;/<span class="name">th</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">tr</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">tr</span> <span class="attr">th:each</span>=<span class="string">"user,status : $&#123;users&#125;"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">td</span> <span class="attr">th:text</span>=<span class="string">"$&#123;user.usrId&#125;"</span>&gt;</span>1<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">td</span> <span class="attr">th:text</span>=<span class="string">"$&#123;user.usrName&#125;"</span>&gt;</span>惑<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">td</span> <span class="attr">th:text</span>=<span class="string">"$&#123;user.usrRoleId&#125;"</span>&gt;</span>惑惑惑惑<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">td</span> <span class="attr">th:text</span>=<span class="string">"$&#123;status.index&#125;"</span>&gt;</span>0<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">tr</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">table</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<p>status 表示循环状态变量，属性有：</p>
-<ul>
-<li>index:当前迭代对象的index（从0开始计算）</li>
-<li>count: 当前迭代对象的index(从1开始计算)</li>
-<li>size:被迭代对象的大小</li>
-<li>current:当前迭代变量</li>
-<li>even/odd:布尔值，当前循环是否是偶数/奇数（从0开始计算）</li>
-<li>first:布尔值，当前循环是否是第一个</li>
-<li>last:布尔值，当前循环是否是最后一个</li>
-</ul>
-<h4 id="if-unless条件求值"><a href="#if-unless条件求值" class="headerlink" title="if / unless条件求值"></a>if / unless条件求值</h4><figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">th:if</span>=<span class="string">"$&#123;flag == 'yes'&#125;"</span> <span class="attr">th:href</span>=<span class="string">"@&#123;http://www.baidu.com/&#125;"</span>&gt;</span>百度<span class="tag">&lt;/<span class="name">a</span>&gt;</span><span class="tag">&lt;<span class="name">br</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">th:unless</span>=<span class="string">"$&#123;flag == 'no'&#125;"</span> <span class="attr">th:href</span>=<span class="string">"@&#123;http://www.baidu.com/&#125;"</span>&gt;</span>百度亿下<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>Thymeleaf中使用th:if和th:unless属性进行条件判断，上面的例子中，div 标签只有在th:if中条件成立时才显示：</p>
-</blockquote>
-<blockquote>
-<p>th:unless于th:if恰好相反，只有表达式中的条件不成立，才会显示其内容。</p>
-</blockquote>
-<h4 id="switch"><a href="#switch" class="headerlink" title="switch"></a>switch</h4><figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">th:switch</span>=<span class="string">"$&#123;sex&#125;"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">p</span> <span class="attr">th:case</span>=<span class="string">"'woman'"</span>&gt;</span>她是一个姑娘...<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">p</span> <span class="attr">th:case</span>=<span class="string">"'man'"</span>&gt;</span>这是一个爷们!<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- *: case 的默认的选项 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">p</span> <span class="attr">th:case</span>=<span class="string">"*"</span>&gt;</span>未知性别的一个家伙。<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<h4 id="内嵌变量"><a href="#内嵌变量" class="headerlink" title="内嵌变量"></a>内嵌变量</h4><p>为了模板更加易用，Thymeleaf还提供了一系列Utility对象（内置于Context中），可以通过#直接访问：</p>
-<ul>
-<li>dates ： java.util.Date的功能方法类。</li>
-<li>calendars : 类似#dates，面向java.util.Calendar</li>
-<li>numbers : 格式化数字的功能方法类</li>
-<li>strings : 字符串对象的功能类</li>
-<li>objects: 对objects的功能类操作。</li>
-<li>bools: 对布尔值求值的功能方法。</li>
-<li>arrays：对数组的功能类方法。</li>
-<li>lists: 对lists功能类方法</li>
-<li>sets</li>
-<li>maps</li>
-</ul>
-<h1 id="常用th标签"><a href="#常用th标签" class="headerlink" title="常用th标签"></a>常用th标签</h1><table>
-<thead>
-<tr>
-<th align="center"><strong>标签</strong></th>
-<th align="center"><strong>说明</strong></th>
-<th align="center"><strong>例子</strong></th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="center">th:id</td>
-<td align="center">替换id</td>
-<td align="center">&lt; input th:id=”‘xxx’ + ${collect.id}”/&gt;</td>
-</tr>
-<tr>
-<td align="center">th:text</td>
-<td align="center">文本替换</td>
-<td align="center">&lt; p th:text=”${collect.description}”&gt;description&lt; /p&gt;</td>
-</tr>
-<tr>
-<td align="center">th:utext</td>
-<td align="center">支持html的文本替换</td>
-<td align="center">&lt; p th:utext=”${htmlcontent}”&gt;conten&lt; /p&gt;</td>
-</tr>
-<tr>
-<td align="center">th:object</td>
-<td align="center">替换对象</td>
-<td align="center">&lt; div th:object=”${session.user}”&gt;</td>
-</tr>
-<tr>
-<td align="center">th:value</td>
-<td align="center">属性赋值</td>
-<td align="center">&lt; input th:value=”${user.name}” /&gt;</td>
-</tr>
-<tr>
-<td align="center">th:with</td>
-<td align="center">变量赋值运算</td>
-<td align="center">&lt; div th:with=”isEven=${prodStat.count}%2==0”&gt;&lt; /div&gt;</td>
-</tr>
-<tr>
-<td align="center">th:style</td>
-<td align="center">设置样式</td>
-<td align="center">th:style=”‘display:’ + @{(${sitrue} ? ‘none’ : ‘inline-block’)} + ‘’”</td>
-</tr>
-<tr>
-<td align="center">th:onclick</td>
-<td align="center">点击事件</td>
-<td align="center">th:”‘getCollect()’”</td>
-</tr>
-<tr>
-<td align="center">th:each</td>
-<td align="center">属性赋值</td>
-<td align="center">tr th:each=”user,userStat:${users}”&gt;</td>
-</tr>
-<tr>
-<td align="center">th:if</td>
-<td align="center">判断条件</td>
-<td align="center">&lt; a th:if=”${userId == collect.userId}” &gt;</td>
-</tr>
-<tr>
-<td align="center">th:unless</td>
-<td align="center">和th:if判断相反</td>
-<td align="center">&lt; a th:href=”@{/login}” th:unless=${session.user != null}&gt;Login&lt; /a&gt;</td>
-</tr>
-<tr>
-<td align="center">th:href</td>
-<td align="center">链接地址</td>
-<td align="center">&lt;a th:href=”@{/login}” th:unless=${session.user != null}&gt;Login&lt; /a&gt;</td>
-</tr>
-<tr>
-<td align="center">th:switch</td>
-<td align="center">多路选择 配合th:case 使用</td>
-<td align="center">&lt; div th:switch=”${user.role}”&gt;</td>
-</tr>
-<tr>
-<td align="center">th:case</td>
-<td align="center">th:switch的一个分支</td>
-<td align="center">&lt; p th:case=”‘admin’”&gt;User is an administrator&lt; /p&gt;</td>
-</tr>
-<tr>
-<td align="center">th:fragment</td>
-<td align="center">布局标签，定义一个代码片段，方便其它地方引用</td>
-<td align="center">&lt; div th:fragment=”alert”&gt;</td>
-</tr>
-<tr>
-<td align="center">th:include</td>
-<td align="center">布局标签，替换内容到引入的文件</td>
-<td align="center">&lt; head th:include=”layout :: htmlhead” th:with=”title=’xx’”&gt;&lt; /head&gt;</td>
-</tr>
-<tr>
-<td align="center">th:replace</td>
-<td align="center">布局标签，替换整个标签到引入的文件</td>
-<td align="center">&lt; div th:replace=”fragments/header :: title”&gt;&lt; /div&gt;</td>
-</tr>
-<tr>
-<td align="center">th:selected</td>
-<td align="center">selected选择框 选中</td>
-<td align="center">th:selected=”(${xxx.id} == ${configObj.dd})”</td>
-</tr>
-<tr>
-<td align="center">th:src</td>
-<td align="center">图片类地址引入</td>
-<td align="center">&lt; img class=”img-responsive” alt=”App Logo” th:src=”@{/img/logo.png}” /&gt;</td>
-</tr>
-<tr>
-<td align="center">th:inline</td>
-<td align="center">定义js脚本可以使用变量</td>
-<td align="center">&lt; script type=”text/javascript” th:inline=”javascript”&gt;</td>
-</tr>
-<tr>
-<td align="center">th:action</td>
-<td align="center">表单提交的地址</td>
-<td align="center">&lt; form action=”subscribe.html” th:action=”@{/subscribe}”&gt;</td>
-</tr>
-<tr>
-<td align="center">th:remove</td>
-<td align="center">删除某个属性</td>
-<td align="center">&lt; tr th:remove=”all”&gt;1.all:删除包含标签和所有的孩子。2.body:不包含标记删除,但删除其所有的孩子。3.tag:包含标记的删除,但不删除它的孩子。4.all-but-first:删除所有包含标签的孩子,除了第一个。5.none:什么也不做。这个值是有用的动态评估。</td>
-</tr>
-<tr>
-<td align="center">th:attr</td>
-<td align="center">设置标签属性，多个属性可以用逗号分隔</td>
-<td align="center">比如 &lt; p th:attr=”src=@{/image/aa.jpg},title=${title}”&gt;内容&lt; /p&gt;，这样如果${title}=‘这个是title’ 则结果就是&lt; p src=”/image/aa.jpg” title=”这个是title”&gt;内容&lt; /p&gt;</td>
-</tr>
-</tbody></table>
+<p>脑图连接</p>
+<p><a href="https://www.processon.com/mindmap/5e918f635653bb1a6856fac6" target="_blank" rel="noopener">https://www.processon.com/mindmap/5e918f635653bb1a6856fac6</a></p>
+<p><img src="/" class="lazyload" data-src="/2020/03/31/SpringCloud/QQ%E5%9B%BE%E7%89%8720200411173623.png"  alt></p>
 ]]></content>
       <categories>
-        <category>模板引擎</category>
-        <category>Thymeleaf</category>
+        <category>框架</category>
+        <category>SpringCloud</category>
       </categories>
       <tags>
-        <tag>Tyhmeleaf</tag>
-        <tag>模板引擎</tag>
+        <tag>SpringCloud</tag>
       </tags>
   </entry>
   <entry>
@@ -2512,6 +2275,243 @@
       </categories>
       <tags>
         <tag>Vue</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Thymeleaf 模板引擎</title>
+    <url>/2020/02/25/Thymeleaf-%E6%A8%A1%E6%9D%BF%E5%BC%95%E6%93%8E/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h1 id="Thymeleaf-简介"><a href="#Thymeleaf-简介" class="headerlink" title="Thymeleaf 简介"></a>Thymeleaf 简介</h1><p><img src="/" class="lazyload" data-src="/2020/02/25/Thymeleaf-%E6%A8%A1%E6%9D%BF%E5%BC%95%E6%93%8E/Thymeleay.png"  alt></p>
+<blockquote>
+<p>官网部分翻译：反正就是各种好</p>
+<ul>
+<li>Thymeleaf是用来开发Web和独立环境项目的服务器端的Java模版引擎</li>
+<li>Spring官方支持的服务的渲染模板中，并不包含jsp。而是Thymeleaf和Freemarker等，而Thymeleaf与SpringMVC的视图技术，及SpringBoot的自动化配置集成非常完美，几乎没有任何成本，你只用关注Thymeleaf的语法即可。</li>
+</ul>
+</blockquote>
+<a id="more"></a>
+
+<h1 id="导入"><a href="#导入" class="headerlink" title="导入"></a>导入</h1><p>创建SpringBoot项目，在选择模块 <strong>Template Engines</strong> 中勾选 <strong>Thymeleaf</strong>，</p>
+<p>或者在创好项目之后再pom.xml文件中导入依赖 </p>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>nz.net.ultraq.thymeleaf<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>thymeleaf-layout-dialect<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>在项目resource目录中的templates创建html页面</p>
+<p>创建好html后需要在顶部的 html 标签中声明 thymeleaf 就可以使用它的语法了</p>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">"en"</span> <span class="attr">xmlns:th</span>=<span class="string">"http://www.thymeleaf.org"</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<blockquote>
+<p>使用前在application.properties中配置</p>
+<figure class="highlight properties"><table><tr><td class="code"><pre><span class="line"><span class="meta">spring.thymeleaf.cache</span>=<span class="string">false</span></span><br></pre></td></tr></table></figure>
+</blockquote>
+<p>作用：关闭Thymeleaf的缓存，修改页面后立即生效</p>
+</blockquote>
+<h1 id="语法"><a href="#语法" class="headerlink" title="语法"></a>语法</h1><h2 id="一、标准表达式语法"><a href="#一、标准表达式语法" class="headerlink" title="一、标准表达式语法"></a>一、标准表达式语法</h2><h3 id="它又分为："><a href="#它又分为：" class="headerlink" title="它又分为："></a>它又分为：</h3><ul>
+<li>消息</li>
+<li>变量</li>
+<li>选择表达式</li>
+<li>链接URL</li>
+<li>片段</li>
+<li>文字</li>
+<li>附加文本</li>
+<li>字面替代</li>
+<li>算术运算</li>
+<li>比较与平等</li>
+<li>条件表达式</li>
+<li>默认表达式</li>
+<li>无操作令牌</li>
+<li>数据转换/格式化</li>
+<li>预处理</li>
+</ul>
+<h4 id="变量"><a href="#变量" class="headerlink" title="变量"></a>变量</h4><figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">p</span>&gt;</span>Today is: <span class="tag">&lt;<span class="name">span</span> <span class="attr">th:text</span>=<span class="string">"$&#123;today&#125;"</span>&gt;</span>13 february 2011<span class="tag">&lt;/<span class="name">span</span>&gt;</span>.<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>意味着 &lt; span &gt;标签中的内容会被表达式${today}的值所替代，无论模板中它的内容是什么，之所以在模板中“多此一举“地填充它的内容，完全是为了它能够作为原型在浏览器中直接显示出来。<br>假设today的值为2015年8月14日，那么渲染结果为：&lt; p &gt;Today is: 2015年8月14日.&lt; /p &gt;。可见Thymeleaf的基本变量和JSP一样，都使用${.}表示获取变量的值。</p>
+</blockquote>
+<h4 id="URL"><a href="#URL" class="headerlink" title="URL"></a>URL</h4><p>URL在Web应用模板中占据着十分重要的地位，需要特别注意的是Thymeleaf对于URL的处理是通过语法@{…}来处理的。Thymeleaf支持绝对路径URL：</p>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">th:href</span>=<span class="string">"@&#123;http://www.thymeleaf.org&#125;"</span>&gt;</span>Thymeleaf<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>同时也能够支持相对路径URL：</p>
+<p>另外，如果需要Thymeleaf对URL进行渲染，那么务必使用<code>th:href</code>，<code>th:src</code>等属性，下面是一个例子</p>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="comment">&lt;!-- Will produce 'http://localhost:8080/gtvg/order/details?orderId=3' (plus rewriting) --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"details.html"</span> </span></span><br><span class="line"><span class="tag">   <span class="attr">th:href</span>=<span class="string">"@&#123;http://localhost:8080/gtvg/order/details(orderId=$&#123;o.id&#125;)&#125;"</span>&gt;</span>view<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!-- Will produce '/gtvg/order/details?orderId=3' (plus rewriting) --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"details.html"</span> <span class="attr">th:href</span>=<span class="string">"@&#123;/order/details(orderId=$&#123;o.id&#125;)&#125;"</span>&gt;</span>view<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!-- Will produce '/gtvg/order/3/details' (plus rewriting) --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"details.html"</span> <span class="attr">th:href</span>=<span class="string">"@&#123;/order/&#123;orderId&#125;/details(orderId=$&#123;o.id&#125;)&#125;"</span>&gt;</span>view<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>几点说明：<br>上例中URL最后的(orderId=${o.id})表示将括号内的内容作为URL参数处理，该语法避免使用字符串拼接，大大提高了可读性@{…}表达式中可以通过{orderId}访问Context中的orderId变量@{/order}是Context相关的相对路径，在渲染时会自动添加上当前Web应用的Context名字，假设context名字为app，那么结果应该是/app/order</p>
+<h4 id="字符串替换"><a href="#字符串替换" class="headerlink" title="字符串替换"></a>字符串替换</h4><figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">span</span> <span class="attr">th:text</span>=<span class="string">"'Welcome to our application, ' + $&#123;user.name&#125; + '!'"</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>一种更简洁的方式是：</p>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">span</span> <span class="attr">th:text</span>=<span class="string">"|Welcome to our application, $&#123;user.name&#125;!|"</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>当然这种形式限制比较多，|…|中只能包含变量表达式${…}，不能包含其他常量、条件表达式等</p>
+<h4 id="运算符"><a href="#运算符" class="headerlink" title="运算符"></a>运算符</h4><figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">span</span> <span class="attr">th:with</span>=<span class="string">"isEven=($&#123;prodStat.count&#125; % 2 == 0)"</span>&gt;</span><span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>逻辑运算符<code>&gt;, &lt;, &lt;=,&gt;=，==,!=</code>都可以使用，唯一需要注意的是使用&lt;,&gt;时需要用它的HTML转义符：</p>
+<h2 id="二、常用的表达式"><a href="#二、常用的表达式" class="headerlink" title="二、常用的表达式"></a>二、常用的表达式</h2><h4 id="for循环"><a href="#for循环" class="headerlink" title="for循环"></a>for循环</h4><p>使用<code>th:each</code>标签</p>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">table</span> <span class="attr">border</span>=<span class="string">"1"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">tr</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">th</span>&gt;</span>usrId<span class="tag">&lt;/<span class="name">th</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">th</span>&gt;</span>usrName<span class="tag">&lt;/<span class="name">th</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">th</span>&gt;</span>usrRoleId<span class="tag">&lt;/<span class="name">th</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">th</span>&gt;</span>index<span class="tag">&lt;/<span class="name">th</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">tr</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">tr</span> <span class="attr">th:each</span>=<span class="string">"user,status : $&#123;users&#125;"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">td</span> <span class="attr">th:text</span>=<span class="string">"$&#123;user.usrId&#125;"</span>&gt;</span>1<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">td</span> <span class="attr">th:text</span>=<span class="string">"$&#123;user.usrName&#125;"</span>&gt;</span>惑<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">td</span> <span class="attr">th:text</span>=<span class="string">"$&#123;user.usrRoleId&#125;"</span>&gt;</span>惑惑惑惑<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">td</span> <span class="attr">th:text</span>=<span class="string">"$&#123;status.index&#125;"</span>&gt;</span>0<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">tr</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">table</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>status 表示循环状态变量，属性有：</p>
+<ul>
+<li>index:当前迭代对象的index（从0开始计算）</li>
+<li>count: 当前迭代对象的index(从1开始计算)</li>
+<li>size:被迭代对象的大小</li>
+<li>current:当前迭代变量</li>
+<li>even/odd:布尔值，当前循环是否是偶数/奇数（从0开始计算）</li>
+<li>first:布尔值，当前循环是否是第一个</li>
+<li>last:布尔值，当前循环是否是最后一个</li>
+</ul>
+<h4 id="if-unless条件求值"><a href="#if-unless条件求值" class="headerlink" title="if / unless条件求值"></a>if / unless条件求值</h4><figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">th:if</span>=<span class="string">"$&#123;flag == 'yes'&#125;"</span> <span class="attr">th:href</span>=<span class="string">"@&#123;http://www.baidu.com/&#125;"</span>&gt;</span>百度<span class="tag">&lt;/<span class="name">a</span>&gt;</span><span class="tag">&lt;<span class="name">br</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">th:unless</span>=<span class="string">"$&#123;flag == 'no'&#125;"</span> <span class="attr">th:href</span>=<span class="string">"@&#123;http://www.baidu.com/&#125;"</span>&gt;</span>百度亿下<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>Thymeleaf中使用th:if和th:unless属性进行条件判断，上面的例子中，div 标签只有在th:if中条件成立时才显示：</p>
+</blockquote>
+<blockquote>
+<p>th:unless于th:if恰好相反，只有表达式中的条件不成立，才会显示其内容。</p>
+</blockquote>
+<h4 id="switch"><a href="#switch" class="headerlink" title="switch"></a>switch</h4><figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">th:switch</span>=<span class="string">"$&#123;sex&#125;"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">p</span> <span class="attr">th:case</span>=<span class="string">"'woman'"</span>&gt;</span>她是一个姑娘...<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">p</span> <span class="attr">th:case</span>=<span class="string">"'man'"</span>&gt;</span>这是一个爷们!<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- *: case 的默认的选项 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">p</span> <span class="attr">th:case</span>=<span class="string">"*"</span>&gt;</span>未知性别的一个家伙。<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="内嵌变量"><a href="#内嵌变量" class="headerlink" title="内嵌变量"></a>内嵌变量</h4><p>为了模板更加易用，Thymeleaf还提供了一系列Utility对象（内置于Context中），可以通过#直接访问：</p>
+<ul>
+<li>dates ： java.util.Date的功能方法类。</li>
+<li>calendars : 类似#dates，面向java.util.Calendar</li>
+<li>numbers : 格式化数字的功能方法类</li>
+<li>strings : 字符串对象的功能类</li>
+<li>objects: 对objects的功能类操作。</li>
+<li>bools: 对布尔值求值的功能方法。</li>
+<li>arrays：对数组的功能类方法。</li>
+<li>lists: 对lists功能类方法</li>
+<li>sets</li>
+<li>maps</li>
+</ul>
+<h1 id="常用th标签"><a href="#常用th标签" class="headerlink" title="常用th标签"></a>常用th标签</h1><table>
+<thead>
+<tr>
+<th align="center"><strong>标签</strong></th>
+<th align="center"><strong>说明</strong></th>
+<th align="center"><strong>例子</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">th:id</td>
+<td align="center">替换id</td>
+<td align="center">&lt; input th:id=”‘xxx’ + ${collect.id}”/&gt;</td>
+</tr>
+<tr>
+<td align="center">th:text</td>
+<td align="center">文本替换</td>
+<td align="center">&lt; p th:text=”${collect.description}”&gt;description&lt; /p&gt;</td>
+</tr>
+<tr>
+<td align="center">th:utext</td>
+<td align="center">支持html的文本替换</td>
+<td align="center">&lt; p th:utext=”${htmlcontent}”&gt;conten&lt; /p&gt;</td>
+</tr>
+<tr>
+<td align="center">th:object</td>
+<td align="center">替换对象</td>
+<td align="center">&lt; div th:object=”${session.user}”&gt;</td>
+</tr>
+<tr>
+<td align="center">th:value</td>
+<td align="center">属性赋值</td>
+<td align="center">&lt; input th:value=”${user.name}” /&gt;</td>
+</tr>
+<tr>
+<td align="center">th:with</td>
+<td align="center">变量赋值运算</td>
+<td align="center">&lt; div th:with=”isEven=${prodStat.count}%2==0”&gt;&lt; /div&gt;</td>
+</tr>
+<tr>
+<td align="center">th:style</td>
+<td align="center">设置样式</td>
+<td align="center">th:style=”‘display:’ + @{(${sitrue} ? ‘none’ : ‘inline-block’)} + ‘’”</td>
+</tr>
+<tr>
+<td align="center">th:onclick</td>
+<td align="center">点击事件</td>
+<td align="center">th:”‘getCollect()’”</td>
+</tr>
+<tr>
+<td align="center">th:each</td>
+<td align="center">属性赋值</td>
+<td align="center">tr th:each=”user,userStat:${users}”&gt;</td>
+</tr>
+<tr>
+<td align="center">th:if</td>
+<td align="center">判断条件</td>
+<td align="center">&lt; a th:if=”${userId == collect.userId}” &gt;</td>
+</tr>
+<tr>
+<td align="center">th:unless</td>
+<td align="center">和th:if判断相反</td>
+<td align="center">&lt; a th:href=”@{/login}” th:unless=${session.user != null}&gt;Login&lt; /a&gt;</td>
+</tr>
+<tr>
+<td align="center">th:href</td>
+<td align="center">链接地址</td>
+<td align="center">&lt;a th:href=”@{/login}” th:unless=${session.user != null}&gt;Login&lt; /a&gt;</td>
+</tr>
+<tr>
+<td align="center">th:switch</td>
+<td align="center">多路选择 配合th:case 使用</td>
+<td align="center">&lt; div th:switch=”${user.role}”&gt;</td>
+</tr>
+<tr>
+<td align="center">th:case</td>
+<td align="center">th:switch的一个分支</td>
+<td align="center">&lt; p th:case=”‘admin’”&gt;User is an administrator&lt; /p&gt;</td>
+</tr>
+<tr>
+<td align="center">th:fragment</td>
+<td align="center">布局标签，定义一个代码片段，方便其它地方引用</td>
+<td align="center">&lt; div th:fragment=”alert”&gt;</td>
+</tr>
+<tr>
+<td align="center">th:include</td>
+<td align="center">布局标签，替换内容到引入的文件</td>
+<td align="center">&lt; head th:include=”layout :: htmlhead” th:with=”title=’xx’”&gt;&lt; /head&gt;</td>
+</tr>
+<tr>
+<td align="center">th:replace</td>
+<td align="center">布局标签，替换整个标签到引入的文件</td>
+<td align="center">&lt; div th:replace=”fragments/header :: title”&gt;&lt; /div&gt;</td>
+</tr>
+<tr>
+<td align="center">th:selected</td>
+<td align="center">selected选择框 选中</td>
+<td align="center">th:selected=”(${xxx.id} == ${configObj.dd})”</td>
+</tr>
+<tr>
+<td align="center">th:src</td>
+<td align="center">图片类地址引入</td>
+<td align="center">&lt; img class=”img-responsive” alt=”App Logo” th:src=”@{/img/logo.png}” /&gt;</td>
+</tr>
+<tr>
+<td align="center">th:inline</td>
+<td align="center">定义js脚本可以使用变量</td>
+<td align="center">&lt; script type=”text/javascript” th:inline=”javascript”&gt;</td>
+</tr>
+<tr>
+<td align="center">th:action</td>
+<td align="center">表单提交的地址</td>
+<td align="center">&lt; form action=”subscribe.html” th:action=”@{/subscribe}”&gt;</td>
+</tr>
+<tr>
+<td align="center">th:remove</td>
+<td align="center">删除某个属性</td>
+<td align="center">&lt; tr th:remove=”all”&gt;1.all:删除包含标签和所有的孩子。2.body:不包含标记删除,但删除其所有的孩子。3.tag:包含标记的删除,但不删除它的孩子。4.all-but-first:删除所有包含标签的孩子,除了第一个。5.none:什么也不做。这个值是有用的动态评估。</td>
+</tr>
+<tr>
+<td align="center">th:attr</td>
+<td align="center">设置标签属性，多个属性可以用逗号分隔</td>
+<td align="center">比如 &lt; p th:attr=”src=@{/image/aa.jpg},title=${title}”&gt;内容&lt; /p&gt;，这样如果${title}=‘这个是title’ 则结果就是&lt; p src=”/image/aa.jpg” title=”这个是title”&gt;内容&lt; /p&gt;</td>
+</tr>
+</tbody></table>
+]]></content>
+      <categories>
+        <category>模板引擎</category>
+        <category>Thymeleaf</category>
+      </categories>
+      <tags>
+        <tag>Tyhmeleaf</tag>
+        <tag>模板引擎</tag>
       </tags>
   </entry>
   <entry>
