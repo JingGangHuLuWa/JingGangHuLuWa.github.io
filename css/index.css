@@ -2532,22 +2532,22 @@ figure.gallery-group .gallery-group-name:after {
 #nav {
   position: relative;
   width: 100%;
+  background-color: transparent;
+  background-attachment: local;
+  background-position: center center;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  background-size: cover;
+  background-repeat: no-repeat;
+  -webkit-transition: all 0.5s;
+  -moz-transition: all 0.5s;
+  -o-transition: all 0.5s;
+  -ms-transition: all 0.5s;
+  transition: all 0.5s;
 }
-#nav #background-color: $light-blue,
-#nav background-attachment: local,
-#nav background-position: center center,
-#nav background-size: cover,
-#nav background-repeat: no-repeat,
-#nav transition: all .5s,
 #nav.full_page {
   height: 100vh;
 }
-#nav #background-color: $light-blue #site-info,
-#nav background-attachment: local #site-info,
-#nav background-position: center center #site-info,
-#nav background-size: cover #site-info,
-#nav background-repeat: no-repeat #site-info,
-#nav transition: all .5s #site-info,
 #nav.full_page #site-info {
   position: absolute;
   top: 43%;
