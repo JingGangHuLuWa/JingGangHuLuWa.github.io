@@ -5219,6 +5219,7 @@ img {
   -o-animation: titlescale 0.5s;
   -ms-animation: titlescale 0.5s;
   animation: titlescale 0.5s;
+  border-radius: 10px;
 }
 #local-search .local-search-box {
   margin: 0 auto;
