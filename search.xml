@@ -1,72 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>Linux命令</title>
-    <url>/2020/03/06/Linux%E5%91%BD%E4%BB%A4/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">查看Redis启动的端口</span><br><span class="line">ps -ef | grep -i redis</span><br><span class="line"></span><br><span class="line">查看进程树</span><br><span class="line">pstree</span><br><span class="line"></span><br><span class="line">查看某端口否开启</span><br><span class="line">netstat -tunlp | grep 6379</span><br><span class="line"></span><br><span class="line">查看 Redis 安装路径</span><br><span class="line">whereis redis</span><br><span class="line"></span><br><span class="line">查看 Redis 客户端安装路径(我好像看不懂这个路径)</span><br><span class="line">whereis redis-cli</span><br></pre></td></tr></table></figure>
-
-<a id="more"></a>
-
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">查看 Redis 服务端路径</span><br><span class="line">whereis redis-server</span><br><span class="line"></span><br><span class="line">启动服务端</span><br><span class="line">bin&#x2F;redis-server redis.conf</span><br><span class="line"></span><br><span class="line">启动客户端</span><br><span class="line">bin&#x2F;redis-cli -a 密码</span><br><span class="line"></span><br><span class="line">关闭客户端</span><br><span class="line">shutdown</span><br><span class="line"></span><br><span class="line">关闭（杀进程）</span><br><span class="line">pkill redis-server</span><br><span class="line"></span><br><span class="line">清空当前的数据库</span><br><span class="line">flushdb</span><br><span class="line"></span><br><span class="line">选择数据库（一共16个）</span><br><span class="line">select index</span><br><span class="line"></span><br><span class="line">杀掉指定的连接</span><br><span class="line">kill PID</span><br><span class="line"></span><br><span class="line">打开指定文件</span><br><span class="line">less Redis.conf</span><br><span class="line">	:q 退出</span><br><span class="line">	:wq 保存并退出</span><br><span class="line">	v i 修改文件</span><br><span class="line">	ESC 取消当前操作</span><br><span class="line">	u 撤回</span><br><span class="line">	&#x2F;关键字  查询关键字</span><br><span class="line">	</span><br><span class="line">退出客户端连接</span><br><span class="line">quit</span><br></pre></td></tr></table></figure>
-
-<h1 id="防火墙"><a href="#防火墙" class="headerlink" title="防火墙"></a>防火墙</h1><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">重启防火墙</span><br><span class="line">firewall-cmd --reload</span><br><span class="line"></span><br><span class="line">开启端口</span><br><span class="line">firewall-cmd --zone&#x3D;public --add-port&#x3D;7001&#x2F;tcp --permanent</span><br><span class="line"></span><br><span class="line">查看已开放的端口</span><br><span class="line">firewall-cmd --list-ports</span><br></pre></td></tr></table></figure>
-
-]]></content>
-      <categories>
-        <category>操作系统</category>
-        <category>Linux</category>
-      </categories>
-      <tags>
-        <tag>Linux</tag>
-        <tag>Redis</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Linux设置固定IP地址</title>
-    <url>/2020/03/11/Linux%E8%AE%BE%E7%BD%AE%E5%9B%BA%E5%AE%9AIP%E5%9C%B0%E5%9D%80/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h1 id="Linux设置固定IP地址"><a href="#Linux设置固定IP地址" class="headerlink" title="Linux设置固定IP地址"></a>Linux设置固定IP地址</h1><p>我这里使用的系统是 CentOS7</p>
-<p>找到网络配置文件</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">cd &#x2F;etc&#x2F;sysconfig&#x2F;network-scripts&#x2F;&amp;&amp;ls</span><br></pre></td></tr></table></figure>
-
-<p>找到 <strong>ifcfg-ens33</strong> 这个文件（系统不同可能文件不同，但是大概都是这个位置）</p>
-<p><img src="/" class="lazyload" data-src="/2020/03/11/Linux%E8%AE%BE%E7%BD%AE%E5%9B%BA%E5%AE%9AIP%E5%9C%B0%E5%9D%80/ifcfg-ens33.png"  alt></p>
-<a id="more"></a>
-
-<p>打开 ifcfg-ens33</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">less ifcfg-ens33</span><br></pre></td></tr></table></figure>
-
-<p><img src="/" class="lazyload" data-src="/2020/03/11/Linux%E8%AE%BE%E7%BD%AE%E5%9B%BA%E5%AE%9AIP%E5%9C%B0%E5%9D%80/less-ifcfg-ens33.png"  alt></p>
-<p>输入</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">vi &#x2F;&#x2F;进入修改</span><br><span class="line">ESC &#x2F;&#x2F;退出当前指令</span><br><span class="line">:q &#x2F;&#x2F;退出</span><br><span class="line">:w &#x2F;&#x2F;保存</span><br><span class="line">:wq &#x2F;&#x2F;保存并退出</span><br></pre></td></tr></table></figure>
-
-<p>主要配置</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">BOOTPROTO&#x3D;&quot;static&quot;  &#x2F;&#x2F;设置为静态</span><br><span class="line">IPADDR&#x3D;&quot;&quot;  &#x2F;&#x2F;你要设置的IP地址</span><br><span class="line">NETMASK&#x3D;&quot;&quot; &#x2F;&#x2F;IPv4 子网掩码</span><br><span class="line">GATEWAY&#x3D;&quot;&quot; &#x2F;&#x2F;IPv4 默认网关</span><br><span class="line">DNS1&#x3D;&quot;8.8.8.8&quot;  &#x2F;&#x2F;可以不配置</span><br></pre></td></tr></table></figure>
-
-<p>上述主要配置需要根据本机网络信息来配置</p>
-<p>进入网络连接</p>
-<p><img src="/" class="lazyload" data-src="/2020/03/11/Linux%E8%AE%BE%E7%BD%AE%E5%9B%BA%E5%AE%9AIP%E5%9C%B0%E5%9D%80/%E6%9C%AC%E6%9C%BA%E7%BD%91%E7%BB%9C.png"  alt></p>
-<p>右键当前连接的网络，点击<strong>状态</strong></p>
-<p><img src="/" class="lazyload" data-src="/2020/03/11/Linux%E8%AE%BE%E7%BD%AE%E5%9B%BA%E5%AE%9AIP%E5%9C%B0%E5%9D%80/%E7%BD%91%E7%BB%9C%E4%BF%A1%E6%81%AF.png"  alt></p>
-<p>点击详细信息</p>
-<p><img src="/" class="lazyload" data-src="/2020/03/11/Linux%E8%AE%BE%E7%BD%AE%E5%9B%BA%E5%AE%9AIP%E5%9C%B0%E5%9D%80/%E7%BD%91%E7%BB%9C%E8%AF%A6%E7%BB%86%E4%BF%A1%E6%81%AF.png"  alt></p>
-<p>根据这个信息配置</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">BOOTPROTO&#x3D;&quot;static&quot;  &#x2F;&#x2F;设置为静态</span><br><span class="line">IPADDR&#x3D;&quot;&quot;  &#x2F;&#x2F;你要设置的IP地址  对应IPv4地址 前三组数字要相同，后面的数字自己设置，设置前先ping一下看ping不ping的通，不要使用ping的通的IP</span><br><span class="line">NETMASK&#x3D;&quot;&quot; &#x2F;&#x2F;IPv4 子网掩码 对应 IPv4 子网掩码要一模一样</span><br><span class="line">GATEWAY&#x3D;&quot;&quot; &#x2F;&#x2F;IPv4 默认网关 对应 IPv4 默认网关要一模一样</span><br><span class="line">DNS1&#x3D;&quot;8.8.8.8&quot;  &#x2F;&#x2F;可以不配置</span><br></pre></td></tr></table></figure>
-
-<p>修改完成输入命令重启网络服务</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">systemctl restart network</span><br></pre></td></tr></table></figure>
-
-<p>测试 </p>
-<p>ping <a href="http://www.baidu.com" target="_blank" rel="noopener">www.baidu.com</a></p>
-]]></content>
-      <categories>
-        <category>操作系统</category>
-        <category>Linux</category>
-      </categories>
-      <tags>
-        <tag>Linux</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Docker</title>
     <url>/2020/03/21/Docker/</url>
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><blockquote>
@@ -561,117 +495,69 @@
       </tags>
   </entry>
   <entry>
-    <title>RabbitMQ</title>
-    <url>/2020/03/19/RabbitMQ/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><blockquote>
-<p>AMQP，即Advanced Message Queuing Protocol，高级消息队列协议，是应用层协议的一个开放标准，为面向消息的<a href="http://www.diggerplus.org/archives/tag/中间件" target="_blank" rel="noopener">中间件</a>设计。消息中间件主要用于组件之间的解耦，消息的发送者无需知道消息使用者的存在，反之亦然。</p>
-<p>AMQP的主要特征是面向消息、队列、路由（包括点对点和发布/订阅）、可靠性、安全。<br>RabbitMQ是一个开源的AMQP实现，服务器端用Erlang语言编写，支持多种客户端，如：Python、Ruby、.NET、Java、JMS、C、PHP、ActionScript、XMPP、STOMP等，支持AJAX。用于在分布式系统中存储转发消息，在易用性、扩展性、高可用性等方面表现不俗。</p>
-</blockquote>
+    <title>Linux命令</title>
+    <url>/2020/03/06/Linux%E5%91%BD%E4%BB%A4/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">查看Redis启动的端口</span><br><span class="line">ps -ef | grep -i redis</span><br><span class="line"></span><br><span class="line">查看进程树</span><br><span class="line">pstree</span><br><span class="line"></span><br><span class="line">查看某端口否开启</span><br><span class="line">netstat -tunlp | grep 6379</span><br><span class="line"></span><br><span class="line">查看 Redis 安装路径</span><br><span class="line">whereis redis</span><br><span class="line"></span><br><span class="line">查看 Redis 客户端安装路径(我好像看不懂这个路径)</span><br><span class="line">whereis redis-cli</span><br></pre></td></tr></table></figure>
+
 <a id="more"></a>
 
-<h2 id="作用"><a href="#作用" class="headerlink" title="作用"></a>作用</h2><ul>
-<li>异步处理</li>
-<li>应用解耦</li>
-<li>流量削峰</li>
-<li>日志处理</li>
-<li>等等等等等。。。。。。</li>
-</ul>
-<h1 id="安装与配置"><a href="#安装与配置" class="headerlink" title="安装与配置"></a>安装与配置</h1><h2 id="使用Docker安装"><a href="#使用Docker安装" class="headerlink" title="使用Docker安装"></a>使用Docker安装</h2><p>拉取镜像</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">#指定版本，该版本包含了web控制页面</span><br><span class="line">docker pull rabbitmq:management</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">查看 Redis 服务端路径</span><br><span class="line">whereis redis-server</span><br><span class="line"></span><br><span class="line">启动服务端</span><br><span class="line">bin&#x2F;redis-server redis.conf</span><br><span class="line"></span><br><span class="line">启动客户端</span><br><span class="line">bin&#x2F;redis-cli -a 密码</span><br><span class="line"></span><br><span class="line">关闭客户端</span><br><span class="line">shutdown</span><br><span class="line"></span><br><span class="line">关闭（杀进程）</span><br><span class="line">pkill redis-server</span><br><span class="line"></span><br><span class="line">清空当前的数据库</span><br><span class="line">flushdb</span><br><span class="line"></span><br><span class="line">选择数据库（一共16个）</span><br><span class="line">select index</span><br><span class="line"></span><br><span class="line">杀掉指定的连接</span><br><span class="line">kill PID</span><br><span class="line"></span><br><span class="line">打开指定文件</span><br><span class="line">less Redis.conf</span><br><span class="line">	:q 退出</span><br><span class="line">	:wq 保存并退出</span><br><span class="line">	v i 修改文件</span><br><span class="line">	ESC 取消当前操作</span><br><span class="line">	u 撤回</span><br><span class="line">	&#x2F;关键字  查询关键字</span><br><span class="line">	</span><br><span class="line">退出客户端连接</span><br><span class="line">quit</span><br></pre></td></tr></table></figure>
 
-<p>运行</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">#方式一：默认guest 用户，密码也是 guest</span><br><span class="line">docker run -d --hostname my-rabbit --name rabbit -p 15672:15672 -p 5672:5672 rabbitmq:management</span><br><span class="line"></span><br><span class="line">#方式二：设置用户名和密码</span><br><span class="line">docker run -d --hostname my-rabbit --name rabbit -e RABBITMQ_DEFAULT_USER&#x3D;root -e RABBITMQ_DEFAULT_PASS&#x3D;1234 -p 15672:15672 -p 5672:5672 rabbitmq:management</span><br></pre></td></tr></table></figure>
-
-<p>启动成功后浏览器访问<a href="http://192.168.156.128:15672" target="_blank" rel="noopener">http://192.168.156.128:15672</a></p>
-<p><img src="/" class="lazyload" data-src="/2020/03/19/RabbitMQ/RabbitMQ%E4%B8%BB%E9%A1%B5.png"  alt></p>
-<ul>
-<li>Overview 总览</li>
-<li>Connections 连接信息</li>
-<li>Channels 信道</li>
-<li>Exchange 交换机</li>
-<li>Queues 队列</li>
-<li>Admin 管理员</li>
-</ul>
-<h2 id="快速入门"><a href="#快速入门" class="headerlink" title="快速入门"></a>快速入门</h2><h3 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h3><p><img src="/" class="lazyload" data-src="/2020/03/19/RabbitMQ/SpringBoot%E6%B6%88%E6%81%AF%E6%A6%82%E5%BF%B5.png"  alt></p>
-<p><img src="/" class="lazyload" data-src="/2020/03/19/RabbitMQ/JMS%E5%92%8CAMQP.png"  alt></p>
-<p><img src="/" class="lazyload" data-src="/2020/03/19/RabbitMQ/Spring%E6%94%AF%E6%8C%81JMS%E5%92%8CAMQP.png"  alt></p>
-<h3 id="RabbitMQ简介"><a href="#RabbitMQ简介" class="headerlink" title="RabbitMQ简介"></a>RabbitMQ简介</h3><p><img src="/" class="lazyload" data-src="/2020/03/19/RabbitMQ/RabbitMQ%E7%AE%80%E4%BB%8B.png"  alt></p>
-<p><img src="/" class="lazyload" data-src="/2020/03/19/RabbitMQ/rabbitmq%E7%AE%80%E4%BB%8B2.png"  alt></p>
-<p><img src="/" class="lazyload" data-src="/2020/03/19/RabbitMQ/rabbitmq%E7%AE%80%E4%BB%8B3.png"  alt></p>
-<h3 id="RabbitMQ运行机制"><a href="#RabbitMQ运行机制" class="headerlink" title="RabbitMQ运行机制"></a>RabbitMQ运行机制</h3><p><img src="/" class="lazyload" data-src="/2020/03/19/RabbitMQ/rabbitmq%E8%BF%90%E8%A1%8C%E6%9C%BA%E5%88%B6.png"  alt></p>
-<p><img src="/" class="lazyload" data-src="/2020/03/19/RabbitMQ/Exchange%E7%B1%BB%E5%9E%8B.png"  alt></p>
-<p><img src="/" class="lazyload" data-src="/2020/03/19/RabbitMQ/FanoutExchangeandTopicExchange.png"  alt></p>
-<h3 id="在可视化页面完成前期操作"><a href="#在可视化页面完成前期操作" class="headerlink" title="在可视化页面完成前期操作"></a>在可视化页面完成前期操作</h3><h4 id="点击Exchange创建交换机"><a href="#点击Exchange创建交换机" class="headerlink" title="点击Exchange创建交换机"></a>点击Exchange创建交换机</h4><p><img src="/" class="lazyload" data-src="/2020/03/19/RabbitMQ/%E9%85%8D%E7%BD%AEExchanges.png"  alt></p>
-<h5 id="Add-a-new-exchange添加交换机"><a href="#Add-a-new-exchange添加交换机" class="headerlink" title="Add a new exchange添加交换机"></a>Add a new exchange添加交换机</h5><ul>
-<li>Name 交换机名字</li>
-<li>Type 类型</li>
-<li>Durability 持久化 Durable为持久化</li>
-<li>Arguments 参数</li>
-</ul>
-<p>添加</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">name &#x3D; cs.direct type &#x3D; direct Durability &#x3D; Durable</span><br><span class="line">cs.fanout type &#x3D; fanout Durability &#x3D; Durable</span><br><span class="line">cs.topic type &#x3D; topic Durability &#x3D; Durable</span><br></pre></td></tr></table></figure>
-
-<h4 id="点击Queues创建消息队列"><a href="#点击Queues创建消息队列" class="headerlink" title="点击Queues创建消息队列"></a>点击Queues创建消息队列</h4><p><img src="/" class="lazyload" data-src="/2020/03/19/RabbitMQ/%E5%88%9B%E5%BB%BAQueres.png"  alt></p>
-<h5 id="Add-a-new-queue"><a href="#Add-a-new-queue" class="headerlink" title="Add a new queue"></a>Add a new queue</h5><ul>
-<li>type 类型 默认 Classic</li>
-<li>Name 名字</li>
-<li>Durability  持久化 默认 Durable 开持久化</li>
-<li>Arguments 参数</li>
-</ul>
-<p>添加</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">cs</span><br><span class="line">cs.news </span><br><span class="line">cs.emps</span><br><span class="line">cscs.news</span><br><span class="line">其他配置都选默认</span><br></pre></td></tr></table></figure>
-
-<h4 id="将Queues绑定到交换机"><a href="#将Queues绑定到交换机" class="headerlink" title="将Queues绑定到交换机"></a>将Queues绑定到交换机</h4><p><img src="/" class="lazyload" data-src="/2020/03/19/RabbitMQ/QQ%E5%9B%BE%E7%89%8720200327144013.png"  alt></p>
-<p>点进去</p>
-<p><img src="/" class="lazyload" data-src="/2020/03/19/RabbitMQ/QQ%E5%9B%BE%E7%89%8720200327144102.png"  alt></p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">To queue &#x3D; 队列名</span><br><span class="line">给cs.direct cs.fanout 绑定刚刚创建的每个队列</span><br></pre></td></tr></table></figure>
-
-<p><img src="/" class="lazyload" data-src="/2020/03/19/RabbitMQ/QQ%E5%9B%BE%E7%89%8720200327144603.png"  alt></p>
-<p><strong>给cs.topic绑定</strong></p>
-<blockquote>
-<p>topic交换器通过模式匹配分配消息的路由键属性，将路由键和某个模式进行匹配，此时队列<br>需要绑定到一个模式上。它将路由键和绑定键的字符串切分成单词，这些单词之间用点隔开。<br>它同样也会识别两个通配符:符号 “#”  和符号  ”星号”。#匹配0个或多个单词，星号 匹配一个单词。</p>
-</blockquote>
-<p><img src="/" class="lazyload" data-src="/2020/03/19/RabbitMQ/QQ%E5%9B%BE%E7%89%8720200327145532.png"  alt></p>
-<h4 id="发个消息测试一下"><a href="#发个消息测试一下" class="headerlink" title="发个消息测试一下"></a>发个消息测试一下</h4><p>点击交换机</p>
-<p><img src="/" class="lazyload" data-src="/2020/03/19/RabbitMQ/QQ%E5%9B%BE%E7%89%8720200327150030.png"  alt></p>
-<p>输入Routing key以及其他参数就可以发布了</p>
-<p>如我从cs.direct 中 发送消息 给 cs</p>
-<p><img src="/" class="lazyload" data-src="/2020/03/19/RabbitMQ/QQ%E5%9B%BE%E7%89%8720200327150210.png"  alt></p>
-<h2 id="SpringBoot整合RabbitMQ"><a href="#SpringBoot整合RabbitMQ" class="headerlink" title="SpringBoot整合RabbitMQ"></a>SpringBoot整合RabbitMQ</h2><p>导入依赖</p>
-<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-amqp<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<p>application.properties</p>
-<figure class="highlight properties"><table><tr><td class="code"><pre><span class="line"><span class="meta">spring.rabbitmq.host</span>=<span class="string">ip地址</span></span><br><span class="line"><span class="meta">spring.rabbitmq.username</span>=<span class="string">root</span></span><br><span class="line"><span class="meta">spring.rabbitmq.password</span>=<span class="string">1234</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="编写测试类测试"><a href="#编写测试类测试" class="headerlink" title="编写测试类测试"></a>编写测试类测试</h3><h4 id="1、direct类型"><a href="#1、direct类型" class="headerlink" title="1、direct类型"></a>1、direct类型</h4><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 1、单播（点对点）也就是 direct</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">direct</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">//Message需要自己构造一个，定义消息体内容和消息头</span></span><br><span class="line">        <span class="comment">//rabbitTemplate.send(exchage, routeKey, message);</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">// object默认当成消息体，只需要传入发送对象，自动序列化发送给rabbitmq</span></span><br><span class="line">		<span class="comment">//rabbitTemplate.convertAndSend(exchange,routeKey,object);</span></span><br><span class="line"></span><br><span class="line">		Map&lt;String,Object&gt; map = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line">		map.put(<span class="string">"msg"</span>,<span class="string">"这是第2个消息"</span>);</span><br><span class="line">		map.put(<span class="string">"data"</span>, Arrays.asList(<span class="string">"helloworld"</span>,<span class="number">123</span>,<span class="keyword">true</span>));</span><br><span class="line"></span><br><span class="line">		<span class="comment">//对象被默认序列化后发送出去</span></span><br><span class="line">		rabbitTemplate.convertAndSend(<span class="string">"exchange.direct"</span>,<span class="string">"duxiu.news"</span>,<span class="keyword">new</span> Book(<span class="string">"admin"</span>,<span class="string">"111"</span>));</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-
-<p>点进相应队列查看消息</p>
-<p><img src="/" class="lazyload" data-src="/2020/03/19/RabbitMQ/QQ%E5%9B%BE%E7%89%8720200327152346.png"  alt></p>
-<p>这里可以看到消息被序列化，默认使用的是 jdk的序列化，我们把它改为json</p>
-<p>config包下创建</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyAMQPConfig</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> MessageConverter <span class="title">messageConverter</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> Jackson2JsonMessageConverter();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><img src="/" class="lazyload" data-src="/2020/03/19/RabbitMQ/QQ%E5%9B%BE%E7%89%8720200327152719.png"  alt></p>
-<h4 id="接收"><a href="#接收" class="headerlink" title="接收"></a>接收</h4><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 接收</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">receive</span><span class="params">()</span></span>&#123;</span><br><span class="line">        Object o = rabbitTemplate.receiveAndConvert(<span class="string">"duxiu.news"</span>);</span><br><span class="line">        System.out.println(o.getClass());</span><br><span class="line">        System.out.println(o);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-
-<h4 id="2、广播-fanout"><a href="#2、广播-fanout" class="headerlink" title="2、广播 fanout"></a>2、广播 fanout</h4><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 广播</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">sendMsg</span><span class="params">()</span></span>&#123;</span><br><span class="line">    rabbitTemplate.convertAndSend(<span class="string">"exchange.fanout"</span>,<span class="string">""</span>,<span class="keyword">new</span> Book(<span class="string">"红楼梦"</span>,<span class="string">"曹雪芹"</span>));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>其他的类似</p>
-<h2 id="监听消息队列内容"><a href="#监听消息队列内容" class="headerlink" title="监听消息队列内容"></a>监听消息队列内容</h2><p>在启动类上添加注解</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#x2F;**</span><br><span class="line"> 开启基于注解的RabbitMQ模式</span><br><span class="line"> **&#x2F;</span><br><span class="line">@EnableRabbit</span><br></pre></td></tr></table></figure>
-
-<h3 id="在server实现类中"><a href="#在server实现类中" class="headerlink" title="在server实现类中"></a>在server实现类中</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Service</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">BookService</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 监听消息队列的内容</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> book</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@RabbitListener</span>(queues = <span class="string">"duxiu.news"</span>)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">receive</span><span class="params">(Book book)</span></span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"收到消息："</span> + book);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@RabbitListener</span>(queues = <span class="string">"duxiu"</span>)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">receive02</span><span class="params">(Message message)</span></span>&#123;</span><br><span class="line">        <span class="comment">//接收消息头信息</span></span><br><span class="line">        System.out.println(message.getBody());</span><br><span class="line">        System.out.println(message.getMessageProperties());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="效果"><a href="#效果" class="headerlink" title="效果"></a>效果</h3><p><img src="/" class="lazyload" data-src="/2020/03/19/RabbitMQ/QQ%E5%9B%BE%E7%89%8720200327153417.png"  alt></p>
-<h1 id="使用AmqpAdmin操作"><a href="#使用AmqpAdmin操作" class="headerlink" title="使用AmqpAdmin操作"></a>使用AmqpAdmin操作</h1><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Autowired</span></span><br><span class="line">    AmqpAdmin amqpAdmin;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 创建交换机Exchange</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">createExchange</span><span class="params">()</span></span>&#123;</span><br><span class="line">        amqpAdmin.declareExchange(<span class="keyword">new</span> DirectExchange(<span class="string">"amqpadmin.exchange"</span>));</span><br><span class="line">        System.out.println(<span class="string">"创建Exchange完成"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 创建队列 Queue</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">createQueue</span><span class="params">()</span></span>&#123;</span><br><span class="line">        amqpAdmin.declareQueue(<span class="keyword">new</span> Queue(<span class="string">"amqpadmin.queue"</span>,<span class="keyword">true</span>));</span><br><span class="line">        System.out.println(<span class="string">"创建Queue成功"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 创建绑定规则</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">createBinding</span><span class="params">()</span></span>&#123;</span><br><span class="line">        amqpAdmin.declareBinding(<span class="keyword">new</span> Binding(<span class="string">"amqpadmin.queue"</span>, Binding.DestinationType.QUEUE,<span class="string">"amqpadmin.exchange"</span>,<span class="string">"amqp.haha"</span>,<span class="keyword">null</span>));</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<h1 id="防火墙"><a href="#防火墙" class="headerlink" title="防火墙"></a>防火墙</h1><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">重启防火墙</span><br><span class="line">firewall-cmd --reload</span><br><span class="line"></span><br><span class="line">开启端口</span><br><span class="line">firewall-cmd --zone&#x3D;public --add-port&#x3D;7001&#x2F;tcp --permanent</span><br><span class="line"></span><br><span class="line">查看已开放的端口</span><br><span class="line">firewall-cmd --list-ports</span><br></pre></td></tr></table></figure>
 
 ]]></content>
       <categories>
-        <category>消息中间件</category>
-        <category>RabbitMQ</category>
+        <category>操作系统</category>
+        <category>Linux</category>
       </categories>
       <tags>
-        <tag>RabbitMQ</tag>
+        <tag>Linux</tag>
+        <tag>Redis</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Linux设置固定IP地址</title>
+    <url>/2020/03/11/Linux%E8%AE%BE%E7%BD%AE%E5%9B%BA%E5%AE%9AIP%E5%9C%B0%E5%9D%80/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h1 id="Linux设置固定IP地址"><a href="#Linux设置固定IP地址" class="headerlink" title="Linux设置固定IP地址"></a>Linux设置固定IP地址</h1><p>我这里使用的系统是 CentOS7</p>
+<p>找到网络配置文件</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">cd &#x2F;etc&#x2F;sysconfig&#x2F;network-scripts&#x2F;&amp;&amp;ls</span><br></pre></td></tr></table></figure>
+
+<p>找到 <strong>ifcfg-ens33</strong> 这个文件（系统不同可能文件不同，但是大概都是这个位置）</p>
+<p><img src="/" class="lazyload" data-src="/2020/03/11/Linux%E8%AE%BE%E7%BD%AE%E5%9B%BA%E5%AE%9AIP%E5%9C%B0%E5%9D%80/ifcfg-ens33.png"  alt></p>
+<a id="more"></a>
+
+<p>打开 ifcfg-ens33</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">less ifcfg-ens33</span><br></pre></td></tr></table></figure>
+
+<p><img src="/" class="lazyload" data-src="/2020/03/11/Linux%E8%AE%BE%E7%BD%AE%E5%9B%BA%E5%AE%9AIP%E5%9C%B0%E5%9D%80/less-ifcfg-ens33.png"  alt></p>
+<p>输入</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">vi &#x2F;&#x2F;进入修改</span><br><span class="line">ESC &#x2F;&#x2F;退出当前指令</span><br><span class="line">:q &#x2F;&#x2F;退出</span><br><span class="line">:w &#x2F;&#x2F;保存</span><br><span class="line">:wq &#x2F;&#x2F;保存并退出</span><br></pre></td></tr></table></figure>
+
+<p>主要配置</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">BOOTPROTO&#x3D;&quot;static&quot;  &#x2F;&#x2F;设置为静态</span><br><span class="line">IPADDR&#x3D;&quot;&quot;  &#x2F;&#x2F;你要设置的IP地址</span><br><span class="line">NETMASK&#x3D;&quot;&quot; &#x2F;&#x2F;IPv4 子网掩码</span><br><span class="line">GATEWAY&#x3D;&quot;&quot; &#x2F;&#x2F;IPv4 默认网关</span><br><span class="line">DNS1&#x3D;&quot;8.8.8.8&quot;  &#x2F;&#x2F;可以不配置</span><br></pre></td></tr></table></figure>
+
+<p>上述主要配置需要根据本机网络信息来配置</p>
+<p>进入网络连接</p>
+<p><img src="/" class="lazyload" data-src="/2020/03/11/Linux%E8%AE%BE%E7%BD%AE%E5%9B%BA%E5%AE%9AIP%E5%9C%B0%E5%9D%80/%E6%9C%AC%E6%9C%BA%E7%BD%91%E7%BB%9C.png"  alt></p>
+<p>右键当前连接的网络，点击<strong>状态</strong></p>
+<p><img src="/" class="lazyload" data-src="/2020/03/11/Linux%E8%AE%BE%E7%BD%AE%E5%9B%BA%E5%AE%9AIP%E5%9C%B0%E5%9D%80/%E7%BD%91%E7%BB%9C%E4%BF%A1%E6%81%AF.png"  alt></p>
+<p>点击详细信息</p>
+<p><img src="/" class="lazyload" data-src="/2020/03/11/Linux%E8%AE%BE%E7%BD%AE%E5%9B%BA%E5%AE%9AIP%E5%9C%B0%E5%9D%80/%E7%BD%91%E7%BB%9C%E8%AF%A6%E7%BB%86%E4%BF%A1%E6%81%AF.png"  alt></p>
+<p>根据这个信息配置</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">BOOTPROTO&#x3D;&quot;static&quot;  &#x2F;&#x2F;设置为静态</span><br><span class="line">IPADDR&#x3D;&quot;&quot;  &#x2F;&#x2F;你要设置的IP地址  对应IPv4地址 前三组数字要相同，后面的数字自己设置，设置前先ping一下看ping不ping的通，不要使用ping的通的IP</span><br><span class="line">NETMASK&#x3D;&quot;&quot; &#x2F;&#x2F;IPv4 子网掩码 对应 IPv4 子网掩码要一模一样</span><br><span class="line">GATEWAY&#x3D;&quot;&quot; &#x2F;&#x2F;IPv4 默认网关 对应 IPv4 默认网关要一模一样</span><br><span class="line">DNS1&#x3D;&quot;8.8.8.8&quot;  &#x2F;&#x2F;可以不配置</span><br></pre></td></tr></table></figure>
+
+<p>修改完成输入命令重启网络服务</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">systemctl restart network</span><br></pre></td></tr></table></figure>
+
+<p>测试 </p>
+<p>ping <a href="http://www.baidu.com" target="_blank" rel="noopener">www.baidu.com</a></p>
+]]></content>
+      <categories>
+        <category>操作系统</category>
+        <category>Linux</category>
+      </categories>
+      <tags>
+        <tag>Linux</tag>
       </tags>
   </entry>
   <entry>
@@ -894,6 +780,120 @@
       </categories>
       <tags>
         <tag>Nginx</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>RabbitMQ</title>
+    <url>/2020/03/19/RabbitMQ/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><blockquote>
+<p>AMQP，即Advanced Message Queuing Protocol，高级消息队列协议，是应用层协议的一个开放标准，为面向消息的<a href="http://www.diggerplus.org/archives/tag/中间件" target="_blank" rel="noopener">中间件</a>设计。消息中间件主要用于组件之间的解耦，消息的发送者无需知道消息使用者的存在，反之亦然。</p>
+<p>AMQP的主要特征是面向消息、队列、路由（包括点对点和发布/订阅）、可靠性、安全。<br>RabbitMQ是一个开源的AMQP实现，服务器端用Erlang语言编写，支持多种客户端，如：Python、Ruby、.NET、Java、JMS、C、PHP、ActionScript、XMPP、STOMP等，支持AJAX。用于在分布式系统中存储转发消息，在易用性、扩展性、高可用性等方面表现不俗。</p>
+</blockquote>
+<a id="more"></a>
+
+<h2 id="作用"><a href="#作用" class="headerlink" title="作用"></a>作用</h2><ul>
+<li>异步处理</li>
+<li>应用解耦</li>
+<li>流量削峰</li>
+<li>日志处理</li>
+<li>等等等等等。。。。。。</li>
+</ul>
+<h1 id="安装与配置"><a href="#安装与配置" class="headerlink" title="安装与配置"></a>安装与配置</h1><h2 id="使用Docker安装"><a href="#使用Docker安装" class="headerlink" title="使用Docker安装"></a>使用Docker安装</h2><p>拉取镜像</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">#指定版本，该版本包含了web控制页面</span><br><span class="line">docker pull rabbitmq:management</span><br></pre></td></tr></table></figure>
+
+<p>运行</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">#方式一：默认guest 用户，密码也是 guest</span><br><span class="line">docker run -d --hostname my-rabbit --name rabbit -p 15672:15672 -p 5672:5672 rabbitmq:management</span><br><span class="line"></span><br><span class="line">#方式二：设置用户名和密码</span><br><span class="line">docker run -d --hostname my-rabbit --name rabbit -e RABBITMQ_DEFAULT_USER&#x3D;root -e RABBITMQ_DEFAULT_PASS&#x3D;1234 -p 15672:15672 -p 5672:5672 rabbitmq:management</span><br></pre></td></tr></table></figure>
+
+<p>启动成功后浏览器访问<a href="http://192.168.156.128:15672" target="_blank" rel="noopener">http://192.168.156.128:15672</a></p>
+<p><img src="/" class="lazyload" data-src="/2020/03/19/RabbitMQ/RabbitMQ%E4%B8%BB%E9%A1%B5.png"  alt></p>
+<ul>
+<li>Overview 总览</li>
+<li>Connections 连接信息</li>
+<li>Channels 信道</li>
+<li>Exchange 交换机</li>
+<li>Queues 队列</li>
+<li>Admin 管理员</li>
+</ul>
+<h2 id="快速入门"><a href="#快速入门" class="headerlink" title="快速入门"></a>快速入门</h2><h3 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h3><p><img src="/" class="lazyload" data-src="/2020/03/19/RabbitMQ/SpringBoot%E6%B6%88%E6%81%AF%E6%A6%82%E5%BF%B5.png"  alt></p>
+<p><img src="/" class="lazyload" data-src="/2020/03/19/RabbitMQ/JMS%E5%92%8CAMQP.png"  alt></p>
+<p><img src="/" class="lazyload" data-src="/2020/03/19/RabbitMQ/Spring%E6%94%AF%E6%8C%81JMS%E5%92%8CAMQP.png"  alt></p>
+<h3 id="RabbitMQ简介"><a href="#RabbitMQ简介" class="headerlink" title="RabbitMQ简介"></a>RabbitMQ简介</h3><p><img src="/" class="lazyload" data-src="/2020/03/19/RabbitMQ/RabbitMQ%E7%AE%80%E4%BB%8B.png"  alt></p>
+<p><img src="/" class="lazyload" data-src="/2020/03/19/RabbitMQ/rabbitmq%E7%AE%80%E4%BB%8B2.png"  alt></p>
+<p><img src="/" class="lazyload" data-src="/2020/03/19/RabbitMQ/rabbitmq%E7%AE%80%E4%BB%8B3.png"  alt></p>
+<h3 id="RabbitMQ运行机制"><a href="#RabbitMQ运行机制" class="headerlink" title="RabbitMQ运行机制"></a>RabbitMQ运行机制</h3><p><img src="/" class="lazyload" data-src="/2020/03/19/RabbitMQ/rabbitmq%E8%BF%90%E8%A1%8C%E6%9C%BA%E5%88%B6.png"  alt></p>
+<p><img src="/" class="lazyload" data-src="/2020/03/19/RabbitMQ/Exchange%E7%B1%BB%E5%9E%8B.png"  alt></p>
+<p><img src="/" class="lazyload" data-src="/2020/03/19/RabbitMQ/FanoutExchangeandTopicExchange.png"  alt></p>
+<h3 id="在可视化页面完成前期操作"><a href="#在可视化页面完成前期操作" class="headerlink" title="在可视化页面完成前期操作"></a>在可视化页面完成前期操作</h3><h4 id="点击Exchange创建交换机"><a href="#点击Exchange创建交换机" class="headerlink" title="点击Exchange创建交换机"></a>点击Exchange创建交换机</h4><p><img src="/" class="lazyload" data-src="/2020/03/19/RabbitMQ/%E9%85%8D%E7%BD%AEExchanges.png"  alt></p>
+<h5 id="Add-a-new-exchange添加交换机"><a href="#Add-a-new-exchange添加交换机" class="headerlink" title="Add a new exchange添加交换机"></a>Add a new exchange添加交换机</h5><ul>
+<li>Name 交换机名字</li>
+<li>Type 类型</li>
+<li>Durability 持久化 Durable为持久化</li>
+<li>Arguments 参数</li>
+</ul>
+<p>添加</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">name &#x3D; cs.direct type &#x3D; direct Durability &#x3D; Durable</span><br><span class="line">cs.fanout type &#x3D; fanout Durability &#x3D; Durable</span><br><span class="line">cs.topic type &#x3D; topic Durability &#x3D; Durable</span><br></pre></td></tr></table></figure>
+
+<h4 id="点击Queues创建消息队列"><a href="#点击Queues创建消息队列" class="headerlink" title="点击Queues创建消息队列"></a>点击Queues创建消息队列</h4><p><img src="/" class="lazyload" data-src="/2020/03/19/RabbitMQ/%E5%88%9B%E5%BB%BAQueres.png"  alt></p>
+<h5 id="Add-a-new-queue"><a href="#Add-a-new-queue" class="headerlink" title="Add a new queue"></a>Add a new queue</h5><ul>
+<li>type 类型 默认 Classic</li>
+<li>Name 名字</li>
+<li>Durability  持久化 默认 Durable 开持久化</li>
+<li>Arguments 参数</li>
+</ul>
+<p>添加</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">cs</span><br><span class="line">cs.news </span><br><span class="line">cs.emps</span><br><span class="line">cscs.news</span><br><span class="line">其他配置都选默认</span><br></pre></td></tr></table></figure>
+
+<h4 id="将Queues绑定到交换机"><a href="#将Queues绑定到交换机" class="headerlink" title="将Queues绑定到交换机"></a>将Queues绑定到交换机</h4><p><img src="/" class="lazyload" data-src="/2020/03/19/RabbitMQ/QQ%E5%9B%BE%E7%89%8720200327144013.png"  alt></p>
+<p>点进去</p>
+<p><img src="/" class="lazyload" data-src="/2020/03/19/RabbitMQ/QQ%E5%9B%BE%E7%89%8720200327144102.png"  alt></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">To queue &#x3D; 队列名</span><br><span class="line">给cs.direct cs.fanout 绑定刚刚创建的每个队列</span><br></pre></td></tr></table></figure>
+
+<p><img src="/" class="lazyload" data-src="/2020/03/19/RabbitMQ/QQ%E5%9B%BE%E7%89%8720200327144603.png"  alt></p>
+<p><strong>给cs.topic绑定</strong></p>
+<blockquote>
+<p>topic交换器通过模式匹配分配消息的路由键属性，将路由键和某个模式进行匹配，此时队列<br>需要绑定到一个模式上。它将路由键和绑定键的字符串切分成单词，这些单词之间用点隔开。<br>它同样也会识别两个通配符:符号 “#”  和符号  ”星号”。#匹配0个或多个单词，星号 匹配一个单词。</p>
+</blockquote>
+<p><img src="/" class="lazyload" data-src="/2020/03/19/RabbitMQ/QQ%E5%9B%BE%E7%89%8720200327145532.png"  alt></p>
+<h4 id="发个消息测试一下"><a href="#发个消息测试一下" class="headerlink" title="发个消息测试一下"></a>发个消息测试一下</h4><p>点击交换机</p>
+<p><img src="/" class="lazyload" data-src="/2020/03/19/RabbitMQ/QQ%E5%9B%BE%E7%89%8720200327150030.png"  alt></p>
+<p>输入Routing key以及其他参数就可以发布了</p>
+<p>如我从cs.direct 中 发送消息 给 cs</p>
+<p><img src="/" class="lazyload" data-src="/2020/03/19/RabbitMQ/QQ%E5%9B%BE%E7%89%8720200327150210.png"  alt></p>
+<h2 id="SpringBoot整合RabbitMQ"><a href="#SpringBoot整合RabbitMQ" class="headerlink" title="SpringBoot整合RabbitMQ"></a>SpringBoot整合RabbitMQ</h2><p>导入依赖</p>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-amqp<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>application.properties</p>
+<figure class="highlight properties"><table><tr><td class="code"><pre><span class="line"><span class="meta">spring.rabbitmq.host</span>=<span class="string">ip地址</span></span><br><span class="line"><span class="meta">spring.rabbitmq.username</span>=<span class="string">root</span></span><br><span class="line"><span class="meta">spring.rabbitmq.password</span>=<span class="string">1234</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="编写测试类测试"><a href="#编写测试类测试" class="headerlink" title="编写测试类测试"></a>编写测试类测试</h3><h4 id="1、direct类型"><a href="#1、direct类型" class="headerlink" title="1、direct类型"></a>1、direct类型</h4><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 1、单播（点对点）也就是 direct</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">direct</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">//Message需要自己构造一个，定义消息体内容和消息头</span></span><br><span class="line">        <span class="comment">//rabbitTemplate.send(exchage, routeKey, message);</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">// object默认当成消息体，只需要传入发送对象，自动序列化发送给rabbitmq</span></span><br><span class="line">		<span class="comment">//rabbitTemplate.convertAndSend(exchange,routeKey,object);</span></span><br><span class="line"></span><br><span class="line">		Map&lt;String,Object&gt; map = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line">		map.put(<span class="string">"msg"</span>,<span class="string">"这是第2个消息"</span>);</span><br><span class="line">		map.put(<span class="string">"data"</span>, Arrays.asList(<span class="string">"helloworld"</span>,<span class="number">123</span>,<span class="keyword">true</span>));</span><br><span class="line"></span><br><span class="line">		<span class="comment">//对象被默认序列化后发送出去</span></span><br><span class="line">		rabbitTemplate.convertAndSend(<span class="string">"exchange.direct"</span>,<span class="string">"duxiu.news"</span>,<span class="keyword">new</span> Book(<span class="string">"admin"</span>,<span class="string">"111"</span>));</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p>点进相应队列查看消息</p>
+<p><img src="/" class="lazyload" data-src="/2020/03/19/RabbitMQ/QQ%E5%9B%BE%E7%89%8720200327152346.png"  alt></p>
+<p>这里可以看到消息被序列化，默认使用的是 jdk的序列化，我们把它改为json</p>
+<p>config包下创建</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyAMQPConfig</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> MessageConverter <span class="title">messageConverter</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> Jackson2JsonMessageConverter();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/" class="lazyload" data-src="/2020/03/19/RabbitMQ/QQ%E5%9B%BE%E7%89%8720200327152719.png"  alt></p>
+<h4 id="接收"><a href="#接收" class="headerlink" title="接收"></a>接收</h4><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 接收</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">receive</span><span class="params">()</span></span>&#123;</span><br><span class="line">        Object o = rabbitTemplate.receiveAndConvert(<span class="string">"duxiu.news"</span>);</span><br><span class="line">        System.out.println(o.getClass());</span><br><span class="line">        System.out.println(o);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="2、广播-fanout"><a href="#2、广播-fanout" class="headerlink" title="2、广播 fanout"></a>2、广播 fanout</h4><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 广播</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">sendMsg</span><span class="params">()</span></span>&#123;</span><br><span class="line">    rabbitTemplate.convertAndSend(<span class="string">"exchange.fanout"</span>,<span class="string">""</span>,<span class="keyword">new</span> Book(<span class="string">"红楼梦"</span>,<span class="string">"曹雪芹"</span>));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>其他的类似</p>
+<h2 id="监听消息队列内容"><a href="#监听消息队列内容" class="headerlink" title="监听消息队列内容"></a>监听消息队列内容</h2><p>在启动类上添加注解</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#x2F;**</span><br><span class="line"> 开启基于注解的RabbitMQ模式</span><br><span class="line"> **&#x2F;</span><br><span class="line">@EnableRabbit</span><br></pre></td></tr></table></figure>
+
+<h3 id="在server实现类中"><a href="#在server实现类中" class="headerlink" title="在server实现类中"></a>在server实现类中</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Service</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">BookService</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 监听消息队列的内容</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> book</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@RabbitListener</span>(queues = <span class="string">"duxiu.news"</span>)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">receive</span><span class="params">(Book book)</span></span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"收到消息："</span> + book);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@RabbitListener</span>(queues = <span class="string">"duxiu"</span>)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">receive02</span><span class="params">(Message message)</span></span>&#123;</span><br><span class="line">        <span class="comment">//接收消息头信息</span></span><br><span class="line">        System.out.println(message.getBody());</span><br><span class="line">        System.out.println(message.getMessageProperties());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="效果"><a href="#效果" class="headerlink" title="效果"></a>效果</h3><p><img src="/" class="lazyload" data-src="/2020/03/19/RabbitMQ/QQ%E5%9B%BE%E7%89%8720200327153417.png"  alt></p>
+<h1 id="使用AmqpAdmin操作"><a href="#使用AmqpAdmin操作" class="headerlink" title="使用AmqpAdmin操作"></a>使用AmqpAdmin操作</h1><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Autowired</span></span><br><span class="line">    AmqpAdmin amqpAdmin;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 创建交换机Exchange</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">createExchange</span><span class="params">()</span></span>&#123;</span><br><span class="line">        amqpAdmin.declareExchange(<span class="keyword">new</span> DirectExchange(<span class="string">"amqpadmin.exchange"</span>));</span><br><span class="line">        System.out.println(<span class="string">"创建Exchange完成"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 创建队列 Queue</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">createQueue</span><span class="params">()</span></span>&#123;</span><br><span class="line">        amqpAdmin.declareQueue(<span class="keyword">new</span> Queue(<span class="string">"amqpadmin.queue"</span>,<span class="keyword">true</span>));</span><br><span class="line">        System.out.println(<span class="string">"创建Queue成功"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 创建绑定规则</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">createBinding</span><span class="params">()</span></span>&#123;</span><br><span class="line">        amqpAdmin.declareBinding(<span class="keyword">new</span> Binding(<span class="string">"amqpadmin.queue"</span>, Binding.DestinationType.QUEUE,<span class="string">"amqpadmin.exchange"</span>,<span class="string">"amqp.haha"</span>,<span class="keyword">null</span>));</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>消息中间件</category>
+        <category>RabbitMQ</category>
+      </categories>
+      <tags>
+        <tag>RabbitMQ</tag>
       </tags>
   </entry>
   <entry>
@@ -1538,73 +1538,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Shiro</title>
-    <url>/2020/03/18/Shiro/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h1 id="Shiro-简介"><a href="#Shiro-简介" class="headerlink" title="Shiro 简介"></a>Shiro 简介</h1><h2 id="什么是Shiro"><a href="#什么是Shiro" class="headerlink" title="什么是Shiro"></a>什么是Shiro</h2><ul>
-<li>Apache Shiro是一个Java的安全(权限)框架。</li>
-<li>Shiro 可以非常容易的开发出足够好的应用，其不仅可以用在JavaSE环境，也可以用在JavaEE环境。</li>
-<li>Shiro可以完成，认证，授权，加密，会话管理，Web集成，缓存等。</li>
-<li>下载地址: <a href="http://shiro.apache.org" target="_blank" rel="noopener">http://shiro.apache.org</a></li>
-</ul>
-<a id="more"></a>
-
-<h2 id="有哪些功能"><a href="#有哪些功能" class="headerlink" title="有哪些功能"></a>有哪些功能</h2><p><img src="/" class="lazyload" data-src="/2020/03/18/Shiro/Shiro%E5%8A%9F%E8%83%BD.png"  alt></p>
-<ul>
-<li>Authentication:身份认证、登录，验证用户是不是拥有相应的身份;</li>
-<li>Authorization:授权，即权限验证，验证某个已认证的用户是否拥有某个权限，即判断用户能否进行什么操作，如: 验证某个用户是否拥有某个角色，或者细粒度的验证某个用户对某个资源是否具有某个权限!</li>
-<li>Session Manager: 会话管理，即用户登录后就是第一次会话，在没有退出之前，它的所有信息都在会话中: 会话可以是普通的JavaSE环境，也可以是Web环境;</li>
-<li>Cryptography: 加密，保护数据的安全性,如密码加密存储到数据库中，而不是明文存储;</li>
-<li>Web Support: Web支持， 可以非常容易的集成到Web环境;</li>
-<li>Caching:缓存，比如用户登录后，其用户信息，拥有的角色、权限不必每次去查,这样可以提高效率</li>
-<li>Concurrency: Shiro支持多线程应用的并发验证，即，如在-一个线程中开启另一个线程，能把权限自动的传播过去</li>
-<li>Testing:提供测试支持;</li>
-<li>Run As:允许一个用户假装为另一个用户(如果他们允许)的身份进行访问;</li>
-<li>Remember Me:记住我，这个是非常常见的功能，即一次登录后，下次再来的话不用登录了</li>
-</ul>
-<h2 id="Shiro架构（外部）"><a href="#Shiro架构（外部）" class="headerlink" title="Shiro架构（外部）"></a>Shiro架构（外部）</h2><p>从外部来看Shiro,即从应用程序角度来观察如何使用shiro完成工作:<br><img src="/" class="lazyload" data-src="/2020/03/18/Shiro/Shiro%E6%9E%B6%E6%9E%84%EF%BC%88%E5%A4%96%E9%83%A8%EF%BC%89.png"  alt></p>
-<ul>
-<li>subject:应用代码直接交互的对象是Subject,也就是说Shiro的对外API核心就是Subject, Subject代表了当前的用户，这个用户不一定是一个具体的人，与当前应用交互的任何东西都是Subject, 如网络爬虫，机器人等，与Subject的所有交互都会委托给SecurityManager; Subject其实是一个门面, SecurityManager 才是<br>实际的执行者</li>
-<li>SercurityManager:安全管理器，即所有与安全有关的操作都会与SercurityManager交互，并且它管理着所有的Subject,可以看出它是Shiro的核心，它负责与Shiro的其他组件进行交互，它相当于SpringMVC的DispatcherServlet的角色</li>
-<li>Realm: Shiro从Realm获取安全数据 (如用户，角色，权限) ,就是说SecurityManager 要验证用户身份，那么它需要从Realm获取相应的用户进行比较，来确定用户的身份是否合法;也需要从Realm得到用户相应的角色、权限，进行验证用户的操作是否能够进行，可以把Realm看成DataSource;</li>
-</ul>
-<h2 id="Shiro架构（内部）"><a href="#Shiro架构（内部）" class="headerlink" title="Shiro架构（内部）"></a>Shiro架构（内部）</h2><p><img src="/" class="lazyload" data-src="/2020/03/18/Shiro/Shiro%E6%9E%B6%E6%9E%84%EF%BC%88%E5%86%85%E9%83%A8%EF%BC%89.png"  alt></p>
-<ul>
-<li>Subject: 任何可以与应用交互的‘用户‘;</li>
-<li>Security Manager:相当于SpringMVC中的DispatcherServlet; 是Shiro的心脏，所有具体的交互都通过Security Manager进行控制，它管理者所有的Subject,且负责进行认证，授权，会话，及缓存的管理。</li>
-<li>Authenticator: 负责Subject认证， 是一个扩展点，可以自定义实现;可以使用认证策略(AuthenticationStrategy)，即什么情况下算用户认证通过了;</li>
-<li>Authorizer:授权器，即访问控制器，用来决定主体是否有权限进行相应的操作;即控制着用户能访问应用中的那些功能;</li>
-<li>Realm:可以有一个或者多个的realm,可以认为是安全实体数据源，即用于获取安全实体的，可以用JDBC实现，也可以是内存实现等等，由用户提供 ;所以一般在应用中都需要实现自己的realm</li>
-<li>SessionManager: 管理Session生命周期的组件，而Shiro并不仅仅可以用在Web环境，也可以用在普通的JavaSE环境中</li>
-<li>CacheManager:缓存控制器，来管理如用户，角色，权限等缓存的;因为这些数据基本上很少改变，放到缓存中后可以提高访问的性能;</li>
-<li>Cryptography:密码模块，Shiro 提高了一些常见的加密组件用于密码加密， 解密等</li>
-</ul>
-<h1 id="HelloWord"><a href="#HelloWord" class="headerlink" title="HelloWord"></a>HelloWord</h1><h2 id="快速入门"><a href="#快速入门" class="headerlink" title="快速入门"></a>快速入门</h2><p><a href="https://github.com/apache/shiro" target="_blank" rel="noopener">https://github.com/apache/shiro</a></p>
-<p>导入依赖</p>
-<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.shiro<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>shiro-core<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.5.1<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        <span class="comment">&lt;!-- configure logging --&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.slf4j<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>jcl-over-slf4j<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.7.21<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.slf4j<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>slf4j-log4j12<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.7.21<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>log4j<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>log4j<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.2.17<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<p>Shiro提供的 shiro.ini</p>
-<figure class="highlight ini"><table><tr><td class="code"><pre><span class="line"><span class="section">[users]</span></span><br><span class="line"><span class="comment"># user 'root' with password 'secret' and the 'admin' role</span></span><br><span class="line"><span class="attr">root</span> = secret, admin</span><br><span class="line"><span class="comment"># user 'guest' with the password 'guest' and the 'guest' role</span></span><br><span class="line"><span class="attr">guest</span> = guest, guest</span><br><span class="line"><span class="comment"># user 'presidentskroob' with password '12345' ("That's the same combination on</span></span><br><span class="line"><span class="comment"># my luggage!!!" ;)), and role 'president'</span></span><br><span class="line"><span class="attr">presidentskroob</span> = <span class="number">12345</span>, president</span><br><span class="line"><span class="comment"># user 'darkhelmet' with password 'ludicrousspeed' and roles 'darklord' and 'schwartz'</span></span><br><span class="line"><span class="attr">darkhelmet</span> = ludicrousspeed, darklord, schwartz</span><br><span class="line"><span class="comment"># user 'lonestarr' with password 'vespa' and roles 'goodguy' and 'schwartz'</span></span><br><span class="line"><span class="attr">lonestarr</span> = vespa, goodguy, schwartz</span><br><span class="line"></span><br><span class="line"><span class="comment"># -----------------------------------------------------------------------------</span></span><br><span class="line"><span class="comment"># Roles with assigned permissions</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># Each line conforms to the format defined in the</span></span><br><span class="line"><span class="comment"># org.apache.shiro.realm.text.TextConfigurationRealm#setRoleDefinitions JavaDoc</span></span><br><span class="line"><span class="comment"># -----------------------------------------------------------------------------</span></span><br><span class="line"><span class="section">[roles]</span></span><br><span class="line"><span class="comment"># 'admin' role has all permissions, indicated by the wildcard '*'</span></span><br><span class="line"><span class="attr">admin</span> = *</span><br><span class="line"><span class="comment"># The 'schwartz' role can do anything (*) with any lightsaber:</span></span><br><span class="line"><span class="attr">schwartz</span> = lightsaber:*</span><br><span class="line"><span class="comment"># The 'goodguy' role is allowed to 'drive' (action) the winnebago (type) with</span></span><br><span class="line"><span class="comment"># license plate 'eagle5' (instance specific id)</span></span><br><span class="line"><span class="attr">goodguy</span> = winnebago:drive:eagle5</span><br></pre></td></tr></table></figure>
-
-<p>Shiro 提供的 Quickstart.java</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> * Licensed to the Apache Software Foundation (ASF) under one</span></span><br><span class="line"><span class="comment"> * or more contributor license agreements.  See the NOTICE file</span></span><br><span class="line"><span class="comment"> * distributed with this work for additional information</span></span><br><span class="line"><span class="comment"> * regarding copyright ownership.  The ASF licenses this file</span></span><br><span class="line"><span class="comment"> * to you under the Apache License, Version 2.0 (the</span></span><br><span class="line"><span class="comment"> * "License"); you may not use this file except in compliance</span></span><br><span class="line"><span class="comment"> * with the License.  You may obtain a copy of the License at</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> *     http://www.apache.org/licenses/LICENSE-2.0</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * Unless required by applicable law or agreed to in writing,</span></span><br><span class="line"><span class="comment"> * software distributed under the License is distributed on an</span></span><br><span class="line"><span class="comment"> * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY</span></span><br><span class="line"><span class="comment"> * KIND, either express or implied.  See the License for the</span></span><br><span class="line"><span class="comment"> * specific language governing permissions and limitations</span></span><br><span class="line"><span class="comment"> * under the License.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.apache.shiro.SecurityUtils;</span><br><span class="line"><span class="keyword">import</span> org.apache.shiro.authc.*;</span><br><span class="line"><span class="keyword">import</span> org.apache.shiro.config.IniSecurityManagerFactory;</span><br><span class="line"><span class="keyword">import</span> org.apache.shiro.mgt.SecurityManager;</span><br><span class="line"><span class="keyword">import</span> org.apache.shiro.session.Session;</span><br><span class="line"><span class="keyword">import</span> org.apache.shiro.subject.Subject;</span><br><span class="line"><span class="keyword">import</span> org.apache.shiro.util.Factory;</span><br><span class="line"><span class="keyword">import</span> org.slf4j.Logger;</span><br><span class="line"><span class="keyword">import</span> org.slf4j.LoggerFactory;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Simple Quickstart application showing how to use Shiro's API.</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@since</span> 0.9 RC2</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Quickstart</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">transient</span> Logger log = LoggerFactory.getLogger(Quickstart<span class="class">.<span class="keyword">class</span>)</span>;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        Factory&lt;SecurityManager&gt; factory = <span class="keyword">new</span> IniSecurityManagerFactory(<span class="string">"classpath:shiro.ini"</span>);</span><br><span class="line">        SecurityManager securityManager = factory.getInstance();</span><br><span class="line">        SecurityUtils.setSecurityManager(securityManager);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// Now that a simple Shiro environment is set up, let's see what you can do:</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">// get the currently executing user:</span></span><br><span class="line">        <span class="comment">//获取当前的用户对象 Subject</span></span><br><span class="line">        Subject currentUser = SecurityUtils.getSubject();</span><br><span class="line"></span><br><span class="line">        <span class="comment">// Do some stuff with a Session (no need for a web or EJB container!!!)</span></span><br><span class="line">        <span class="comment">// 通过当前用户拿到 session</span></span><br><span class="line">        Session session = currentUser.getSession();</span><br><span class="line">        session.setAttribute(<span class="string">"someKey"</span>, <span class="string">"aValue"</span>);</span><br><span class="line">        String value = (String) session.getAttribute(<span class="string">"someKey"</span>);</span><br><span class="line">        <span class="keyword">if</span> (value.equals(<span class="string">"aValue"</span>)) &#123;</span><br><span class="line">            log.info(<span class="string">"Retrieved the correct value! ["</span> + value + <span class="string">"]"</span>);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// let's login the current user so we can check against roles and permissions:</span></span><br><span class="line">        <span class="comment">// 判断当前的用户是否被认证</span></span><br><span class="line">        <span class="keyword">if</span> (!currentUser.isAuthenticated()) &#123;</span><br><span class="line"></span><br><span class="line">            <span class="comment">// token 令牌</span></span><br><span class="line">            UsernamePasswordToken token = <span class="keyword">new</span> UsernamePasswordToken(<span class="string">"lonestarr"</span>, <span class="string">"vespa"</span>);</span><br><span class="line"></span><br><span class="line">            <span class="comment">//设置记住我</span></span><br><span class="line">            token.setRememberMe(<span class="keyword">true</span>);</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line"></span><br><span class="line">                <span class="comment">//执行登录操作</span></span><br><span class="line">                currentUser.login(token);</span><br><span class="line">            &#125; <span class="keyword">catch</span> (UnknownAccountException uae) &#123;</span><br><span class="line"></span><br><span class="line">                <span class="comment">//未知的账户</span></span><br><span class="line">                log.info(<span class="string">"There is no user with username of "</span> + token.getPrincipal());</span><br><span class="line">            &#125; <span class="keyword">catch</span> (IncorrectCredentialsException ice) &#123;</span><br><span class="line"></span><br><span class="line">                <span class="comment">//密码不正确</span></span><br><span class="line">                log.info(<span class="string">"Password for account "</span> + token.getPrincipal() + <span class="string">" was incorrect!"</span>);</span><br><span class="line">            &#125; <span class="keyword">catch</span> (LockedAccountException lae) &#123;</span><br><span class="line"></span><br><span class="line">                <span class="comment">//用户被锁定</span></span><br><span class="line">                log.info(<span class="string">"The account for username "</span> + token.getPrincipal() + <span class="string">" is locked.  "</span> +</span><br><span class="line">                        <span class="string">"Please contact your administrator to unlock it."</span>);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="comment">// ... catch more exceptions here (maybe custom ones specific to your application?</span></span><br><span class="line">            <span class="keyword">catch</span> (AuthenticationException ae) &#123;</span><br><span class="line">                <span class="comment">// 认证异常</span></span><br><span class="line">                <span class="comment">//unexpected condition?  error?</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//say who they are:</span></span><br><span class="line">        <span class="comment">//print their identifying principal (in this case, a username):</span></span><br><span class="line">        <span class="comment">// 获得当前用户的认证</span></span><br><span class="line">        log.info(<span class="string">"User ["</span> + currentUser.getPrincipal() + <span class="string">"] logged in successfully."</span>);</span><br><span class="line"></span><br><span class="line">        <span class="comment">//test a role:</span></span><br><span class="line">        <span class="comment">// 验证当前用户是否有这个角色</span></span><br><span class="line">        <span class="keyword">if</span> (currentUser.hasRole(<span class="string">"schwartz"</span>)) &#123;</span><br><span class="line">            log.info(<span class="string">"May the Schwartz be with you!"</span>);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            log.info(<span class="string">"Hello, mere mortal."</span>);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//test a typed permission (not instance-level)</span></span><br><span class="line">        <span class="comment">//粗粒度</span></span><br><span class="line">        <span class="comment">//检测你是否有什么样的权限</span></span><br><span class="line">        <span class="keyword">if</span> (currentUser.isPermitted(<span class="string">"lightsaber:wield"</span>)) &#123;</span><br><span class="line">            log.info(<span class="string">"You may use a lightsaber ring.  Use it wisely."</span>);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            log.info(<span class="string">"Sorry, lightsaber rings are for schwartz masters only."</span>);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//a (very powerful) Instance Level permission:</span></span><br><span class="line">        <span class="comment">//细粒度</span></span><br><span class="line">        <span class="comment">// 是否有更高权限</span></span><br><span class="line">        <span class="keyword">if</span> (currentUser.isPermitted(<span class="string">"winnebago:drive:eagle5"</span>)) &#123;</span><br><span class="line">            log.info(<span class="string">"You are permitted to 'drive' the winnebago with license plate (id) 'eagle5'.  "</span> +</span><br><span class="line">                    <span class="string">"Here are the keys - have fun!"</span>);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            log.info(<span class="string">"Sorry, you aren't allowed to drive the 'eagle5' winnebago!"</span>);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//all done - log out!</span></span><br><span class="line">        <span class="comment">// 注销</span></span><br><span class="line">        currentUser.logout();</span><br><span class="line"></span><br><span class="line">        <span class="comment">//结束</span></span><br><span class="line">        System.exit(<span class="number">0</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>运行 Quickstart</p>
-<p><img src="/" class="lazyload" data-src="/2020/03/18/Shiro/Quickstart%E8%BF%90%E8%A1%8C%E6%88%90%E5%8A%9F.png"  alt></p>
-<p>完事</p>
-<h1 id="SpringBoot-集成-Shiro"><a href="#SpringBoot-集成-Shiro" class="headerlink" title="SpringBoot 集成 Shiro"></a>SpringBoot 集成 Shiro</h1><h2 id="导入依赖"><a href="#导入依赖" class="headerlink" title="导入依赖"></a>导入依赖</h2><figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependencies</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-thymeleaf<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-web<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"></span><br><span class="line">        <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-test<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">scope</span>&gt;</span>test<span class="tag">&lt;/<span class="name">scope</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">exclusions</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">exclusion</span>&gt;</span></span><br><span class="line">                    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.junit.vintage<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">                    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>junit-vintage-engine<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;/<span class="name">exclusion</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">exclusions</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>mysql<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>mysql-connector-java<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">version</span>&gt;</span>8.0.19<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>log4j<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>log4j<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.2.17<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-data-jpa<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.alibaba<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>druid-spring-boot-starter<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.1.21<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.projectlombok<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>lombok<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">optional</span>&gt;</span>true<span class="tag">&lt;/<span class="name">optional</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">        <span class="comment">&lt;!--</span></span><br><span class="line"><span class="comment">        subject 用户</span></span><br><span class="line"><span class="comment">        SecurityManager 管理所有用户</span></span><br><span class="line"><span class="comment">        Realm 连接数据</span></span><br><span class="line"><span class="comment">        --&gt;</span></span><br><span class="line">        <span class="comment">&lt;!--shiro整合spring的包--&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.shiro<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>shiro-spring<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.5.1<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dependencies</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<h2 id="编写-在-config-下编写-UserRealm-配置类"><a href="#编写-在-config-下编写-UserRealm-配置类" class="headerlink" title="编写 在 config 下编写 UserRealm 配置类"></a>编写 在 config 下编写 UserRealm 配置类</h2><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">UserRealm</span> <span class="keyword">extends</span> <span class="title">AuthorizingRealm</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> UserServiceImpl userService;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 授权</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> principalCollection</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> AuthorizationInfo <span class="title">doGetAuthorizationInfo</span><span class="params">(PrincipalCollection principalCollection)</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"执行了 =》 授权 doGetAuthorizationInfo"</span>);</span><br><span class="line"></span><br><span class="line">        SimpleAuthorizationInfo info = <span class="keyword">new</span> SimpleAuthorizationInfo();</span><br><span class="line">        <span class="comment">//info.addStringPermission("user:add");</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">//拿到当前登录的对象</span></span><br><span class="line">        Subject subject = SecurityUtils.getSubject();</span><br><span class="line"></span><br><span class="line">        <span class="comment">//拿到user对象</span></span><br><span class="line">        User currentUser = (User)subject.getPrincipal();</span><br><span class="line">        System.out.println(Long.toString(currentUser.getUsrFlag()));</span><br><span class="line">        <span class="comment">//设置当前用户的权限</span></span><br><span class="line">        info.addStringPermission(Long.toString(currentUser.getUsrFlag()));</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> info;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 认证</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     * <span class="doctag">@throws</span> AuthenticationException</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> AuthenticationInfo <span class="title">doGetAuthenticationInfo</span><span class="params">(AuthenticationToken token)</span> <span class="keyword">throws</span> AuthenticationException </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"执行了 =》 认证 doGetAuthenticationInfo"</span>);</span><br><span class="line"></span><br><span class="line">        UsernamePasswordToken userToken = (UsernamePasswordToken) token;</span><br><span class="line">        <span class="comment">//连接数据库</span></span><br><span class="line">        User user = userService.findUserByUsrName(userToken.getUsername());</span><br><span class="line"></span><br><span class="line">        User user1 = <span class="keyword">new</span> User();</span><br><span class="line">        user1.setUsrName(<span class="string">"aa"</span>);</span><br><span class="line">        user1.setUsrPassword(<span class="string">"aa"</span>);</span><br><span class="line">        user1.setUsrFlag(<span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">        <span class="comment">//没有这个用户</span></span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">null</span>==user)&#123;</span><br><span class="line">            <span class="comment">//return null 抛出 UnknownAccountException 未找到用户异常</span></span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//可以加密 MD5  MD5盐值加密</span></span><br><span class="line">        <span class="comment">//密码认证， shiro来做</span></span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> SimpleAuthenticationInfo(user1, user.getUsrPassword(), <span class="string">""</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="编写-在-config-下编写-ShiroConfig-配置类"><a href="#编写-在-config-下编写-ShiroConfig-配置类" class="headerlink" title="编写 在 config 下编写 ShiroConfig 配置类"></a>编写 在 config 下编写 ShiroConfig 配置类</h2><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ShiroConfig</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * ShiroFilterFactoryBean   3</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> ShiroFilterFactoryBean <span class="title">getShiroFilterFactoryBean</span><span class="params">(@Qualifier(<span class="string">"securityManager"</span>)</span> DefaultWebSecurityManager defaultWebSecurityManager) </span>&#123;</span><br><span class="line">        ShiroFilterFactoryBean bean = <span class="keyword">new</span> ShiroFilterFactoryBean();</span><br><span class="line">        <span class="comment">// 设置安全管理器</span></span><br><span class="line">        bean.setSecurityManager(defaultWebSecurityManager);</span><br><span class="line"></span><br><span class="line">        <span class="comment">/**</span></span><br><span class="line"><span class="comment">         * 添加shiro的内置过滤器</span></span><br><span class="line"><span class="comment">         * anon：无需认证就可以访问</span></span><br><span class="line"><span class="comment">         * authc：必须认证了才能访问</span></span><br><span class="line"><span class="comment">         * user：必须拥有 记住我 功能才能用</span></span><br><span class="line"><span class="comment">         * perms：拥有对某个资源的权限才能访问</span></span><br><span class="line"><span class="comment">         * role：拥有某个角色权限才能访问</span></span><br><span class="line"><span class="comment">         */</span></span><br><span class="line">        <span class="comment">//拦截</span></span><br><span class="line">        Map&lt;String, String&gt; filterMap = <span class="keyword">new</span> LinkedHashMap&lt;&gt;();</span><br><span class="line"></span><br><span class="line">        <span class="comment">//授权,正常情况下，没有授权会跳转到未授权页面</span></span><br><span class="line">        <span class="comment">//filterMap.put("/user/add","perms[user:add]");</span></span><br><span class="line">        filterMap.put(<span class="string">"/user/update"</span>,<span class="string">"perms[1]"</span>);</span><br><span class="line"></span><br><span class="line">        filterMap.put(<span class="string">"/user/*"</span>,<span class="string">"authc"</span>);</span><br><span class="line">        bean.setFilterChainDefinitionMap(filterMap);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 设置登录请求，被拦截后跳到这个路径</span></span><br><span class="line">        bean.setLoginUrl(<span class="string">"/toLogin"</span>);</span><br><span class="line">        <span class="comment">// 设置未授权请求</span></span><br><span class="line">        bean.setUnauthorizedUrl(<span class="string">"/noauth"</span>);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> bean;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * DefaultWebSecurityManager  2</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> userRealm</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@Bean</span>(name = <span class="string">"securityManager"</span>)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> DefaultWebSecurityManager <span class="title">getDefaultWebSecurityManager</span><span class="params">(@Qualifier(<span class="string">"userRealm"</span>)</span> UserRealm userRealm) </span>&#123;</span><br><span class="line">        DefaultWebSecurityManager securityManager = <span class="keyword">new</span> DefaultWebSecurityManager();</span><br><span class="line">        <span class="comment">//关联UserRealm</span></span><br><span class="line">        securityManager.setRealm(userRealm);</span><br><span class="line">        <span class="keyword">return</span> securityManager;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 创建 realm 对象,需要自定义  1</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> UserRealm <span class="title">userRealm</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> UserRealm();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>框架</category>
-        <category>Shiro</category>
-      </categories>
-      <tags>
-        <tag>Shiro</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>SpringBoot</title>
     <url>/2020/03/26/SpringBoot/</url>
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h1 id="SpringBoot与缓存"><a href="#SpringBoot与缓存" class="headerlink" title="SpringBoot与缓存"></a>SpringBoot与缓存</h1><h2 id="Spring缓存抽象"><a href="#Spring缓存抽象" class="headerlink" title="Spring缓存抽象"></a>Spring缓存抽象</h2><h3 id="缓存注解"><a href="#缓存注解" class="headerlink" title="缓存注解"></a>缓存注解</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Cache</span><br><span class="line"></span><br><span class="line">缓存接口，定义缓存操作。实现又：RedisCache、EhCacheCache、ConcurrentMapCaChe等</span><br><span class="line"></span><br><span class="line">CacheManager</span><br><span class="line"></span><br><span class="line">缓存管理器，管理各种缓存（Cache）组件</span><br><span class="line"></span><br><span class="line">@Cacheable</span><br><span class="line"></span><br><span class="line">主要针对方法配置，能够根据方法的请求参数对其结果进行缓存</span><br><span class="line"></span><br><span class="line">@CacheEvict</span><br><span class="line"></span><br><span class="line">清空缓存</span><br><span class="line"></span><br><span class="line">@CachePut</span><br><span class="line"></span><br><span class="line">保证方法被调用，又希望结果被缓存</span><br><span class="line"></span><br><span class="line">@EnableCaching</span><br><span class="line"></span><br><span class="line">开启基于注解的缓存</span><br><span class="line"></span><br><span class="line">keyGenerator</span><br><span class="line"></span><br><span class="line">缓存数据时key生成策略</span><br><span class="line"></span><br><span class="line">serialize</span><br><span class="line"></span><br><span class="line">缓存数据时value序列化策略</span><br></pre></td></tr></table></figure>
@@ -1904,6 +1837,91 @@
       </tags>
   </entry>
   <entry>
+    <title>Shiro</title>
+    <url>/2020/03/18/Shiro/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h1 id="Shiro-简介"><a href="#Shiro-简介" class="headerlink" title="Shiro 简介"></a>Shiro 简介</h1><h2 id="什么是Shiro"><a href="#什么是Shiro" class="headerlink" title="什么是Shiro"></a>什么是Shiro</h2><ul>
+<li>Apache Shiro是一个Java的安全(权限)框架。</li>
+<li>Shiro 可以非常容易的开发出足够好的应用，其不仅可以用在JavaSE环境，也可以用在JavaEE环境。</li>
+<li>Shiro可以完成，认证，授权，加密，会话管理，Web集成，缓存等。</li>
+<li>下载地址: <a href="http://shiro.apache.org" target="_blank" rel="noopener">http://shiro.apache.org</a></li>
+</ul>
+<a id="more"></a>
+
+<h2 id="有哪些功能"><a href="#有哪些功能" class="headerlink" title="有哪些功能"></a>有哪些功能</h2><p><img src="/" class="lazyload" data-src="/2020/03/18/Shiro/Shiro%E5%8A%9F%E8%83%BD.png"  alt></p>
+<ul>
+<li>Authentication:身份认证、登录，验证用户是不是拥有相应的身份;</li>
+<li>Authorization:授权，即权限验证，验证某个已认证的用户是否拥有某个权限，即判断用户能否进行什么操作，如: 验证某个用户是否拥有某个角色，或者细粒度的验证某个用户对某个资源是否具有某个权限!</li>
+<li>Session Manager: 会话管理，即用户登录后就是第一次会话，在没有退出之前，它的所有信息都在会话中: 会话可以是普通的JavaSE环境，也可以是Web环境;</li>
+<li>Cryptography: 加密，保护数据的安全性,如密码加密存储到数据库中，而不是明文存储;</li>
+<li>Web Support: Web支持， 可以非常容易的集成到Web环境;</li>
+<li>Caching:缓存，比如用户登录后，其用户信息，拥有的角色、权限不必每次去查,这样可以提高效率</li>
+<li>Concurrency: Shiro支持多线程应用的并发验证，即，如在-一个线程中开启另一个线程，能把权限自动的传播过去</li>
+<li>Testing:提供测试支持;</li>
+<li>Run As:允许一个用户假装为另一个用户(如果他们允许)的身份进行访问;</li>
+<li>Remember Me:记住我，这个是非常常见的功能，即一次登录后，下次再来的话不用登录了</li>
+</ul>
+<h2 id="Shiro架构（外部）"><a href="#Shiro架构（外部）" class="headerlink" title="Shiro架构（外部）"></a>Shiro架构（外部）</h2><p>从外部来看Shiro,即从应用程序角度来观察如何使用shiro完成工作:<br><img src="/" class="lazyload" data-src="/2020/03/18/Shiro/Shiro%E6%9E%B6%E6%9E%84%EF%BC%88%E5%A4%96%E9%83%A8%EF%BC%89.png"  alt></p>
+<ul>
+<li>subject:应用代码直接交互的对象是Subject,也就是说Shiro的对外API核心就是Subject, Subject代表了当前的用户，这个用户不一定是一个具体的人，与当前应用交互的任何东西都是Subject, 如网络爬虫，机器人等，与Subject的所有交互都会委托给SecurityManager; Subject其实是一个门面, SecurityManager 才是<br>实际的执行者</li>
+<li>SercurityManager:安全管理器，即所有与安全有关的操作都会与SercurityManager交互，并且它管理着所有的Subject,可以看出它是Shiro的核心，它负责与Shiro的其他组件进行交互，它相当于SpringMVC的DispatcherServlet的角色</li>
+<li>Realm: Shiro从Realm获取安全数据 (如用户，角色，权限) ,就是说SecurityManager 要验证用户身份，那么它需要从Realm获取相应的用户进行比较，来确定用户的身份是否合法;也需要从Realm得到用户相应的角色、权限，进行验证用户的操作是否能够进行，可以把Realm看成DataSource;</li>
+</ul>
+<h2 id="Shiro架构（内部）"><a href="#Shiro架构（内部）" class="headerlink" title="Shiro架构（内部）"></a>Shiro架构（内部）</h2><p><img src="/" class="lazyload" data-src="/2020/03/18/Shiro/Shiro%E6%9E%B6%E6%9E%84%EF%BC%88%E5%86%85%E9%83%A8%EF%BC%89.png"  alt></p>
+<ul>
+<li>Subject: 任何可以与应用交互的‘用户‘;</li>
+<li>Security Manager:相当于SpringMVC中的DispatcherServlet; 是Shiro的心脏，所有具体的交互都通过Security Manager进行控制，它管理者所有的Subject,且负责进行认证，授权，会话，及缓存的管理。</li>
+<li>Authenticator: 负责Subject认证， 是一个扩展点，可以自定义实现;可以使用认证策略(AuthenticationStrategy)，即什么情况下算用户认证通过了;</li>
+<li>Authorizer:授权器，即访问控制器，用来决定主体是否有权限进行相应的操作;即控制着用户能访问应用中的那些功能;</li>
+<li>Realm:可以有一个或者多个的realm,可以认为是安全实体数据源，即用于获取安全实体的，可以用JDBC实现，也可以是内存实现等等，由用户提供 ;所以一般在应用中都需要实现自己的realm</li>
+<li>SessionManager: 管理Session生命周期的组件，而Shiro并不仅仅可以用在Web环境，也可以用在普通的JavaSE环境中</li>
+<li>CacheManager:缓存控制器，来管理如用户，角色，权限等缓存的;因为这些数据基本上很少改变，放到缓存中后可以提高访问的性能;</li>
+<li>Cryptography:密码模块，Shiro 提高了一些常见的加密组件用于密码加密， 解密等</li>
+</ul>
+<h1 id="HelloWord"><a href="#HelloWord" class="headerlink" title="HelloWord"></a>HelloWord</h1><h2 id="快速入门"><a href="#快速入门" class="headerlink" title="快速入门"></a>快速入门</h2><p><a href="https://github.com/apache/shiro" target="_blank" rel="noopener">https://github.com/apache/shiro</a></p>
+<p>导入依赖</p>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.shiro<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>shiro-core<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.5.1<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        <span class="comment">&lt;!-- configure logging --&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.slf4j<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>jcl-over-slf4j<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.7.21<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.slf4j<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>slf4j-log4j12<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.7.21<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>log4j<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>log4j<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.2.17<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>Shiro提供的 shiro.ini</p>
+<figure class="highlight ini"><table><tr><td class="code"><pre><span class="line"><span class="section">[users]</span></span><br><span class="line"><span class="comment"># user 'root' with password 'secret' and the 'admin' role</span></span><br><span class="line"><span class="attr">root</span> = secret, admin</span><br><span class="line"><span class="comment"># user 'guest' with the password 'guest' and the 'guest' role</span></span><br><span class="line"><span class="attr">guest</span> = guest, guest</span><br><span class="line"><span class="comment"># user 'presidentskroob' with password '12345' ("That's the same combination on</span></span><br><span class="line"><span class="comment"># my luggage!!!" ;)), and role 'president'</span></span><br><span class="line"><span class="attr">presidentskroob</span> = <span class="number">12345</span>, president</span><br><span class="line"><span class="comment"># user 'darkhelmet' with password 'ludicrousspeed' and roles 'darklord' and 'schwartz'</span></span><br><span class="line"><span class="attr">darkhelmet</span> = ludicrousspeed, darklord, schwartz</span><br><span class="line"><span class="comment"># user 'lonestarr' with password 'vespa' and roles 'goodguy' and 'schwartz'</span></span><br><span class="line"><span class="attr">lonestarr</span> = vespa, goodguy, schwartz</span><br><span class="line"></span><br><span class="line"><span class="comment"># -----------------------------------------------------------------------------</span></span><br><span class="line"><span class="comment"># Roles with assigned permissions</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># Each line conforms to the format defined in the</span></span><br><span class="line"><span class="comment"># org.apache.shiro.realm.text.TextConfigurationRealm#setRoleDefinitions JavaDoc</span></span><br><span class="line"><span class="comment"># -----------------------------------------------------------------------------</span></span><br><span class="line"><span class="section">[roles]</span></span><br><span class="line"><span class="comment"># 'admin' role has all permissions, indicated by the wildcard '*'</span></span><br><span class="line"><span class="attr">admin</span> = *</span><br><span class="line"><span class="comment"># The 'schwartz' role can do anything (*) with any lightsaber:</span></span><br><span class="line"><span class="attr">schwartz</span> = lightsaber:*</span><br><span class="line"><span class="comment"># The 'goodguy' role is allowed to 'drive' (action) the winnebago (type) with</span></span><br><span class="line"><span class="comment"># license plate 'eagle5' (instance specific id)</span></span><br><span class="line"><span class="attr">goodguy</span> = winnebago:drive:eagle5</span><br></pre></td></tr></table></figure>
+
+<p>Shiro 提供的 Quickstart.java</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> * Licensed to the Apache Software Foundation (ASF) under one</span></span><br><span class="line"><span class="comment"> * or more contributor license agreements.  See the NOTICE file</span></span><br><span class="line"><span class="comment"> * distributed with this work for additional information</span></span><br><span class="line"><span class="comment"> * regarding copyright ownership.  The ASF licenses this file</span></span><br><span class="line"><span class="comment"> * to you under the Apache License, Version 2.0 (the</span></span><br><span class="line"><span class="comment"> * "License"); you may not use this file except in compliance</span></span><br><span class="line"><span class="comment"> * with the License.  You may obtain a copy of the License at</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> *     http://www.apache.org/licenses/LICENSE-2.0</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * Unless required by applicable law or agreed to in writing,</span></span><br><span class="line"><span class="comment"> * software distributed under the License is distributed on an</span></span><br><span class="line"><span class="comment"> * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY</span></span><br><span class="line"><span class="comment"> * KIND, either express or implied.  See the License for the</span></span><br><span class="line"><span class="comment"> * specific language governing permissions and limitations</span></span><br><span class="line"><span class="comment"> * under the License.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.apache.shiro.SecurityUtils;</span><br><span class="line"><span class="keyword">import</span> org.apache.shiro.authc.*;</span><br><span class="line"><span class="keyword">import</span> org.apache.shiro.config.IniSecurityManagerFactory;</span><br><span class="line"><span class="keyword">import</span> org.apache.shiro.mgt.SecurityManager;</span><br><span class="line"><span class="keyword">import</span> org.apache.shiro.session.Session;</span><br><span class="line"><span class="keyword">import</span> org.apache.shiro.subject.Subject;</span><br><span class="line"><span class="keyword">import</span> org.apache.shiro.util.Factory;</span><br><span class="line"><span class="keyword">import</span> org.slf4j.Logger;</span><br><span class="line"><span class="keyword">import</span> org.slf4j.LoggerFactory;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Simple Quickstart application showing how to use Shiro's API.</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@since</span> 0.9 RC2</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Quickstart</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">transient</span> Logger log = LoggerFactory.getLogger(Quickstart<span class="class">.<span class="keyword">class</span>)</span>;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        Factory&lt;SecurityManager&gt; factory = <span class="keyword">new</span> IniSecurityManagerFactory(<span class="string">"classpath:shiro.ini"</span>);</span><br><span class="line">        SecurityManager securityManager = factory.getInstance();</span><br><span class="line">        SecurityUtils.setSecurityManager(securityManager);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// Now that a simple Shiro environment is set up, let's see what you can do:</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">// get the currently executing user:</span></span><br><span class="line">        <span class="comment">//获取当前的用户对象 Subject</span></span><br><span class="line">        Subject currentUser = SecurityUtils.getSubject();</span><br><span class="line"></span><br><span class="line">        <span class="comment">// Do some stuff with a Session (no need for a web or EJB container!!!)</span></span><br><span class="line">        <span class="comment">// 通过当前用户拿到 session</span></span><br><span class="line">        Session session = currentUser.getSession();</span><br><span class="line">        session.setAttribute(<span class="string">"someKey"</span>, <span class="string">"aValue"</span>);</span><br><span class="line">        String value = (String) session.getAttribute(<span class="string">"someKey"</span>);</span><br><span class="line">        <span class="keyword">if</span> (value.equals(<span class="string">"aValue"</span>)) &#123;</span><br><span class="line">            log.info(<span class="string">"Retrieved the correct value! ["</span> + value + <span class="string">"]"</span>);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// let's login the current user so we can check against roles and permissions:</span></span><br><span class="line">        <span class="comment">// 判断当前的用户是否被认证</span></span><br><span class="line">        <span class="keyword">if</span> (!currentUser.isAuthenticated()) &#123;</span><br><span class="line"></span><br><span class="line">            <span class="comment">// token 令牌</span></span><br><span class="line">            UsernamePasswordToken token = <span class="keyword">new</span> UsernamePasswordToken(<span class="string">"lonestarr"</span>, <span class="string">"vespa"</span>);</span><br><span class="line"></span><br><span class="line">            <span class="comment">//设置记住我</span></span><br><span class="line">            token.setRememberMe(<span class="keyword">true</span>);</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line"></span><br><span class="line">                <span class="comment">//执行登录操作</span></span><br><span class="line">                currentUser.login(token);</span><br><span class="line">            &#125; <span class="keyword">catch</span> (UnknownAccountException uae) &#123;</span><br><span class="line"></span><br><span class="line">                <span class="comment">//未知的账户</span></span><br><span class="line">                log.info(<span class="string">"There is no user with username of "</span> + token.getPrincipal());</span><br><span class="line">            &#125; <span class="keyword">catch</span> (IncorrectCredentialsException ice) &#123;</span><br><span class="line"></span><br><span class="line">                <span class="comment">//密码不正确</span></span><br><span class="line">                log.info(<span class="string">"Password for account "</span> + token.getPrincipal() + <span class="string">" was incorrect!"</span>);</span><br><span class="line">            &#125; <span class="keyword">catch</span> (LockedAccountException lae) &#123;</span><br><span class="line"></span><br><span class="line">                <span class="comment">//用户被锁定</span></span><br><span class="line">                log.info(<span class="string">"The account for username "</span> + token.getPrincipal() + <span class="string">" is locked.  "</span> +</span><br><span class="line">                        <span class="string">"Please contact your administrator to unlock it."</span>);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="comment">// ... catch more exceptions here (maybe custom ones specific to your application?</span></span><br><span class="line">            <span class="keyword">catch</span> (AuthenticationException ae) &#123;</span><br><span class="line">                <span class="comment">// 认证异常</span></span><br><span class="line">                <span class="comment">//unexpected condition?  error?</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//say who they are:</span></span><br><span class="line">        <span class="comment">//print their identifying principal (in this case, a username):</span></span><br><span class="line">        <span class="comment">// 获得当前用户的认证</span></span><br><span class="line">        log.info(<span class="string">"User ["</span> + currentUser.getPrincipal() + <span class="string">"] logged in successfully."</span>);</span><br><span class="line"></span><br><span class="line">        <span class="comment">//test a role:</span></span><br><span class="line">        <span class="comment">// 验证当前用户是否有这个角色</span></span><br><span class="line">        <span class="keyword">if</span> (currentUser.hasRole(<span class="string">"schwartz"</span>)) &#123;</span><br><span class="line">            log.info(<span class="string">"May the Schwartz be with you!"</span>);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            log.info(<span class="string">"Hello, mere mortal."</span>);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//test a typed permission (not instance-level)</span></span><br><span class="line">        <span class="comment">//粗粒度</span></span><br><span class="line">        <span class="comment">//检测你是否有什么样的权限</span></span><br><span class="line">        <span class="keyword">if</span> (currentUser.isPermitted(<span class="string">"lightsaber:wield"</span>)) &#123;</span><br><span class="line">            log.info(<span class="string">"You may use a lightsaber ring.  Use it wisely."</span>);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            log.info(<span class="string">"Sorry, lightsaber rings are for schwartz masters only."</span>);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//a (very powerful) Instance Level permission:</span></span><br><span class="line">        <span class="comment">//细粒度</span></span><br><span class="line">        <span class="comment">// 是否有更高权限</span></span><br><span class="line">        <span class="keyword">if</span> (currentUser.isPermitted(<span class="string">"winnebago:drive:eagle5"</span>)) &#123;</span><br><span class="line">            log.info(<span class="string">"You are permitted to 'drive' the winnebago with license plate (id) 'eagle5'.  "</span> +</span><br><span class="line">                    <span class="string">"Here are the keys - have fun!"</span>);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            log.info(<span class="string">"Sorry, you aren't allowed to drive the 'eagle5' winnebago!"</span>);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//all done - log out!</span></span><br><span class="line">        <span class="comment">// 注销</span></span><br><span class="line">        currentUser.logout();</span><br><span class="line"></span><br><span class="line">        <span class="comment">//结束</span></span><br><span class="line">        System.exit(<span class="number">0</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>运行 Quickstart</p>
+<p><img src="/" class="lazyload" data-src="/2020/03/18/Shiro/Quickstart%E8%BF%90%E8%A1%8C%E6%88%90%E5%8A%9F.png"  alt></p>
+<p>完事</p>
+<h1 id="SpringBoot-集成-Shiro"><a href="#SpringBoot-集成-Shiro" class="headerlink" title="SpringBoot 集成 Shiro"></a>SpringBoot 集成 Shiro</h1><h2 id="导入依赖"><a href="#导入依赖" class="headerlink" title="导入依赖"></a>导入依赖</h2><figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependencies</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-thymeleaf<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-web<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"></span><br><span class="line">        <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-test<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">scope</span>&gt;</span>test<span class="tag">&lt;/<span class="name">scope</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">exclusions</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">exclusion</span>&gt;</span></span><br><span class="line">                    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.junit.vintage<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">                    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>junit-vintage-engine<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;/<span class="name">exclusion</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">exclusions</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>mysql<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>mysql-connector-java<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">version</span>&gt;</span>8.0.19<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>log4j<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>log4j<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.2.17<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-data-jpa<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.alibaba<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>druid-spring-boot-starter<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.1.21<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.projectlombok<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>lombok<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">optional</span>&gt;</span>true<span class="tag">&lt;/<span class="name">optional</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">        <span class="comment">&lt;!--</span></span><br><span class="line"><span class="comment">        subject 用户</span></span><br><span class="line"><span class="comment">        SecurityManager 管理所有用户</span></span><br><span class="line"><span class="comment">        Realm 连接数据</span></span><br><span class="line"><span class="comment">        --&gt;</span></span><br><span class="line">        <span class="comment">&lt;!--shiro整合spring的包--&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.shiro<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>shiro-spring<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.5.1<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dependencies</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="编写-在-config-下编写-UserRealm-配置类"><a href="#编写-在-config-下编写-UserRealm-配置类" class="headerlink" title="编写 在 config 下编写 UserRealm 配置类"></a>编写 在 config 下编写 UserRealm 配置类</h2><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">UserRealm</span> <span class="keyword">extends</span> <span class="title">AuthorizingRealm</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> UserServiceImpl userService;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 授权</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> principalCollection</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> AuthorizationInfo <span class="title">doGetAuthorizationInfo</span><span class="params">(PrincipalCollection principalCollection)</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"执行了 =》 授权 doGetAuthorizationInfo"</span>);</span><br><span class="line"></span><br><span class="line">        SimpleAuthorizationInfo info = <span class="keyword">new</span> SimpleAuthorizationInfo();</span><br><span class="line">        <span class="comment">//info.addStringPermission("user:add");</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">//拿到当前登录的对象</span></span><br><span class="line">        Subject subject = SecurityUtils.getSubject();</span><br><span class="line"></span><br><span class="line">        <span class="comment">//拿到user对象</span></span><br><span class="line">        User currentUser = (User)subject.getPrincipal();</span><br><span class="line">        System.out.println(Long.toString(currentUser.getUsrFlag()));</span><br><span class="line">        <span class="comment">//设置当前用户的权限</span></span><br><span class="line">        info.addStringPermission(Long.toString(currentUser.getUsrFlag()));</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> info;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 认证</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     * <span class="doctag">@throws</span> AuthenticationException</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> AuthenticationInfo <span class="title">doGetAuthenticationInfo</span><span class="params">(AuthenticationToken token)</span> <span class="keyword">throws</span> AuthenticationException </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"执行了 =》 认证 doGetAuthenticationInfo"</span>);</span><br><span class="line"></span><br><span class="line">        UsernamePasswordToken userToken = (UsernamePasswordToken) token;</span><br><span class="line">        <span class="comment">//连接数据库</span></span><br><span class="line">        User user = userService.findUserByUsrName(userToken.getUsername());</span><br><span class="line"></span><br><span class="line">        User user1 = <span class="keyword">new</span> User();</span><br><span class="line">        user1.setUsrName(<span class="string">"aa"</span>);</span><br><span class="line">        user1.setUsrPassword(<span class="string">"aa"</span>);</span><br><span class="line">        user1.setUsrFlag(<span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">        <span class="comment">//没有这个用户</span></span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">null</span>==user)&#123;</span><br><span class="line">            <span class="comment">//return null 抛出 UnknownAccountException 未找到用户异常</span></span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//可以加密 MD5  MD5盐值加密</span></span><br><span class="line">        <span class="comment">//密码认证， shiro来做</span></span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> SimpleAuthenticationInfo(user1, user.getUsrPassword(), <span class="string">""</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="编写-在-config-下编写-ShiroConfig-配置类"><a href="#编写-在-config-下编写-ShiroConfig-配置类" class="headerlink" title="编写 在 config 下编写 ShiroConfig 配置类"></a>编写 在 config 下编写 ShiroConfig 配置类</h2><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ShiroConfig</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * ShiroFilterFactoryBean   3</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> ShiroFilterFactoryBean <span class="title">getShiroFilterFactoryBean</span><span class="params">(@Qualifier(<span class="string">"securityManager"</span>)</span> DefaultWebSecurityManager defaultWebSecurityManager) </span>&#123;</span><br><span class="line">        ShiroFilterFactoryBean bean = <span class="keyword">new</span> ShiroFilterFactoryBean();</span><br><span class="line">        <span class="comment">// 设置安全管理器</span></span><br><span class="line">        bean.setSecurityManager(defaultWebSecurityManager);</span><br><span class="line"></span><br><span class="line">        <span class="comment">/**</span></span><br><span class="line"><span class="comment">         * 添加shiro的内置过滤器</span></span><br><span class="line"><span class="comment">         * anon：无需认证就可以访问</span></span><br><span class="line"><span class="comment">         * authc：必须认证了才能访问</span></span><br><span class="line"><span class="comment">         * user：必须拥有 记住我 功能才能用</span></span><br><span class="line"><span class="comment">         * perms：拥有对某个资源的权限才能访问</span></span><br><span class="line"><span class="comment">         * role：拥有某个角色权限才能访问</span></span><br><span class="line"><span class="comment">         */</span></span><br><span class="line">        <span class="comment">//拦截</span></span><br><span class="line">        Map&lt;String, String&gt; filterMap = <span class="keyword">new</span> LinkedHashMap&lt;&gt;();</span><br><span class="line"></span><br><span class="line">        <span class="comment">//授权,正常情况下，没有授权会跳转到未授权页面</span></span><br><span class="line">        <span class="comment">//filterMap.put("/user/add","perms[user:add]");</span></span><br><span class="line">        filterMap.put(<span class="string">"/user/update"</span>,<span class="string">"perms[1]"</span>);</span><br><span class="line"></span><br><span class="line">        filterMap.put(<span class="string">"/user/*"</span>,<span class="string">"authc"</span>);</span><br><span class="line">        bean.setFilterChainDefinitionMap(filterMap);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 设置登录请求，被拦截后跳到这个路径</span></span><br><span class="line">        bean.setLoginUrl(<span class="string">"/toLogin"</span>);</span><br><span class="line">        <span class="comment">// 设置未授权请求</span></span><br><span class="line">        bean.setUnauthorizedUrl(<span class="string">"/noauth"</span>);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> bean;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * DefaultWebSecurityManager  2</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> userRealm</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@Bean</span>(name = <span class="string">"securityManager"</span>)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> DefaultWebSecurityManager <span class="title">getDefaultWebSecurityManager</span><span class="params">(@Qualifier(<span class="string">"userRealm"</span>)</span> UserRealm userRealm) </span>&#123;</span><br><span class="line">        DefaultWebSecurityManager securityManager = <span class="keyword">new</span> DefaultWebSecurityManager();</span><br><span class="line">        <span class="comment">//关联UserRealm</span></span><br><span class="line">        securityManager.setRealm(userRealm);</span><br><span class="line">        <span class="keyword">return</span> securityManager;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 创建 realm 对象,需要自定义  1</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> UserRealm <span class="title">userRealm</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> UserRealm();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>框架</category>
+        <category>Shiro</category>
+      </categories>
+      <tags>
+        <tag>Shiro</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>SpringCloud</title>
+    <url>/2020/03/31/SpringCloud/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><blockquote>
+<p>微服务架构是“新常态”。构建小型，独立且可运行的应用程序可以带来极大的灵活性，并为您的代码增加弹性。Spring Boot的许多专用功能使在大规模生产中轻松构建和运行微服务变得容易。而且请不要忘记，没有<a href="https://spring.io/cloud" target="_blank" rel="noopener">Spring Cloud</a> ‒简化管理并提高容错能力，任何微服务架构都是不完整的。</p>
+</blockquote>
+<p>脑图连接</p>
+<p><a href="https://www.processon.com/mindmap/5e918f635653bb1a6856fac6" target="_blank" rel="noopener">https://www.processon.com/mindmap/5e918f635653bb1a6856fac6</a></p>
+<p><img src="/" class="lazyload" data-src="/2020/03/31/SpringCloud/QQ%E5%9B%BE%E7%89%8720200411173623.png"  alt></p>
+]]></content>
+      <categories>
+        <category>框架</category>
+        <category>SpringCloud</category>
+      </categories>
+      <tags>
+        <tag>SpringCloud</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>SpringBoot整合Redis</title>
     <url>/2020/03/05/SpringBoot%E6%95%B4%E5%90%88Redis/</url>
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><hr>
@@ -1961,261 +1979,6 @@
       <tags>
         <tag>Redis</tag>
         <tag>JAVA</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>SpringCloud</title>
-    <url>/2020/03/31/SpringCloud/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><blockquote>
-<p>微服务架构是“新常态”。构建小型，独立且可运行的应用程序可以带来极大的灵活性，并为您的代码增加弹性。Spring Boot的许多专用功能使在大规模生产中轻松构建和运行微服务变得容易。而且请不要忘记，没有<a href="https://spring.io/cloud" target="_blank" rel="noopener">Spring Cloud</a> ‒简化管理并提高容错能力，任何微服务架构都是不完整的。</p>
-</blockquote>
-<p>脑图连接</p>
-<p><a href="https://www.processon.com/mindmap/5e918f635653bb1a6856fac6" target="_blank" rel="noopener">https://www.processon.com/mindmap/5e918f635653bb1a6856fac6</a></p>
-<p><img src="/" class="lazyload" data-src="/2020/03/31/SpringCloud/QQ%E5%9B%BE%E7%89%8720200411173623.png"  alt></p>
-]]></content>
-      <categories>
-        <category>框架</category>
-        <category>SpringCloud</category>
-      </categories>
-      <tags>
-        <tag>SpringCloud</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Thymeleaf 模板引擎</title>
-    <url>/2020/02/25/Thymeleaf-%E6%A8%A1%E6%9D%BF%E5%BC%95%E6%93%8E/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h1 id="Thymeleaf-简介"><a href="#Thymeleaf-简介" class="headerlink" title="Thymeleaf 简介"></a>Thymeleaf 简介</h1><p><img src="/" class="lazyload" data-src="/2020/02/25/Thymeleaf-%E6%A8%A1%E6%9D%BF%E5%BC%95%E6%93%8E/Thymeleay.png"  alt></p>
-<blockquote>
-<p>官网部分翻译：反正就是各种好</p>
-<ul>
-<li>Thymeleaf是用来开发Web和独立环境项目的服务器端的Java模版引擎</li>
-<li>Spring官方支持的服务的渲染模板中，并不包含jsp。而是Thymeleaf和Freemarker等，而Thymeleaf与SpringMVC的视图技术，及SpringBoot的自动化配置集成非常完美，几乎没有任何成本，你只用关注Thymeleaf的语法即可。</li>
-</ul>
-</blockquote>
-<a id="more"></a>
-
-<h1 id="导入"><a href="#导入" class="headerlink" title="导入"></a>导入</h1><p>创建SpringBoot项目，在选择模块 <strong>Template Engines</strong> 中勾选 <strong>Thymeleaf</strong>，</p>
-<p>或者在创好项目之后再pom.xml文件中导入依赖 </p>
-<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>nz.net.ultraq.thymeleaf<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>thymeleaf-layout-dialect<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<p>在项目resource目录中的templates创建html页面</p>
-<p>创建好html后需要在顶部的 html 标签中声明 thymeleaf 就可以使用它的语法了</p>
-<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">"en"</span> <span class="attr">xmlns:th</span>=<span class="string">"http://www.thymeleaf.org"</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<blockquote>
-<p>使用前在application.properties中配置</p>
-<figure class="highlight properties"><table><tr><td class="code"><pre><span class="line"><span class="meta">spring.thymeleaf.cache</span>=<span class="string">false</span></span><br></pre></td></tr></table></figure>
-</blockquote>
-<p>作用：关闭Thymeleaf的缓存，修改页面后立即生效</p>
-</blockquote>
-<h1 id="语法"><a href="#语法" class="headerlink" title="语法"></a>语法</h1><h2 id="一、标准表达式语法"><a href="#一、标准表达式语法" class="headerlink" title="一、标准表达式语法"></a>一、标准表达式语法</h2><h3 id="它又分为："><a href="#它又分为：" class="headerlink" title="它又分为："></a>它又分为：</h3><ul>
-<li>消息</li>
-<li>变量</li>
-<li>选择表达式</li>
-<li>链接URL</li>
-<li>片段</li>
-<li>文字</li>
-<li>附加文本</li>
-<li>字面替代</li>
-<li>算术运算</li>
-<li>比较与平等</li>
-<li>条件表达式</li>
-<li>默认表达式</li>
-<li>无操作令牌</li>
-<li>数据转换/格式化</li>
-<li>预处理</li>
-</ul>
-<h4 id="变量"><a href="#变量" class="headerlink" title="变量"></a>变量</h4><figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">p</span>&gt;</span>Today is: <span class="tag">&lt;<span class="name">span</span> <span class="attr">th:text</span>=<span class="string">"$&#123;today&#125;"</span>&gt;</span>13 february 2011<span class="tag">&lt;/<span class="name">span</span>&gt;</span>.<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>意味着 &lt; span &gt;标签中的内容会被表达式${today}的值所替代，无论模板中它的内容是什么，之所以在模板中“多此一举“地填充它的内容，完全是为了它能够作为原型在浏览器中直接显示出来。<br>假设today的值为2015年8月14日，那么渲染结果为：&lt; p &gt;Today is: 2015年8月14日.&lt; /p &gt;。可见Thymeleaf的基本变量和JSP一样，都使用${.}表示获取变量的值。</p>
-</blockquote>
-<h4 id="URL"><a href="#URL" class="headerlink" title="URL"></a>URL</h4><p>URL在Web应用模板中占据着十分重要的地位，需要特别注意的是Thymeleaf对于URL的处理是通过语法@{…}来处理的。Thymeleaf支持绝对路径URL：</p>
-<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">th:href</span>=<span class="string">"@&#123;http://www.thymeleaf.org&#125;"</span>&gt;</span>Thymeleaf<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<p>同时也能够支持相对路径URL：</p>
-<p>另外，如果需要Thymeleaf对URL进行渲染，那么务必使用<code>th:href</code>，<code>th:src</code>等属性，下面是一个例子</p>
-<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="comment">&lt;!-- Will produce 'http://localhost:8080/gtvg/order/details?orderId=3' (plus rewriting) --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"details.html"</span> </span></span><br><span class="line"><span class="tag">   <span class="attr">th:href</span>=<span class="string">"@&#123;http://localhost:8080/gtvg/order/details(orderId=$&#123;o.id&#125;)&#125;"</span>&gt;</span>view<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!-- Will produce '/gtvg/order/details?orderId=3' (plus rewriting) --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"details.html"</span> <span class="attr">th:href</span>=<span class="string">"@&#123;/order/details(orderId=$&#123;o.id&#125;)&#125;"</span>&gt;</span>view<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!-- Will produce '/gtvg/order/3/details' (plus rewriting) --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"details.html"</span> <span class="attr">th:href</span>=<span class="string">"@&#123;/order/&#123;orderId&#125;/details(orderId=$&#123;o.id&#125;)&#125;"</span>&gt;</span>view<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<p>几点说明：<br>上例中URL最后的(orderId=${o.id})表示将括号内的内容作为URL参数处理，该语法避免使用字符串拼接，大大提高了可读性@{…}表达式中可以通过{orderId}访问Context中的orderId变量@{/order}是Context相关的相对路径，在渲染时会自动添加上当前Web应用的Context名字，假设context名字为app，那么结果应该是/app/order</p>
-<h4 id="字符串替换"><a href="#字符串替换" class="headerlink" title="字符串替换"></a>字符串替换</h4><figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">span</span> <span class="attr">th:text</span>=<span class="string">"'Welcome to our application, ' + $&#123;user.name&#125; + '!'"</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<p>一种更简洁的方式是：</p>
-<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">span</span> <span class="attr">th:text</span>=<span class="string">"|Welcome to our application, $&#123;user.name&#125;!|"</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<p>当然这种形式限制比较多，|…|中只能包含变量表达式${…}，不能包含其他常量、条件表达式等</p>
-<h4 id="运算符"><a href="#运算符" class="headerlink" title="运算符"></a>运算符</h4><figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">span</span> <span class="attr">th:with</span>=<span class="string">"isEven=($&#123;prodStat.count&#125; % 2 == 0)"</span>&gt;</span><span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<p>逻辑运算符<code>&gt;, &lt;, &lt;=,&gt;=，==,!=</code>都可以使用，唯一需要注意的是使用&lt;,&gt;时需要用它的HTML转义符：</p>
-<h2 id="二、常用的表达式"><a href="#二、常用的表达式" class="headerlink" title="二、常用的表达式"></a>二、常用的表达式</h2><h4 id="for循环"><a href="#for循环" class="headerlink" title="for循环"></a>for循环</h4><p>使用<code>th:each</code>标签</p>
-<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">table</span> <span class="attr">border</span>=<span class="string">"1"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">tr</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">th</span>&gt;</span>usrId<span class="tag">&lt;/<span class="name">th</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">th</span>&gt;</span>usrName<span class="tag">&lt;/<span class="name">th</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">th</span>&gt;</span>usrRoleId<span class="tag">&lt;/<span class="name">th</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">th</span>&gt;</span>index<span class="tag">&lt;/<span class="name">th</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">tr</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">tr</span> <span class="attr">th:each</span>=<span class="string">"user,status : $&#123;users&#125;"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">td</span> <span class="attr">th:text</span>=<span class="string">"$&#123;user.usrId&#125;"</span>&gt;</span>1<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">td</span> <span class="attr">th:text</span>=<span class="string">"$&#123;user.usrName&#125;"</span>&gt;</span>惑<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">td</span> <span class="attr">th:text</span>=<span class="string">"$&#123;user.usrRoleId&#125;"</span>&gt;</span>惑惑惑惑<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">td</span> <span class="attr">th:text</span>=<span class="string">"$&#123;status.index&#125;"</span>&gt;</span>0<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">tr</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">table</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<p>status 表示循环状态变量，属性有：</p>
-<ul>
-<li>index:当前迭代对象的index（从0开始计算）</li>
-<li>count: 当前迭代对象的index(从1开始计算)</li>
-<li>size:被迭代对象的大小</li>
-<li>current:当前迭代变量</li>
-<li>even/odd:布尔值，当前循环是否是偶数/奇数（从0开始计算）</li>
-<li>first:布尔值，当前循环是否是第一个</li>
-<li>last:布尔值，当前循环是否是最后一个</li>
-</ul>
-<h4 id="if-unless条件求值"><a href="#if-unless条件求值" class="headerlink" title="if / unless条件求值"></a>if / unless条件求值</h4><figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">th:if</span>=<span class="string">"$&#123;flag == 'yes'&#125;"</span> <span class="attr">th:href</span>=<span class="string">"@&#123;http://www.baidu.com/&#125;"</span>&gt;</span>百度<span class="tag">&lt;/<span class="name">a</span>&gt;</span><span class="tag">&lt;<span class="name">br</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">th:unless</span>=<span class="string">"$&#123;flag == 'no'&#125;"</span> <span class="attr">th:href</span>=<span class="string">"@&#123;http://www.baidu.com/&#125;"</span>&gt;</span>百度亿下<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>Thymeleaf中使用th:if和th:unless属性进行条件判断，上面的例子中，div 标签只有在th:if中条件成立时才显示：</p>
-</blockquote>
-<blockquote>
-<p>th:unless于th:if恰好相反，只有表达式中的条件不成立，才会显示其内容。</p>
-</blockquote>
-<h4 id="switch"><a href="#switch" class="headerlink" title="switch"></a>switch</h4><figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">th:switch</span>=<span class="string">"$&#123;sex&#125;"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">p</span> <span class="attr">th:case</span>=<span class="string">"'woman'"</span>&gt;</span>她是一个姑娘...<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">p</span> <span class="attr">th:case</span>=<span class="string">"'man'"</span>&gt;</span>这是一个爷们!<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- *: case 的默认的选项 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">p</span> <span class="attr">th:case</span>=<span class="string">"*"</span>&gt;</span>未知性别的一个家伙。<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<h4 id="内嵌变量"><a href="#内嵌变量" class="headerlink" title="内嵌变量"></a>内嵌变量</h4><p>为了模板更加易用，Thymeleaf还提供了一系列Utility对象（内置于Context中），可以通过#直接访问：</p>
-<ul>
-<li>dates ： java.util.Date的功能方法类。</li>
-<li>calendars : 类似#dates，面向java.util.Calendar</li>
-<li>numbers : 格式化数字的功能方法类</li>
-<li>strings : 字符串对象的功能类</li>
-<li>objects: 对objects的功能类操作。</li>
-<li>bools: 对布尔值求值的功能方法。</li>
-<li>arrays：对数组的功能类方法。</li>
-<li>lists: 对lists功能类方法</li>
-<li>sets</li>
-<li>maps</li>
-</ul>
-<h1 id="常用th标签"><a href="#常用th标签" class="headerlink" title="常用th标签"></a>常用th标签</h1><table>
-<thead>
-<tr>
-<th align="center"><strong>标签</strong></th>
-<th align="center"><strong>说明</strong></th>
-<th align="center"><strong>例子</strong></th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="center">th:id</td>
-<td align="center">替换id</td>
-<td align="center">&lt; input th:id=”‘xxx’ + ${collect.id}”/&gt;</td>
-</tr>
-<tr>
-<td align="center">th:text</td>
-<td align="center">文本替换</td>
-<td align="center">&lt; p th:text=”${collect.description}”&gt;description&lt; /p&gt;</td>
-</tr>
-<tr>
-<td align="center">th:utext</td>
-<td align="center">支持html的文本替换</td>
-<td align="center">&lt; p th:utext=”${htmlcontent}”&gt;conten&lt; /p&gt;</td>
-</tr>
-<tr>
-<td align="center">th:object</td>
-<td align="center">替换对象</td>
-<td align="center">&lt; div th:object=”${session.user}”&gt;</td>
-</tr>
-<tr>
-<td align="center">th:value</td>
-<td align="center">属性赋值</td>
-<td align="center">&lt; input th:value=”${user.name}” /&gt;</td>
-</tr>
-<tr>
-<td align="center">th:with</td>
-<td align="center">变量赋值运算</td>
-<td align="center">&lt; div th:with=”isEven=${prodStat.count}%2==0”&gt;&lt; /div&gt;</td>
-</tr>
-<tr>
-<td align="center">th:style</td>
-<td align="center">设置样式</td>
-<td align="center">th:style=”‘display:’ + @{(${sitrue} ? ‘none’ : ‘inline-block’)} + ‘’”</td>
-</tr>
-<tr>
-<td align="center">th:onclick</td>
-<td align="center">点击事件</td>
-<td align="center">th:”‘getCollect()’”</td>
-</tr>
-<tr>
-<td align="center">th:each</td>
-<td align="center">属性赋值</td>
-<td align="center">tr th:each=”user,userStat:${users}”&gt;</td>
-</tr>
-<tr>
-<td align="center">th:if</td>
-<td align="center">判断条件</td>
-<td align="center">&lt; a th:if=”${userId == collect.userId}” &gt;</td>
-</tr>
-<tr>
-<td align="center">th:unless</td>
-<td align="center">和th:if判断相反</td>
-<td align="center">&lt; a th:href=”@{/login}” th:unless=${session.user != null}&gt;Login&lt; /a&gt;</td>
-</tr>
-<tr>
-<td align="center">th:href</td>
-<td align="center">链接地址</td>
-<td align="center">&lt;a th:href=”@{/login}” th:unless=${session.user != null}&gt;Login&lt; /a&gt;</td>
-</tr>
-<tr>
-<td align="center">th:switch</td>
-<td align="center">多路选择 配合th:case 使用</td>
-<td align="center">&lt; div th:switch=”${user.role}”&gt;</td>
-</tr>
-<tr>
-<td align="center">th:case</td>
-<td align="center">th:switch的一个分支</td>
-<td align="center">&lt; p th:case=”‘admin’”&gt;User is an administrator&lt; /p&gt;</td>
-</tr>
-<tr>
-<td align="center">th:fragment</td>
-<td align="center">布局标签，定义一个代码片段，方便其它地方引用</td>
-<td align="center">&lt; div th:fragment=”alert”&gt;</td>
-</tr>
-<tr>
-<td align="center">th:include</td>
-<td align="center">布局标签，替换内容到引入的文件</td>
-<td align="center">&lt; head th:include=”layout :: htmlhead” th:with=”title=’xx’”&gt;&lt; /head&gt;</td>
-</tr>
-<tr>
-<td align="center">th:replace</td>
-<td align="center">布局标签，替换整个标签到引入的文件</td>
-<td align="center">&lt; div th:replace=”fragments/header :: title”&gt;&lt; /div&gt;</td>
-</tr>
-<tr>
-<td align="center">th:selected</td>
-<td align="center">selected选择框 选中</td>
-<td align="center">th:selected=”(${xxx.id} == ${configObj.dd})”</td>
-</tr>
-<tr>
-<td align="center">th:src</td>
-<td align="center">图片类地址引入</td>
-<td align="center">&lt; img class=”img-responsive” alt=”App Logo” th:src=”@{/img/logo.png}” /&gt;</td>
-</tr>
-<tr>
-<td align="center">th:inline</td>
-<td align="center">定义js脚本可以使用变量</td>
-<td align="center">&lt; script type=”text/javascript” th:inline=”javascript”&gt;</td>
-</tr>
-<tr>
-<td align="center">th:action</td>
-<td align="center">表单提交的地址</td>
-<td align="center">&lt; form action=”subscribe.html” th:action=”@{/subscribe}”&gt;</td>
-</tr>
-<tr>
-<td align="center">th:remove</td>
-<td align="center">删除某个属性</td>
-<td align="center">&lt; tr th:remove=”all”&gt;1.all:删除包含标签和所有的孩子。2.body:不包含标记删除,但删除其所有的孩子。3.tag:包含标记的删除,但不删除它的孩子。4.all-but-first:删除所有包含标签的孩子,除了第一个。5.none:什么也不做。这个值是有用的动态评估。</td>
-</tr>
-<tr>
-<td align="center">th:attr</td>
-<td align="center">设置标签属性，多个属性可以用逗号分隔</td>
-<td align="center">比如 &lt; p th:attr=”src=@{/image/aa.jpg},title=${title}”&gt;内容&lt; /p&gt;，这样如果${title}=‘这个是title’ 则结果就是&lt; p src=”/image/aa.jpg” title=”这个是title”&gt;内容&lt; /p&gt;</td>
-</tr>
-</tbody></table>
-]]></content>
-      <categories>
-        <category>模板引擎</category>
-        <category>Thymeleaf</category>
-      </categories>
-      <tags>
-        <tag>Tyhmeleaf</tag>
-        <tag>模板引擎</tag>
       </tags>
   </entry>
   <entry>
@@ -2512,6 +2275,243 @@
       </categories>
       <tags>
         <tag>Vue</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Thymeleaf 模板引擎</title>
+    <url>/2020/02/25/Thymeleaf-%E6%A8%A1%E6%9D%BF%E5%BC%95%E6%93%8E/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h1 id="Thymeleaf-简介"><a href="#Thymeleaf-简介" class="headerlink" title="Thymeleaf 简介"></a>Thymeleaf 简介</h1><p><img src="/" class="lazyload" data-src="/2020/02/25/Thymeleaf-%E6%A8%A1%E6%9D%BF%E5%BC%95%E6%93%8E/Thymeleay.png"  alt></p>
+<blockquote>
+<p>官网部分翻译：反正就是各种好</p>
+<ul>
+<li>Thymeleaf是用来开发Web和独立环境项目的服务器端的Java模版引擎</li>
+<li>Spring官方支持的服务的渲染模板中，并不包含jsp。而是Thymeleaf和Freemarker等，而Thymeleaf与SpringMVC的视图技术，及SpringBoot的自动化配置集成非常完美，几乎没有任何成本，你只用关注Thymeleaf的语法即可。</li>
+</ul>
+</blockquote>
+<a id="more"></a>
+
+<h1 id="导入"><a href="#导入" class="headerlink" title="导入"></a>导入</h1><p>创建SpringBoot项目，在选择模块 <strong>Template Engines</strong> 中勾选 <strong>Thymeleaf</strong>，</p>
+<p>或者在创好项目之后再pom.xml文件中导入依赖 </p>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>nz.net.ultraq.thymeleaf<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>thymeleaf-layout-dialect<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>在项目resource目录中的templates创建html页面</p>
+<p>创建好html后需要在顶部的 html 标签中声明 thymeleaf 就可以使用它的语法了</p>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">"en"</span> <span class="attr">xmlns:th</span>=<span class="string">"http://www.thymeleaf.org"</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<blockquote>
+<p>使用前在application.properties中配置</p>
+<figure class="highlight properties"><table><tr><td class="code"><pre><span class="line"><span class="meta">spring.thymeleaf.cache</span>=<span class="string">false</span></span><br></pre></td></tr></table></figure>
+</blockquote>
+<p>作用：关闭Thymeleaf的缓存，修改页面后立即生效</p>
+</blockquote>
+<h1 id="语法"><a href="#语法" class="headerlink" title="语法"></a>语法</h1><h2 id="一、标准表达式语法"><a href="#一、标准表达式语法" class="headerlink" title="一、标准表达式语法"></a>一、标准表达式语法</h2><h3 id="它又分为："><a href="#它又分为：" class="headerlink" title="它又分为："></a>它又分为：</h3><ul>
+<li>消息</li>
+<li>变量</li>
+<li>选择表达式</li>
+<li>链接URL</li>
+<li>片段</li>
+<li>文字</li>
+<li>附加文本</li>
+<li>字面替代</li>
+<li>算术运算</li>
+<li>比较与平等</li>
+<li>条件表达式</li>
+<li>默认表达式</li>
+<li>无操作令牌</li>
+<li>数据转换/格式化</li>
+<li>预处理</li>
+</ul>
+<h4 id="变量"><a href="#变量" class="headerlink" title="变量"></a>变量</h4><figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">p</span>&gt;</span>Today is: <span class="tag">&lt;<span class="name">span</span> <span class="attr">th:text</span>=<span class="string">"$&#123;today&#125;"</span>&gt;</span>13 february 2011<span class="tag">&lt;/<span class="name">span</span>&gt;</span>.<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>意味着 &lt; span &gt;标签中的内容会被表达式${today}的值所替代，无论模板中它的内容是什么，之所以在模板中“多此一举“地填充它的内容，完全是为了它能够作为原型在浏览器中直接显示出来。<br>假设today的值为2015年8月14日，那么渲染结果为：&lt; p &gt;Today is: 2015年8月14日.&lt; /p &gt;。可见Thymeleaf的基本变量和JSP一样，都使用${.}表示获取变量的值。</p>
+</blockquote>
+<h4 id="URL"><a href="#URL" class="headerlink" title="URL"></a>URL</h4><p>URL在Web应用模板中占据着十分重要的地位，需要特别注意的是Thymeleaf对于URL的处理是通过语法@{…}来处理的。Thymeleaf支持绝对路径URL：</p>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">th:href</span>=<span class="string">"@&#123;http://www.thymeleaf.org&#125;"</span>&gt;</span>Thymeleaf<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>同时也能够支持相对路径URL：</p>
+<p>另外，如果需要Thymeleaf对URL进行渲染，那么务必使用<code>th:href</code>，<code>th:src</code>等属性，下面是一个例子</p>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="comment">&lt;!-- Will produce 'http://localhost:8080/gtvg/order/details?orderId=3' (plus rewriting) --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"details.html"</span> </span></span><br><span class="line"><span class="tag">   <span class="attr">th:href</span>=<span class="string">"@&#123;http://localhost:8080/gtvg/order/details(orderId=$&#123;o.id&#125;)&#125;"</span>&gt;</span>view<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!-- Will produce '/gtvg/order/details?orderId=3' (plus rewriting) --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"details.html"</span> <span class="attr">th:href</span>=<span class="string">"@&#123;/order/details(orderId=$&#123;o.id&#125;)&#125;"</span>&gt;</span>view<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!-- Will produce '/gtvg/order/3/details' (plus rewriting) --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"details.html"</span> <span class="attr">th:href</span>=<span class="string">"@&#123;/order/&#123;orderId&#125;/details(orderId=$&#123;o.id&#125;)&#125;"</span>&gt;</span>view<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>几点说明：<br>上例中URL最后的(orderId=${o.id})表示将括号内的内容作为URL参数处理，该语法避免使用字符串拼接，大大提高了可读性@{…}表达式中可以通过{orderId}访问Context中的orderId变量@{/order}是Context相关的相对路径，在渲染时会自动添加上当前Web应用的Context名字，假设context名字为app，那么结果应该是/app/order</p>
+<h4 id="字符串替换"><a href="#字符串替换" class="headerlink" title="字符串替换"></a>字符串替换</h4><figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">span</span> <span class="attr">th:text</span>=<span class="string">"'Welcome to our application, ' + $&#123;user.name&#125; + '!'"</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>一种更简洁的方式是：</p>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">span</span> <span class="attr">th:text</span>=<span class="string">"|Welcome to our application, $&#123;user.name&#125;!|"</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>当然这种形式限制比较多，|…|中只能包含变量表达式${…}，不能包含其他常量、条件表达式等</p>
+<h4 id="运算符"><a href="#运算符" class="headerlink" title="运算符"></a>运算符</h4><figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">span</span> <span class="attr">th:with</span>=<span class="string">"isEven=($&#123;prodStat.count&#125; % 2 == 0)"</span>&gt;</span><span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>逻辑运算符<code>&gt;, &lt;, &lt;=,&gt;=，==,!=</code>都可以使用，唯一需要注意的是使用&lt;,&gt;时需要用它的HTML转义符：</p>
+<h2 id="二、常用的表达式"><a href="#二、常用的表达式" class="headerlink" title="二、常用的表达式"></a>二、常用的表达式</h2><h4 id="for循环"><a href="#for循环" class="headerlink" title="for循环"></a>for循环</h4><p>使用<code>th:each</code>标签</p>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">table</span> <span class="attr">border</span>=<span class="string">"1"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">tr</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">th</span>&gt;</span>usrId<span class="tag">&lt;/<span class="name">th</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">th</span>&gt;</span>usrName<span class="tag">&lt;/<span class="name">th</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">th</span>&gt;</span>usrRoleId<span class="tag">&lt;/<span class="name">th</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">th</span>&gt;</span>index<span class="tag">&lt;/<span class="name">th</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">tr</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">tr</span> <span class="attr">th:each</span>=<span class="string">"user,status : $&#123;users&#125;"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">td</span> <span class="attr">th:text</span>=<span class="string">"$&#123;user.usrId&#125;"</span>&gt;</span>1<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">td</span> <span class="attr">th:text</span>=<span class="string">"$&#123;user.usrName&#125;"</span>&gt;</span>惑<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">td</span> <span class="attr">th:text</span>=<span class="string">"$&#123;user.usrRoleId&#125;"</span>&gt;</span>惑惑惑惑<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">td</span> <span class="attr">th:text</span>=<span class="string">"$&#123;status.index&#125;"</span>&gt;</span>0<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">tr</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">table</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>status 表示循环状态变量，属性有：</p>
+<ul>
+<li>index:当前迭代对象的index（从0开始计算）</li>
+<li>count: 当前迭代对象的index(从1开始计算)</li>
+<li>size:被迭代对象的大小</li>
+<li>current:当前迭代变量</li>
+<li>even/odd:布尔值，当前循环是否是偶数/奇数（从0开始计算）</li>
+<li>first:布尔值，当前循环是否是第一个</li>
+<li>last:布尔值，当前循环是否是最后一个</li>
+</ul>
+<h4 id="if-unless条件求值"><a href="#if-unless条件求值" class="headerlink" title="if / unless条件求值"></a>if / unless条件求值</h4><figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">th:if</span>=<span class="string">"$&#123;flag == 'yes'&#125;"</span> <span class="attr">th:href</span>=<span class="string">"@&#123;http://www.baidu.com/&#125;"</span>&gt;</span>百度<span class="tag">&lt;/<span class="name">a</span>&gt;</span><span class="tag">&lt;<span class="name">br</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">th:unless</span>=<span class="string">"$&#123;flag == 'no'&#125;"</span> <span class="attr">th:href</span>=<span class="string">"@&#123;http://www.baidu.com/&#125;"</span>&gt;</span>百度亿下<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>Thymeleaf中使用th:if和th:unless属性进行条件判断，上面的例子中，div 标签只有在th:if中条件成立时才显示：</p>
+</blockquote>
+<blockquote>
+<p>th:unless于th:if恰好相反，只有表达式中的条件不成立，才会显示其内容。</p>
+</blockquote>
+<h4 id="switch"><a href="#switch" class="headerlink" title="switch"></a>switch</h4><figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">th:switch</span>=<span class="string">"$&#123;sex&#125;"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">p</span> <span class="attr">th:case</span>=<span class="string">"'woman'"</span>&gt;</span>她是一个姑娘...<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">p</span> <span class="attr">th:case</span>=<span class="string">"'man'"</span>&gt;</span>这是一个爷们!<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- *: case 的默认的选项 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">p</span> <span class="attr">th:case</span>=<span class="string">"*"</span>&gt;</span>未知性别的一个家伙。<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="内嵌变量"><a href="#内嵌变量" class="headerlink" title="内嵌变量"></a>内嵌变量</h4><p>为了模板更加易用，Thymeleaf还提供了一系列Utility对象（内置于Context中），可以通过#直接访问：</p>
+<ul>
+<li>dates ： java.util.Date的功能方法类。</li>
+<li>calendars : 类似#dates，面向java.util.Calendar</li>
+<li>numbers : 格式化数字的功能方法类</li>
+<li>strings : 字符串对象的功能类</li>
+<li>objects: 对objects的功能类操作。</li>
+<li>bools: 对布尔值求值的功能方法。</li>
+<li>arrays：对数组的功能类方法。</li>
+<li>lists: 对lists功能类方法</li>
+<li>sets</li>
+<li>maps</li>
+</ul>
+<h1 id="常用th标签"><a href="#常用th标签" class="headerlink" title="常用th标签"></a>常用th标签</h1><table>
+<thead>
+<tr>
+<th align="center"><strong>标签</strong></th>
+<th align="center"><strong>说明</strong></th>
+<th align="center"><strong>例子</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">th:id</td>
+<td align="center">替换id</td>
+<td align="center">&lt; input th:id=”‘xxx’ + ${collect.id}”/&gt;</td>
+</tr>
+<tr>
+<td align="center">th:text</td>
+<td align="center">文本替换</td>
+<td align="center">&lt; p th:text=”${collect.description}”&gt;description&lt; /p&gt;</td>
+</tr>
+<tr>
+<td align="center">th:utext</td>
+<td align="center">支持html的文本替换</td>
+<td align="center">&lt; p th:utext=”${htmlcontent}”&gt;conten&lt; /p&gt;</td>
+</tr>
+<tr>
+<td align="center">th:object</td>
+<td align="center">替换对象</td>
+<td align="center">&lt; div th:object=”${session.user}”&gt;</td>
+</tr>
+<tr>
+<td align="center">th:value</td>
+<td align="center">属性赋值</td>
+<td align="center">&lt; input th:value=”${user.name}” /&gt;</td>
+</tr>
+<tr>
+<td align="center">th:with</td>
+<td align="center">变量赋值运算</td>
+<td align="center">&lt; div th:with=”isEven=${prodStat.count}%2==0”&gt;&lt; /div&gt;</td>
+</tr>
+<tr>
+<td align="center">th:style</td>
+<td align="center">设置样式</td>
+<td align="center">th:style=”‘display:’ + @{(${sitrue} ? ‘none’ : ‘inline-block’)} + ‘’”</td>
+</tr>
+<tr>
+<td align="center">th:onclick</td>
+<td align="center">点击事件</td>
+<td align="center">th:”‘getCollect()’”</td>
+</tr>
+<tr>
+<td align="center">th:each</td>
+<td align="center">属性赋值</td>
+<td align="center">tr th:each=”user,userStat:${users}”&gt;</td>
+</tr>
+<tr>
+<td align="center">th:if</td>
+<td align="center">判断条件</td>
+<td align="center">&lt; a th:if=”${userId == collect.userId}” &gt;</td>
+</tr>
+<tr>
+<td align="center">th:unless</td>
+<td align="center">和th:if判断相反</td>
+<td align="center">&lt; a th:href=”@{/login}” th:unless=${session.user != null}&gt;Login&lt; /a&gt;</td>
+</tr>
+<tr>
+<td align="center">th:href</td>
+<td align="center">链接地址</td>
+<td align="center">&lt;a th:href=”@{/login}” th:unless=${session.user != null}&gt;Login&lt; /a&gt;</td>
+</tr>
+<tr>
+<td align="center">th:switch</td>
+<td align="center">多路选择 配合th:case 使用</td>
+<td align="center">&lt; div th:switch=”${user.role}”&gt;</td>
+</tr>
+<tr>
+<td align="center">th:case</td>
+<td align="center">th:switch的一个分支</td>
+<td align="center">&lt; p th:case=”‘admin’”&gt;User is an administrator&lt; /p&gt;</td>
+</tr>
+<tr>
+<td align="center">th:fragment</td>
+<td align="center">布局标签，定义一个代码片段，方便其它地方引用</td>
+<td align="center">&lt; div th:fragment=”alert”&gt;</td>
+</tr>
+<tr>
+<td align="center">th:include</td>
+<td align="center">布局标签，替换内容到引入的文件</td>
+<td align="center">&lt; head th:include=”layout :: htmlhead” th:with=”title=’xx’”&gt;&lt; /head&gt;</td>
+</tr>
+<tr>
+<td align="center">th:replace</td>
+<td align="center">布局标签，替换整个标签到引入的文件</td>
+<td align="center">&lt; div th:replace=”fragments/header :: title”&gt;&lt; /div&gt;</td>
+</tr>
+<tr>
+<td align="center">th:selected</td>
+<td align="center">selected选择框 选中</td>
+<td align="center">th:selected=”(${xxx.id} == ${configObj.dd})”</td>
+</tr>
+<tr>
+<td align="center">th:src</td>
+<td align="center">图片类地址引入</td>
+<td align="center">&lt; img class=”img-responsive” alt=”App Logo” th:src=”@{/img/logo.png}” /&gt;</td>
+</tr>
+<tr>
+<td align="center">th:inline</td>
+<td align="center">定义js脚本可以使用变量</td>
+<td align="center">&lt; script type=”text/javascript” th:inline=”javascript”&gt;</td>
+</tr>
+<tr>
+<td align="center">th:action</td>
+<td align="center">表单提交的地址</td>
+<td align="center">&lt; form action=”subscribe.html” th:action=”@{/subscribe}”&gt;</td>
+</tr>
+<tr>
+<td align="center">th:remove</td>
+<td align="center">删除某个属性</td>
+<td align="center">&lt; tr th:remove=”all”&gt;1.all:删除包含标签和所有的孩子。2.body:不包含标记删除,但删除其所有的孩子。3.tag:包含标记的删除,但不删除它的孩子。4.all-but-first:删除所有包含标签的孩子,除了第一个。5.none:什么也不做。这个值是有用的动态评估。</td>
+</tr>
+<tr>
+<td align="center">th:attr</td>
+<td align="center">设置标签属性，多个属性可以用逗号分隔</td>
+<td align="center">比如 &lt; p th:attr=”src=@{/image/aa.jpg},title=${title}”&gt;内容&lt; /p&gt;，这样如果${title}=‘这个是title’ 则结果就是&lt; p src=”/image/aa.jpg” title=”这个是title”&gt;内容&lt; /p&gt;</td>
+</tr>
+</tbody></table>
+]]></content>
+      <categories>
+        <category>模板引擎</category>
+        <category>Thymeleaf</category>
+      </categories>
+      <tags>
+        <tag>Tyhmeleaf</tag>
+        <tag>模板引擎</tag>
       </tags>
   </entry>
   <entry>
