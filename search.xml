@@ -1,6 +1,72 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>Linux命令</title>
+    <url>/2020/03/06/Linux%E5%91%BD%E4%BB%A4/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">查看Redis启动的端口</span><br><span class="line">ps -ef | grep -i redis</span><br><span class="line"></span><br><span class="line">查看进程树</span><br><span class="line">pstree</span><br><span class="line"></span><br><span class="line">查看某端口否开启</span><br><span class="line">netstat -tunlp | grep 6379</span><br><span class="line"></span><br><span class="line">查看 Redis 安装路径</span><br><span class="line">whereis redis</span><br><span class="line"></span><br><span class="line">查看 Redis 客户端安装路径(我好像看不懂这个路径)</span><br><span class="line">whereis redis-cli</span><br></pre></td></tr></table></figure>
+
+<a id="more"></a>
+
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">查看 Redis 服务端路径</span><br><span class="line">whereis redis-server</span><br><span class="line"></span><br><span class="line">启动服务端</span><br><span class="line">bin&#x2F;redis-server redis.conf</span><br><span class="line"></span><br><span class="line">启动客户端</span><br><span class="line">bin&#x2F;redis-cli -a 密码</span><br><span class="line"></span><br><span class="line">关闭客户端</span><br><span class="line">shutdown</span><br><span class="line"></span><br><span class="line">关闭（杀进程）</span><br><span class="line">pkill redis-server</span><br><span class="line"></span><br><span class="line">清空当前的数据库</span><br><span class="line">flushdb</span><br><span class="line"></span><br><span class="line">选择数据库（一共16个）</span><br><span class="line">select index</span><br><span class="line"></span><br><span class="line">杀掉指定的连接</span><br><span class="line">kill PID</span><br><span class="line"></span><br><span class="line">打开指定文件</span><br><span class="line">less Redis.conf</span><br><span class="line">	:q 退出</span><br><span class="line">	:wq 保存并退出</span><br><span class="line">	v i 修改文件</span><br><span class="line">	ESC 取消当前操作</span><br><span class="line">	u 撤回</span><br><span class="line">	&#x2F;关键字  查询关键字</span><br><span class="line">	</span><br><span class="line">退出客户端连接</span><br><span class="line">quit</span><br></pre></td></tr></table></figure>
+
+<h1 id="防火墙"><a href="#防火墙" class="headerlink" title="防火墙"></a>防火墙</h1><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">重启防火墙</span><br><span class="line">firewall-cmd --reload</span><br><span class="line"></span><br><span class="line">开启端口</span><br><span class="line">firewall-cmd --zone&#x3D;public --add-port&#x3D;7001&#x2F;tcp --permanent</span><br><span class="line"></span><br><span class="line">查看已开放的端口</span><br><span class="line">firewall-cmd --list-ports</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>操作系统</category>
+        <category>Linux</category>
+      </categories>
+      <tags>
+        <tag>Linux</tag>
+        <tag>Redis</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Linux设置固定IP地址</title>
+    <url>/2020/03/11/Linux%E8%AE%BE%E7%BD%AE%E5%9B%BA%E5%AE%9AIP%E5%9C%B0%E5%9D%80/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h1 id="Linux设置固定IP地址"><a href="#Linux设置固定IP地址" class="headerlink" title="Linux设置固定IP地址"></a>Linux设置固定IP地址</h1><p>我这里使用的系统是 CentOS7</p>
+<p>找到网络配置文件</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">cd &#x2F;etc&#x2F;sysconfig&#x2F;network-scripts&#x2F;&amp;&amp;ls</span><br></pre></td></tr></table></figure>
+
+<p>找到 <strong>ifcfg-ens33</strong> 这个文件（系统不同可能文件不同，但是大概都是这个位置）</p>
+<p><img src="/" class="lazyload" data-src="/2020/03/11/Linux%E8%AE%BE%E7%BD%AE%E5%9B%BA%E5%AE%9AIP%E5%9C%B0%E5%9D%80/ifcfg-ens33.png"  alt></p>
+<a id="more"></a>
+
+<p>打开 ifcfg-ens33</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">less ifcfg-ens33</span><br></pre></td></tr></table></figure>
+
+<p><img src="/" class="lazyload" data-src="/2020/03/11/Linux%E8%AE%BE%E7%BD%AE%E5%9B%BA%E5%AE%9AIP%E5%9C%B0%E5%9D%80/less-ifcfg-ens33.png"  alt></p>
+<p>输入</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">vi &#x2F;&#x2F;进入修改</span><br><span class="line">ESC &#x2F;&#x2F;退出当前指令</span><br><span class="line">:q &#x2F;&#x2F;退出</span><br><span class="line">:w &#x2F;&#x2F;保存</span><br><span class="line">:wq &#x2F;&#x2F;保存并退出</span><br></pre></td></tr></table></figure>
+
+<p>主要配置</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">BOOTPROTO&#x3D;&quot;static&quot;  &#x2F;&#x2F;设置为静态</span><br><span class="line">IPADDR&#x3D;&quot;&quot;  &#x2F;&#x2F;你要设置的IP地址</span><br><span class="line">NETMASK&#x3D;&quot;&quot; &#x2F;&#x2F;IPv4 子网掩码</span><br><span class="line">GATEWAY&#x3D;&quot;&quot; &#x2F;&#x2F;IPv4 默认网关</span><br><span class="line">DNS1&#x3D;&quot;8.8.8.8&quot;  &#x2F;&#x2F;可以不配置</span><br></pre></td></tr></table></figure>
+
+<p>上述主要配置需要根据本机网络信息来配置</p>
+<p>进入网络连接</p>
+<p><img src="/" class="lazyload" data-src="/2020/03/11/Linux%E8%AE%BE%E7%BD%AE%E5%9B%BA%E5%AE%9AIP%E5%9C%B0%E5%9D%80/%E6%9C%AC%E6%9C%BA%E7%BD%91%E7%BB%9C.png"  alt></p>
+<p>右键当前连接的网络，点击<strong>状态</strong></p>
+<p><img src="/" class="lazyload" data-src="/2020/03/11/Linux%E8%AE%BE%E7%BD%AE%E5%9B%BA%E5%AE%9AIP%E5%9C%B0%E5%9D%80/%E7%BD%91%E7%BB%9C%E4%BF%A1%E6%81%AF.png"  alt></p>
+<p>点击详细信息</p>
+<p><img src="/" class="lazyload" data-src="/2020/03/11/Linux%E8%AE%BE%E7%BD%AE%E5%9B%BA%E5%AE%9AIP%E5%9C%B0%E5%9D%80/%E7%BD%91%E7%BB%9C%E8%AF%A6%E7%BB%86%E4%BF%A1%E6%81%AF.png"  alt></p>
+<p>根据这个信息配置</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">BOOTPROTO&#x3D;&quot;static&quot;  &#x2F;&#x2F;设置为静态</span><br><span class="line">IPADDR&#x3D;&quot;&quot;  &#x2F;&#x2F;你要设置的IP地址  对应IPv4地址 前三组数字要相同，后面的数字自己设置，设置前先ping一下看ping不ping的通，不要使用ping的通的IP</span><br><span class="line">NETMASK&#x3D;&quot;&quot; &#x2F;&#x2F;IPv4 子网掩码 对应 IPv4 子网掩码要一模一样</span><br><span class="line">GATEWAY&#x3D;&quot;&quot; &#x2F;&#x2F;IPv4 默认网关 对应 IPv4 默认网关要一模一样</span><br><span class="line">DNS1&#x3D;&quot;8.8.8.8&quot;  &#x2F;&#x2F;可以不配置</span><br></pre></td></tr></table></figure>
+
+<p>修改完成输入命令重启网络服务</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">systemctl restart network</span><br></pre></td></tr></table></figure>
+
+<p>测试 </p>
+<p>ping <a href="http://www.baidu.com" target="_blank" rel="noopener">www.baidu.com</a></p>
+]]></content>
+      <categories>
+        <category>操作系统</category>
+        <category>Linux</category>
+      </categories>
+      <tags>
+        <tag>Linux</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Docker</title>
     <url>/2020/03/21/Docker/</url>
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><blockquote>
@@ -495,72 +561,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Linux命令</title>
-    <url>/2020/03/06/Linux%E5%91%BD%E4%BB%A4/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">查看Redis启动的端口</span><br><span class="line">ps -ef | grep -i redis</span><br><span class="line"></span><br><span class="line">查看进程树</span><br><span class="line">pstree</span><br><span class="line"></span><br><span class="line">查看某端口否开启</span><br><span class="line">netstat -tunlp | grep 6379</span><br><span class="line"></span><br><span class="line">查看 Redis 安装路径</span><br><span class="line">whereis redis</span><br><span class="line"></span><br><span class="line">查看 Redis 客户端安装路径(我好像看不懂这个路径)</span><br><span class="line">whereis redis-cli</span><br></pre></td></tr></table></figure>
-
-<a id="more"></a>
-
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">查看 Redis 服务端路径</span><br><span class="line">whereis redis-server</span><br><span class="line"></span><br><span class="line">启动服务端</span><br><span class="line">bin&#x2F;redis-server redis.conf</span><br><span class="line"></span><br><span class="line">启动客户端</span><br><span class="line">bin&#x2F;redis-cli -a 密码</span><br><span class="line"></span><br><span class="line">关闭客户端</span><br><span class="line">shutdown</span><br><span class="line"></span><br><span class="line">关闭（杀进程）</span><br><span class="line">pkill redis-server</span><br><span class="line"></span><br><span class="line">清空当前的数据库</span><br><span class="line">flushdb</span><br><span class="line"></span><br><span class="line">选择数据库（一共16个）</span><br><span class="line">select index</span><br><span class="line"></span><br><span class="line">杀掉指定的连接</span><br><span class="line">kill PID</span><br><span class="line"></span><br><span class="line">打开指定文件</span><br><span class="line">less Redis.conf</span><br><span class="line">	:q 退出</span><br><span class="line">	:wq 保存并退出</span><br><span class="line">	v i 修改文件</span><br><span class="line">	ESC 取消当前操作</span><br><span class="line">	u 撤回</span><br><span class="line">	&#x2F;关键字  查询关键字</span><br><span class="line">	</span><br><span class="line">退出客户端连接</span><br><span class="line">quit</span><br></pre></td></tr></table></figure>
-
-<h1 id="防火墙"><a href="#防火墙" class="headerlink" title="防火墙"></a>防火墙</h1><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">重启防火墙</span><br><span class="line">firewall-cmd --reload</span><br><span class="line"></span><br><span class="line">开启端口</span><br><span class="line">firewall-cmd --zone&#x3D;public --add-port&#x3D;7001&#x2F;tcp --permanent</span><br><span class="line"></span><br><span class="line">查看已开放的端口</span><br><span class="line">firewall-cmd --list-ports</span><br></pre></td></tr></table></figure>
-
-]]></content>
-      <categories>
-        <category>操作系统</category>
-        <category>Linux</category>
-      </categories>
-      <tags>
-        <tag>Linux</tag>
-        <tag>Redis</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Linux设置固定IP地址</title>
-    <url>/2020/03/11/Linux%E8%AE%BE%E7%BD%AE%E5%9B%BA%E5%AE%9AIP%E5%9C%B0%E5%9D%80/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h1 id="Linux设置固定IP地址"><a href="#Linux设置固定IP地址" class="headerlink" title="Linux设置固定IP地址"></a>Linux设置固定IP地址</h1><p>我这里使用的系统是 CentOS7</p>
-<p>找到网络配置文件</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">cd &#x2F;etc&#x2F;sysconfig&#x2F;network-scripts&#x2F;&amp;&amp;ls</span><br></pre></td></tr></table></figure>
-
-<p>找到 <strong>ifcfg-ens33</strong> 这个文件（系统不同可能文件不同，但是大概都是这个位置）</p>
-<p><img src="/" class="lazyload" data-src="/2020/03/11/Linux%E8%AE%BE%E7%BD%AE%E5%9B%BA%E5%AE%9AIP%E5%9C%B0%E5%9D%80/ifcfg-ens33.png"  alt></p>
-<a id="more"></a>
-
-<p>打开 ifcfg-ens33</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">less ifcfg-ens33</span><br></pre></td></tr></table></figure>
-
-<p><img src="/" class="lazyload" data-src="/2020/03/11/Linux%E8%AE%BE%E7%BD%AE%E5%9B%BA%E5%AE%9AIP%E5%9C%B0%E5%9D%80/less-ifcfg-ens33.png"  alt></p>
-<p>输入</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">vi &#x2F;&#x2F;进入修改</span><br><span class="line">ESC &#x2F;&#x2F;退出当前指令</span><br><span class="line">:q &#x2F;&#x2F;退出</span><br><span class="line">:w &#x2F;&#x2F;保存</span><br><span class="line">:wq &#x2F;&#x2F;保存并退出</span><br></pre></td></tr></table></figure>
-
-<p>主要配置</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">BOOTPROTO&#x3D;&quot;static&quot;  &#x2F;&#x2F;设置为静态</span><br><span class="line">IPADDR&#x3D;&quot;&quot;  &#x2F;&#x2F;你要设置的IP地址</span><br><span class="line">NETMASK&#x3D;&quot;&quot; &#x2F;&#x2F;IPv4 子网掩码</span><br><span class="line">GATEWAY&#x3D;&quot;&quot; &#x2F;&#x2F;IPv4 默认网关</span><br><span class="line">DNS1&#x3D;&quot;8.8.8.8&quot;  &#x2F;&#x2F;可以不配置</span><br></pre></td></tr></table></figure>
-
-<p>上述主要配置需要根据本机网络信息来配置</p>
-<p>进入网络连接</p>
-<p><img src="/" class="lazyload" data-src="/2020/03/11/Linux%E8%AE%BE%E7%BD%AE%E5%9B%BA%E5%AE%9AIP%E5%9C%B0%E5%9D%80/%E6%9C%AC%E6%9C%BA%E7%BD%91%E7%BB%9C.png"  alt></p>
-<p>右键当前连接的网络，点击<strong>状态</strong></p>
-<p><img src="/" class="lazyload" data-src="/2020/03/11/Linux%E8%AE%BE%E7%BD%AE%E5%9B%BA%E5%AE%9AIP%E5%9C%B0%E5%9D%80/%E7%BD%91%E7%BB%9C%E4%BF%A1%E6%81%AF.png"  alt></p>
-<p>点击详细信息</p>
-<p><img src="/" class="lazyload" data-src="/2020/03/11/Linux%E8%AE%BE%E7%BD%AE%E5%9B%BA%E5%AE%9AIP%E5%9C%B0%E5%9D%80/%E7%BD%91%E7%BB%9C%E8%AF%A6%E7%BB%86%E4%BF%A1%E6%81%AF.png"  alt></p>
-<p>根据这个信息配置</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">BOOTPROTO&#x3D;&quot;static&quot;  &#x2F;&#x2F;设置为静态</span><br><span class="line">IPADDR&#x3D;&quot;&quot;  &#x2F;&#x2F;你要设置的IP地址  对应IPv4地址 前三组数字要相同，后面的数字自己设置，设置前先ping一下看ping不ping的通，不要使用ping的通的IP</span><br><span class="line">NETMASK&#x3D;&quot;&quot; &#x2F;&#x2F;IPv4 子网掩码 对应 IPv4 子网掩码要一模一样</span><br><span class="line">GATEWAY&#x3D;&quot;&quot; &#x2F;&#x2F;IPv4 默认网关 对应 IPv4 默认网关要一模一样</span><br><span class="line">DNS1&#x3D;&quot;8.8.8.8&quot;  &#x2F;&#x2F;可以不配置</span><br></pre></td></tr></table></figure>
-
-<p>修改完成输入命令重启网络服务</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">systemctl restart network</span><br></pre></td></tr></table></figure>
-
-<p>测试 </p>
-<p>ping <a href="http://www.baidu.com" target="_blank" rel="noopener">www.baidu.com</a></p>
-]]></content>
-      <categories>
-        <category>操作系统</category>
-        <category>Linux</category>
-      </categories>
-      <tags>
-        <tag>Linux</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>RabbitMQ</title>
     <url>/2020/03/19/RabbitMQ/</url>
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><blockquote>
@@ -672,228 +672,6 @@
       </categories>
       <tags>
         <tag>RabbitMQ</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Nginx</title>
-    <url>/2020/03/28/Nginx/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h1 id="nginx简介"><a href="#nginx简介" class="headerlink" title="nginx简介"></a>nginx简介</h1><blockquote>
-<p><em>Nginx</em> (engine x) 是一个高性能的<a href="https://baike.baidu.com/item/HTTP" target="_blank" rel="noopener">HTTP</a>和<a href="https://baike.baidu.com/item/反向代理/7793488" target="_blank" rel="noopener">反向代理</a>web服务器，同时也提供IMAP/POP3/SMTP<a href="https://baike.baidu.com/item/服务/100571" target="_blank" rel="noopener">服务</a>。Nginx是由伊戈尔·赛索耶夫为<a href="https://baike.baidu.com/item/俄罗斯/125568" target="_blank" rel="noopener">俄罗斯</a>访问量第二的Rambler.ru站点（俄文：Рамблер）开发的，第一个公开版本0.1.0发布于2004年10月4日。</p>
-<p>其将<a href="https://baike.baidu.com/item/源代码" target="_blank" rel="noopener">源代码</a>以类BSD许可证的形式发布，因它的稳定性、丰富的功能集、示例配置文件和低系统资源的消耗而<a href="https://baike.baidu.com/item/闻名/2303308" target="_blank" rel="noopener">闻名</a>。2011年6月1日，nginx 1.0.4发布。</p>
-<p>Nginx是一款<a href="https://baike.baidu.com/item/轻量级/10002835" target="_blank" rel="noopener">轻量级</a>的<a href="https://baike.baidu.com/item/Web/150564" target="_blank" rel="noopener">Web</a> 服务器/<a href="https://baike.baidu.com/item/反向代理/7793488" target="_blank" rel="noopener">反向代理</a>服务器及<a href="https://baike.baidu.com/item/电子邮件/111106" target="_blank" rel="noopener">电子邮件</a>（IMAP/POP3）代理服务器，在BSD-like 协议下发行。其特点是占有内存少，<a href="https://baike.baidu.com/item/并发/11024806" target="_blank" rel="noopener">并发</a>能力强，事实上nginx的并发能力在同类型的网页服务器中表现较好，中国大陆使用nginx网站用户有：百度、<a href="https://baike.baidu.com/item/京东/210931" target="_blank" rel="noopener">京东</a>、<a href="https://baike.baidu.com/item/新浪/125692" target="_blank" rel="noopener">新浪</a>、<a href="https://baike.baidu.com/item/网易/185754" target="_blank" rel="noopener">网易</a>、<a href="https://baike.baidu.com/item/腾讯/112204" target="_blank" rel="noopener">腾讯</a>、<a href="https://baike.baidu.com/item/淘宝/145661" target="_blank" rel="noopener">淘宝</a>等。</p>
-</blockquote>
-<a id="more"></a>
-
-<h1 id="笔记大纲"><a href="#笔记大纲" class="headerlink" title="笔记大纲"></a>笔记大纲</h1><p>1、nginx基本概念</p>
-<ul>
-<li><a href="#什么是nginx">nginx 是什么，做什么事情</a></li>
-<li><a href="#反向代理">方向代理</a></li>
-<li><a href="#负载均衡">负载均衡</a></li>
-<li><a href="#动静分离">动静分离</a></li>
-</ul>
-<p>2、nginx安装、配置文件</p>
-<ul>
-<li><a href="#安装">在linux 系统中安装 nginx</a></li>
-<li>[nginx 配置文件](#nginx.conf 配置文件)</li>
-</ul>
-<p>3、<a href="#反向代理1">nginx 配置实例 1-反向代理</a></p>
-<p>4、[nginx 配置实例 2-负载均衡](# 负载均衡)</p>
-<p>5、nginx 配置实例 3-动静分离</p>
-<p>6、nginx 配置高可用集群</p>
-<p>7、nginx 原理</p>
-<h1 id="什么是nginx"><a href="#什么是nginx" class="headerlink" title="什么是nginx"></a>什么是nginx</h1><blockquote>
-<p>Nginx (“engine x”)是一个高性能的HTTP和反向代理服务器特点是占有内存少，并发能力强，事实上nginx的并发能力确实在同类型的网页服务器中表现较好，Nginx专为性能优化而开发，性能是其最重要的考量，实现上非常注重效率，能经受高负载的考验，有报告表明能支持高达50, 000个并发连接数。</p>
-</blockquote>
-<h1 id="代理"><a href="#代理" class="headerlink" title="代理"></a>代理</h1><h2 id="正向代理"><a href="#正向代理" class="headerlink" title="正向代理"></a>正向代理</h2><blockquote>
-<p>Nginx不仅可以做反向代理，实现负载均衡。还能用作正向代理来进行上网等功能。</p>
-<p>正向代理: 如果把局域网外的Intermet想象成一个巨大的资源库， 则局域网中的客户端要访</p>
-<p>问Internet,则需要通过代理服务器来访问，这种代理服务就称为正向代理。</p>
-</blockquote>
-<p><img src="/" class="lazyload" data-src="/2020/03/28/Nginx/QQ%E5%9B%BE%E7%89%8720200328224318.png"  alt></p>
-<h2 id="反向代理"><a href="#反向代理" class="headerlink" title="反向代理"></a>反向代理</h2><blockquote>
-<p>反向代理，其实客户端对代理是无感知的，因为客户端不需要任何配置就可以访问，我们只需要将请求发送到反向代理服务器，由反向代理服务器去选择目标服务器获取数据后，在返回给客户端，此时反向代理服务器和目标服务器对外就是一个服务器，暴露的是代理服务器地址，隐藏了真实服务器IP地址。</p>
-</blockquote>
-<p><img src="/" class="lazyload" data-src="/2020/03/28/Nginx/QQ%E5%9B%BE%E7%89%8720200328225035.png"  alt></p>
-<h1 id="负载均衡"><a href="#负载均衡" class="headerlink" title="负载均衡"></a>负载均衡</h1><blockquote>
-<p>客户端发送多个请求到服务器，服务器处理请求，有一些可能要与数据库进行交互，服务器处理完毕后，再将结果返回给客户端</p>
-<p>这种架构模式对于早期的系统相对单一, 并发请求相对较少的情况下是比较适合的，成本也低。但是随着信息数量的不断增长，访问量和数据量的飞速增长，以及系统业务的复杂度增加，这种架构会造成服务器相应客户端的请求日益缓慢，并发量特别大的时候，<span style="color:red">还容易造成服务器直接崩溃</span>。很明显这是由于服务器性能的瓶颈造成的问题，那么如何解决这种情况呢 ?</p>
-<p>我们首先想到的可能是升级服务器的配置，比如提高CPU执行频率,加大内存等提高机器的物理性能来解决此问题，但是我们知道摩尔定律的日益失效，硬件的性能提升已经不能满足日益提升的需求了。最明显的一个例子，天猫双十一当天，某个热销商品的瞬时访问量是极其庞大的，那么类似，上面的系统架构，将机器都增加到现有的顶级物理配置，都是不能够满足需求的。那么怎么办呢 ?</p>
-<p>上面的分析我们去掉了增加服务器物理配置来解决问题的办法，也就是说纵向解决问题的办法行不通了，那么横向增加服务器的数量呢?这时候集群的概念产生了，<span style="color:red">单个服务器解决不了，我们增加服务器的数量，然后将请求分发到各个服务器上，将原先请求集中到单个服务器上的情况改为将请求分发到多个服务器上，将负载分发到不同的服务器，也就是我们<br>所说的负载均衡</span></p>
-</blockquote>
-<p><img src="/" class="lazyload" data-src="/2020/03/28/Nginx/QQ%E5%9B%BE%E7%89%8720200329104207.png"  alt></p>
-<h1 id="动静分离"><a href="#动静分离" class="headerlink" title="动静分离"></a>动静分离</h1><blockquote>
-<p>为了加快网站的解析速度，可以把动态页面和静态页面由不同的服务器来解析，加快解析度。降低原来单个服务器的压力。</p>
-<p>Nginx动静分离简单来说就是把动态跟静态请求分开,不能理解成只是单纯的把动态页面和静态页面物理分离。严格意义上说应该是动态请求跟静态请求分开，可以理解成使用Nginx处理静态页面，Tomeat处理动态页面。动静分离从目前实现角度来讲大致分为两种。</p>
-<p>一种是纯粹把静态文件独立成单独的城名,放在独立的服务器上,也是目前主流推崇的方案:</p>
-<p>另外一种方法就是动态跟静态文件混合在一起发布，通过nginx来分开。</p>
-<p>通过location指定不同的后綴名实现不同的请求转发。通过expires参数设置，可以使浏览器缓存过期时间，减少与服务器之前的请求和流量，具体Expires定义: 是给-一个资源设定一个过期时间，也就是说无需去服务端验证,直接通过浏览器自身确认是否过期即可，所以不会产生额外的流量。此种方法非常适合不经常变动的资源。(如果 经常更新的文件，不建议使用Expires 来缓存)，我这里设置3d,表示在这3天之内访问这个URL,发送一个请求，比对服务器该文件最后更新时间没有变化，则不会从服务器抓取，返回状态码304，如果有修改，则直接从服务器重新下载，返回状态码200</p>
-</blockquote>
-<p><img src="/" class="lazyload" data-src="/2020/03/28/Nginx/QQ%E5%9B%BE%E7%89%8720200329105000.png"  alt></p>
-<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><p><a href="https://www.cnblogs.com/niceyoo/p/11546370.html" target="_blank" rel="noopener">https://www.cnblogs.com/niceyoo/p/11546370.html</a></p>
-<p>使用Docker安装nginx</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">docker pull nginx</span><br></pre></td></tr></table></figure>
-
-<p>创建nginx容器</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">docker run -it -d --name mynginx -p 9999:9999 -v &#x2F;home&#x2F;nginx&#x2F;conf&#x2F;nginx.conf:&#x2F;etc&#x2F;nginx&#x2F;nginx.conf -v &#x2F;home&#x2F;nginx&#x2F;www:&#x2F;home&#x2F;nginx&#x2F;www -v &#x2F;home&#x2F;nginx&#x2F;static:&#x2F;home&#x2F;nginx&#x2F;static --privileged --net&#x3D;host nginx</span><br></pre></td></tr></table></figure>
-
-<p>编写nginx.conf</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">worker_processes  1;</span><br><span class="line"></span><br><span class="line">events &#123;</span><br><span class="line">    worker_connections  1024;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">http &#123;</span><br><span class="line">    include       mime.types;</span><br><span class="line">    default_type  application&#x2F;octet-stream;</span><br><span class="line"></span><br><span class="line">    sendfile        on;</span><br><span class="line">    #tcp_nopush     on;</span><br><span class="line"></span><br><span class="line">    #keepalive_timeout  0;</span><br><span class="line">    keepalive_timeout  65;</span><br><span class="line"></span><br><span class="line">    #gzip  on;</span><br><span class="line"></span><br><span class="line">    server &#123;</span><br><span class="line">        listen       80;</span><br><span class="line">        server_name  localhost;</span><br><span class="line"></span><br><span class="line">        # Vue路由模式为history需添加的配置</span><br><span class="line">        location &#x2F; &#123;</span><br><span class="line">            if (!-e $request_filename) &#123;</span><br><span class="line">                rewrite ^(.*)$ &#x2F;index.html?s&#x3D;$1 last;</span><br><span class="line">                break;</span><br><span class="line">            &#125;</span><br><span class="line">            root   &#x2F;home&#x2F;nginx&#x2F;www;</span><br><span class="line">            index  index.html;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        # 获取真实IP以及Websocket需添加的配置</span><br><span class="line">        proxy_set_header Host $host;</span><br><span class="line">        proxy_set_header X-Real-IP $remote_addr;</span><br><span class="line">        proxy_set_header REMOTE-HOST $remote_addr;</span><br><span class="line">        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;</span><br><span class="line">        proxy_set_header Upgrade $http_upgrade;</span><br><span class="line">        proxy_set_header Connection &quot;upgrade&quot;;</span><br><span class="line"></span><br><span class="line">        # 客户端Body大小限制（文件上传大小限制配置）</span><br><span class="line">        client_max_body_size 5m;</span><br><span class="line"></span><br><span class="line">        error_page   500 502 503 504 404  &#x2F;50x.html;</span><br><span class="line">        location &#x3D; &#x2F;50x.html &#123;</span><br><span class="line">            root   html;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    upstream mytomcat &#123;</span><br><span class="line">		server localhost:8080;</span><br><span class="line">	&#125;</span><br><span class="line">    </span><br><span class="line">        server &#123;</span><br><span class="line">            listen       80;</span><br><span class="line">            server_name  duxiutomcat.com;</span><br><span class="line"></span><br><span class="line">            proxy_set_header X-Forwarded-Host $host;</span><br><span class="line">            proxy_set_header X-Forwarded-Server $host;</span><br><span class="line">            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;</span><br><span class="line"></span><br><span class="line">            location &#x2F; &#123;</span><br><span class="line">                proxy_pass http:&#x2F;&#x2F;mytomcat;  # 转发路径</span><br><span class="line">                proxy_connect_timeout 600;</span><br><span class="line">                proxy_read_timeout 600;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="nginx-conf-配置文件"><a href="#nginx-conf-配置文件" class="headerlink" title="nginx.conf 配置文件"></a>nginx.conf 配置文件</h2><h3 id="第一部分：全局块"><a href="#第一部分：全局块" class="headerlink" title="第一部分：全局块"></a>第一部分：全局块</h3><blockquote>
-<p>从配置文件开始到 events 块之间的内容,主要会设置一些影响 nginx服务器整体运行的配置指令,主要包括配置运行Nginx服务器的用户(组)、允许生成的worker process数,进程PID存放路径、日志存放路径和类型以及配置文件的引入等</p>
-</blockquote>
-<p>比如上面的第一行配置</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">worker_processes  1;</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>这是Nginx服务器并发处理服务的关键配置, <span style="color:red">worker processes值越大,可以支持的并发处理量也越多</span>,但是会受到硬件，软件等设备的限制</p>
-</blockquote>
-<h3 id="第二部分：events块"><a href="#第二部分：events块" class="headerlink" title="第二部分：events块"></a>第二部分：events块</h3><blockquote>
-<p>events 块涉及的指令主要影响 Nginx服务器与用户的网络连接。常用的设置包括是否开启对多work process 下的网络连接进行序列化, 是否允许同时接收多个网络连接,选取哪种事件驱动模型来处理连接请求，每个word process可以同时支持的最大连接数等。</p>
-<p>下述例子就表示每个 work process 支持的最大连接数为1024.0<br>这部分的配置对Nginx的性能影响较大, 在实际中应该灵活配置</p>
-</blockquote>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">events &#123;</span><br><span class="line">    worker_connections  1024;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="第三部分：http块"><a href="#第三部分：http块" class="headerlink" title="第三部分：http块"></a>第三部分：http块</h3><blockquote>
-<p>这算是Nginx 服务器配置中最烦繁的部分, 代理，缓存和日志定义等绝大多数功能和第三方模块的配置都在这里</p>
-<p>需要注意的是:  http块也可以包括http 全局块、server 块。</p>
-</blockquote>
-<h4 id="http全局块"><a href="#http全局块" class="headerlink" title="http全局块"></a>http全局块</h4><blockquote>
-<p>http全局块配置的指令包括文件引入、MIME-TYPE 定义、日志自定义，连接超时时间，单链接请求数上限等</p>
-</blockquote>
-<h4 id="server-块"><a href="#server-块" class="headerlink" title="server 块"></a>server 块</h4><blockquote>
-<p>这块和虚拟主机有密切关系,虚拟主机从用户角度看,和一台独立的硬件主机是完全一样的，该技术的产生是为了节省互联网服务器硬件成本</p>
-<p>每个http块可以包括多个server块，而每个server块就相当于一个虚拟主机<br>而每个server块也分为全局server 块,以及可以同时包含多个location块</p>
-</blockquote>
-<h5 id="全局server块"><a href="#全局server块" class="headerlink" title="全局server块"></a>全局server块</h5><blockquote>
-<p>最常见的配置是本虚拟机主机的监听配置和本虚拟主机的名称或IP配置。</p>
-</blockquote>
-<h5 id="location-块"><a href="#location-块" class="headerlink" title="location 块"></a>location 块</h5><blockquote>
-<p>一个server 块可以配置多个location 块。</p>
-<p>这块的主要作用是基于Nginx服务器接收到的请求字符串(例如server, name/url-string) , 对虚拟主机名称(也可以是IP别名)之外的字符串(例如前面的/uristring )进行匹配,对特定的请求进行理。地址定向、数据缓存和应答控制等功船,还有许多第三方模块的配置也在这里进行。</p>
-</blockquote>
-<h1 id="nginx配置实例"><a href="#nginx配置实例" class="headerlink" title="nginx配置实例"></a>nginx配置实例</h1><h2 id="反向代理1"><a href="#反向代理1" class="headerlink" title="反向代理1"></a>反向代理1</h2><p>使用tomcat演示配置反向代理</p>
-<p>1、修改nginx.conf, 添加下面的配置</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">upstream mytomcat &#123;</span><br><span class="line">		server localhost:8080;</span><br><span class="line">	&#125;</span><br><span class="line">    </span><br><span class="line">    server &#123;</span><br><span class="line">        listen       80;</span><br><span class="line">        server_name  duxiutomcat.com;</span><br><span class="line"></span><br><span class="line">        proxy_set_header X-Forwarded-Host $host;</span><br><span class="line">        proxy_set_header X-Forwarded-Server $host;</span><br><span class="line">        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;</span><br><span class="line"></span><br><span class="line">        location &#x2F; &#123;</span><br><span class="line">			proxy_pass http:&#x2F;&#x2F;mytomcat;  # 转发路径</span><br><span class="line">			proxy_connect_timeout 600;</span><br><span class="line">			proxy_read_timeout 600;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-
-<p>2、保存，重启nginx</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">docker start 容器ID</span><br></pre></td></tr></table></figure>
-
-<p>3、访问</p>
-<p><img src="/" class="lazyload" data-src="/2020/03/28/Nginx/QQ%E5%9B%BE%E7%89%8720200329153746.png"  alt></p>
-<p>想让windows也能访问，修改 C:\Windows\System32\drivers\etc 下的 host 文件</p>
-<p><img src="/" class="lazyload" data-src="/2020/03/28/Nginx/QQ%E5%9B%BE%E7%89%8720200329154036.png"  alt></p>
-<p>虚拟机IP地址加 配置文件 里 server_name 对应的 域名</p>
-<p>保存，访问</p>
-<p><img src="/" class="lazyload" data-src="/2020/03/28/Nginx/QQ%E5%9B%BE%E7%89%8720200329154220.png"  alt></p>
-<p>欧啦</p>
-<h2 id="反向代理2"><a href="#反向代理2" class="headerlink" title="反向代理2"></a>反向代理2</h2><p>要求</p>
-<blockquote>
-<p>当 访问 192.168.156.128:9001/8080/index.html 显示 8080 的 欢迎语句</p>
-<p>当 访问 192.168.156.128:9001/8081/index.html 显示 8081 的 欢迎语句</p>
-</blockquote>
-<p>再运行一个tomcat容器指定8081端口，nginx.conf添加 如下配置</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">        listen       9001;</span><br><span class="line">        server_name  192.168.156.128;</span><br><span class="line"></span><br><span class="line">        proxy_set_header X-Forwarded-Host $host;</span><br><span class="line">        proxy_set_header X-Forwarded-Server $host;</span><br><span class="line">        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;</span><br><span class="line">        </span><br><span class="line">		location ~ &#x2F;8080&#x2F; &#123;</span><br><span class="line">        	proxy_pass http:&#x2F;&#x2F;localhost:8080;</span><br><span class="line">		&#125;</span><br><span class="line">		</span><br><span class="line">		location ~ &#x2F;8081&#x2F; &#123;</span><br><span class="line">        	proxy_pass http:&#x2F;&#x2F;localhost:8081;</span><br><span class="line">		&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>重启 nginx ，tomcat1，tomcat2 容器</p>
-<p>效果</p>
-<p><img src="/" class="lazyload" data-src="/2020/03/28/Nginx/QQ%E5%9B%BE%E7%89%8720200329170208.png"  alt></p>
-<p><img src="/" class="lazyload" data-src="/2020/03/28/Nginx/QQ%E5%9B%BE%E7%89%8720200329170220.png"  alt></p>
-<h2 id="location-指令说明"><a href="#location-指令说明" class="headerlink" title="location 指令说明"></a>location 指令说明</h2><blockquote>
-<p>该指令用于匹配 URL</p>
-<p>语法如下：</p>
-</blockquote>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">location [ &#x3D; | ~ | ~* | ^~] uri&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>=      用于不含正则表达式的uri前，要求请求字符串与uri严格匹配，如果匹配成功，就停止继续向下搜索并立即处理该请求</p>
-<p>~      用于表示uri包含正则表达式，井且区分大小写</p>
-<p><del>*    用于表示uri包含正则表达式，并且不区分大小写<br>^</del>    用于不含正则表达式的uri 前，要求Nginx服务器找到标识uri和请求字符串匹配度最高的location 后，立即使用此location处理请求，而不再使用location块中的正则uri和请求字符串做匹配</p>
-<p>注意: 如果uri包含正则表达式，则必须要有~或者 ~* 标识</p>
-</blockquote>
-<h2 id="负载均衡-1"><a href="#负载均衡-1" class="headerlink" title="负载均衡"></a>负载均衡</h2><p>分别给两个tomcat的webapp下创建相同的目录loadbalancing给目录下创建html文件loadbalancing</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">upstream myserver &#123;</span><br><span class="line">	server 192.168.156.128:8080;</span><br><span class="line">	server 192.168.156.128:8081;</span><br><span class="line">&#125;</span><br><span class="line">server &#123;</span><br><span class="line">        listen       80;</span><br><span class="line">        server_name  myloadbalancing.com;</span><br><span class="line"></span><br><span class="line">        proxy_set_header X-Forwarded-Host $host;</span><br><span class="line">        proxy_set_header X-Forwarded-Server $host;</span><br><span class="line">        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;</span><br><span class="line"></span><br><span class="line">        location &#x2F; &#123;</span><br><span class="line">			proxy_pass http:&#x2F;&#x2F;myserver;  # 转发路径</span><br><span class="line">			proxy_connect_timeout 600;</span><br><span class="line">			proxy_read_timeout 600;</span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>重启 nginx ，tomcat1，tomcat2 容器，windows配置host </p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">192.168.156.128 myloadbalancing.com</span><br></pre></td></tr></table></figure>
-
-<p>效果</p>
-<p><img src="/" class="lazyload" data-src="/2020/03/28/Nginx/QQ%E5%9B%BE%E7%89%8720200329180419.png"  alt></p>
-<p><img src="/" class="lazyload" data-src="/2020/03/28/Nginx/QQ%E5%9B%BE%E7%89%8720200329180428.png"  alt></p>
-<p>成功</p>
-<blockquote>
-<p>随着互联网信息的爆炸性增长，负载均衡(load balance)已经不再是一个很陌生的话题，顾名思义，负載均衡即是将负载分摊到不同的服务单元，既保证服务的可用性，又保证响应足够快，给用户很好的体验，快速增长的访问量和数据流量催生了各式各样的负载均衡产品，很多专业的负载均衡硬件提供了很好的功能,但却价格不非,这使得负戴均衡软件大受欢迎，nginx就是其中的一个，在linux下有Nginx、LVS、 Haproxy等等服务可以提供负载均衡服务，而且Nginx提供了几种分配方式(策略)</p>
-</blockquote>
-<h3 id="负载均衡策略"><a href="#负载均衡策略" class="headerlink" title="负载均衡策略"></a>负载均衡策略</h3><h4 id="轮询-（默认）"><a href="#轮询-（默认）" class="headerlink" title="轮询 （默认）"></a>轮询 （默认）</h4><blockquote>
-<p>每个请求按时间顺序逐一分配到不同的后端服务器，如果后端服务器down掉，能自动剔除</p>
-</blockquote>
-<h4 id="weight"><a href="#weight" class="headerlink" title="weight"></a>weight</h4><blockquote>
-<p>weight代表权,重默认为1,权重越高被分配的客户端越多，</p>
-<p>指定轮询几率，weight 和访问比率成正比，用于后端服务器性能不均的情况。例如</p>
-</blockquote>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">upstream myserver &#123;</span><br><span class="line">	server 192.168.156.128:8080 weight&#x3D;10;</span><br><span class="line">	server 192.168.156.128:8081 weight&#x3D;5;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<h4 id="ip-hash"><a href="#ip-hash" class="headerlink" title="ip_hash"></a>ip_hash</h4><blockquote>
-<p>每个请求按访问 ip 的hash结果分配，这样每个访客固定访问一个后端服务器，可以解决session的问题。例如：</p>
-</blockquote>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">upstream myserver &#123;</span><br><span class="line">ip_hash</span><br><span class="line">	server 192.168.156.128:8080;</span><br><span class="line">	server 192.168.156.128:8081;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h4 id="fair（第三方）"><a href="#fair（第三方）" class="headerlink" title="fair（第三方）"></a>fair（第三方）</h4><blockquote>
-<p>按后端服务器的响应时间来分配请求，响应时间短的优先分配</p>
-</blockquote>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">upstream myserver &#123;</span><br><span class="line">	server 192.168.156.128:8080;</span><br><span class="line">	server 192.168.156.128:8081;</span><br><span class="line">	fair</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="动静分离-1"><a href="#动静分离-1" class="headerlink" title="动静分离"></a>动静分离</h2><p>使用docker 创建 nginx 容器 时需要挂载一个目录，用于存放静态资源，如果没有就得重新 创建一个容器，或者更改配置文件<a href="https://blog.csdn.net/zedelei/article/details/90208183" target="_blank" rel="noopener">https://blog.csdn.net/zedelei/article/details/90208183</a></p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">docker run -it -d --name mynginx -p 9999:9999 -v &#x2F;home&#x2F;nginx&#x2F;conf&#x2F;nginx.conf:&#x2F;etc&#x2F;nginx&#x2F;nginx.conf -v &#x2F;home&#x2F;nginx&#x2F;www:&#x2F;home&#x2F;nginx&#x2F;www -v &#x2F;home&#x2F;nginx&#x2F;static:&#x2F;home&#x2F;nginx&#x2F;static --privileged --net&#x3D;host nginx</span><br></pre></td></tr></table></figure>
-
-<p>从虚拟机 进入到 挂载得 static 文件目录，放入 资源</p>
-<p><img src="/" class="lazyload" data-src="/2020/03/28/Nginx/QQ%E5%9B%BE%E7%89%8720200330091517.png"  alt></p>
-<p>修改 nginx.conf</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">![QQ图片20200330094023](Nginx&#x2F;QQ图片20200330094023.png)server &#123;</span><br><span class="line">        listen       80;</span><br><span class="line">        server_name  localhost;</span><br><span class="line"></span><br><span class="line">        location ~\.(gif|jpg|jpeg|png|bmp|swf|css|js)$ &#123;</span><br><span class="line">        	root &#x2F;home&#x2F;nginx&#x2F;static&#x2F;image;</span><br><span class="line">    	&#125;</span><br><span class="line"></span><br><span class="line">        # 获取真实IP以及Websocket需添加的配置</span><br><span class="line">        proxy_set_header Host $host;</span><br><span class="line">        proxy_set_header X-Real-IP $remote_addr;</span><br><span class="line">        proxy_set_header REMOTE-HOST $remote_addr;</span><br><span class="line">        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;</span><br><span class="line">        proxy_set_header Upgrade $http_upgrade;</span><br><span class="line">        proxy_set_header Connection &quot;upgrade&quot;;</span><br><span class="line"></span><br><span class="line">        # 客户端Body大小限制（文件上传大小限制配置）</span><br><span class="line">        client_max_body_size 5m;</span><br><span class="line"></span><br><span class="line">        error_page   500 502 503 504 404  &#x2F;50x.html;</span><br><span class="line">        location &#x3D; &#x2F;50x.html &#123;</span><br><span class="line">            root   html;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-
-<p>重启 nginx 容器，查看效果</p>
-<p><img src="/" class="lazyload" data-src="/2020/03/28/Nginx/QQ%E5%9B%BE%E7%89%8720200330091836.png"  alt></p>
-<p>完成，可以根据不同文件创建不同文件夹和不同location进行区分</p>
-<h2 id="高可用集群"><a href="#高可用集群" class="headerlink" title="高可用集群"></a>高可用集群</h2><p> <img src="/" class="lazyload" data-src="/2020/03/28/Nginx/QQ%E5%9B%BE%E7%89%8720200330094023.png"  alt></p>
-<ul>
-<li>需要两台 nginx 服务器</li>
-<li>需要 keepalived</li>
-<li>需要虚拟 ip</li>
-</ul>
-<p><strong>克隆一份虚拟机</strong></p>
-<p><a href="https://www.cnblogs.com/jinjiangongzuoshi/p/9313438.html" target="_blank" rel="noopener">https://www.cnblogs.com/jinjiangongzuoshi/p/9313438.html</a></p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">docker run -d --name centos --privileged&#x3D;true 470671670cac &#x2F;usr&#x2F;sbin&#x2F;init</span><br></pre></td></tr></table></figure>
-
-
-
-<h1 id="nginx-原理"><a href="#nginx-原理" class="headerlink" title="nginx 原理"></a>nginx 原理</h1><p><img src="/" class="lazyload" data-src="/2020/03/28/Nginx/QQ%E5%9B%BE%E7%89%8720200331144112.png"  alt></p>
-<p><img src="/" class="lazyload" data-src="/2020/03/28/Nginx/QQ%E5%9B%BE%E7%89%8720200331144151.png"  alt></p>
-<p> <img src="/" class="lazyload" data-src="/2020/03/28/Nginx/QQ%E5%9B%BE%E7%89%8720200331144627.png"  alt></p>
-<blockquote>
-<p>客户端发送 命令 到 master ，master 发送信号 给 worker（可以有多个worker），worker 接收到信号 争抢 资源，任务</p>
-</blockquote>
-<h2 id="一个master-和-多个-worker-的好处"><a href="#一个master-和-多个-worker-的好处" class="headerlink" title="一个master 和 多个 worker 的好处"></a>一个master 和 多个 worker 的好处</h2><ol>
-<li><p>可以使用 nginx -s reload 热部署</p>
-</li>
-<li><p>每个 worker 都是独立的进程，所以不用加锁，节省了加锁带来的资源消耗</p>
-<p>当 一个 worker 异常，还有其他的 worker 可以接收请求，不会造成服务中断</p>
-</li>
-</ol>
-<h2 id="需要设置多少个worker"><a href="#需要设置多少个worker" class="headerlink" title="需要设置多少个worker"></a>需要设置多少个worker</h2><blockquote>
-<p>Nginx同redis类似都采用了io多路复用机制，每个worker都是一个独立的进程，但每个进程里只有一个主线程，通过异步非阻塞的方式来处理请求，即使是千上万个请求也不在话下。每个worker的线程可以把一个cpu的性能发挥到极致所以worker数和服务器的cpu数相等是最为适宜的。设少了会浪费gpu，设多了会造成cpu频繁切换上下文带来的损耗</p>
-</blockquote>
-<h2 id="连接数-worker-connection"><a href="#连接数-worker-connection" class="headerlink" title="连接数 worker_connection"></a>连接数 worker_connection</h2><p>发送请求，一般占用 worker 2 或则 4 个 连接数</p>
-<p><img src="/" class="lazyload" data-src="/2020/03/28/Nginx/QQ%E5%9B%BE%E7%89%8720200331145854.png"  alt></p>
-<p><img src="/" class="lazyload" data-src="/2020/03/28/Nginx/QQ%E5%9B%BE%E7%89%8720200331150856.png"  alt></p>
-]]></content>
-      <categories>
-        <category>服务中间件</category>
-        <category>Nginx</category>
-      </categories>
-      <tags>
-        <tag>Nginx</tag>
       </tags>
   </entry>
   <entry>
@@ -1288,6 +1066,228 @@
       </tags>
   </entry>
   <entry>
+    <title>Nginx</title>
+    <url>/2020/03/28/Nginx/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h1 id="nginx简介"><a href="#nginx简介" class="headerlink" title="nginx简介"></a>nginx简介</h1><blockquote>
+<p><em>Nginx</em> (engine x) 是一个高性能的<a href="https://baike.baidu.com/item/HTTP" target="_blank" rel="noopener">HTTP</a>和<a href="https://baike.baidu.com/item/反向代理/7793488" target="_blank" rel="noopener">反向代理</a>web服务器，同时也提供IMAP/POP3/SMTP<a href="https://baike.baidu.com/item/服务/100571" target="_blank" rel="noopener">服务</a>。Nginx是由伊戈尔·赛索耶夫为<a href="https://baike.baidu.com/item/俄罗斯/125568" target="_blank" rel="noopener">俄罗斯</a>访问量第二的Rambler.ru站点（俄文：Рамблер）开发的，第一个公开版本0.1.0发布于2004年10月4日。</p>
+<p>其将<a href="https://baike.baidu.com/item/源代码" target="_blank" rel="noopener">源代码</a>以类BSD许可证的形式发布，因它的稳定性、丰富的功能集、示例配置文件和低系统资源的消耗而<a href="https://baike.baidu.com/item/闻名/2303308" target="_blank" rel="noopener">闻名</a>。2011年6月1日，nginx 1.0.4发布。</p>
+<p>Nginx是一款<a href="https://baike.baidu.com/item/轻量级/10002835" target="_blank" rel="noopener">轻量级</a>的<a href="https://baike.baidu.com/item/Web/150564" target="_blank" rel="noopener">Web</a> 服务器/<a href="https://baike.baidu.com/item/反向代理/7793488" target="_blank" rel="noopener">反向代理</a>服务器及<a href="https://baike.baidu.com/item/电子邮件/111106" target="_blank" rel="noopener">电子邮件</a>（IMAP/POP3）代理服务器，在BSD-like 协议下发行。其特点是占有内存少，<a href="https://baike.baidu.com/item/并发/11024806" target="_blank" rel="noopener">并发</a>能力强，事实上nginx的并发能力在同类型的网页服务器中表现较好，中国大陆使用nginx网站用户有：百度、<a href="https://baike.baidu.com/item/京东/210931" target="_blank" rel="noopener">京东</a>、<a href="https://baike.baidu.com/item/新浪/125692" target="_blank" rel="noopener">新浪</a>、<a href="https://baike.baidu.com/item/网易/185754" target="_blank" rel="noopener">网易</a>、<a href="https://baike.baidu.com/item/腾讯/112204" target="_blank" rel="noopener">腾讯</a>、<a href="https://baike.baidu.com/item/淘宝/145661" target="_blank" rel="noopener">淘宝</a>等。</p>
+</blockquote>
+<a id="more"></a>
+
+<h1 id="笔记大纲"><a href="#笔记大纲" class="headerlink" title="笔记大纲"></a>笔记大纲</h1><p>1、nginx基本概念</p>
+<ul>
+<li><a href="#什么是nginx">nginx 是什么，做什么事情</a></li>
+<li><a href="#反向代理">方向代理</a></li>
+<li><a href="#负载均衡">负载均衡</a></li>
+<li><a href="#动静分离">动静分离</a></li>
+</ul>
+<p>2、nginx安装、配置文件</p>
+<ul>
+<li><a href="#安装">在linux 系统中安装 nginx</a></li>
+<li>[nginx 配置文件](#nginx.conf 配置文件)</li>
+</ul>
+<p>3、<a href="#反向代理1">nginx 配置实例 1-反向代理</a></p>
+<p>4、[nginx 配置实例 2-负载均衡](# 负载均衡)</p>
+<p>5、nginx 配置实例 3-动静分离</p>
+<p>6、nginx 配置高可用集群</p>
+<p>7、nginx 原理</p>
+<h1 id="什么是nginx"><a href="#什么是nginx" class="headerlink" title="什么是nginx"></a>什么是nginx</h1><blockquote>
+<p>Nginx (“engine x”)是一个高性能的HTTP和反向代理服务器特点是占有内存少，并发能力强，事实上nginx的并发能力确实在同类型的网页服务器中表现较好，Nginx专为性能优化而开发，性能是其最重要的考量，实现上非常注重效率，能经受高负载的考验，有报告表明能支持高达50, 000个并发连接数。</p>
+</blockquote>
+<h1 id="代理"><a href="#代理" class="headerlink" title="代理"></a>代理</h1><h2 id="正向代理"><a href="#正向代理" class="headerlink" title="正向代理"></a>正向代理</h2><blockquote>
+<p>Nginx不仅可以做反向代理，实现负载均衡。还能用作正向代理来进行上网等功能。</p>
+<p>正向代理: 如果把局域网外的Intermet想象成一个巨大的资源库， 则局域网中的客户端要访</p>
+<p>问Internet,则需要通过代理服务器来访问，这种代理服务就称为正向代理。</p>
+</blockquote>
+<p><img src="/" class="lazyload" data-src="/2020/03/28/Nginx/QQ%E5%9B%BE%E7%89%8720200328224318.png"  alt></p>
+<h2 id="反向代理"><a href="#反向代理" class="headerlink" title="反向代理"></a>反向代理</h2><blockquote>
+<p>反向代理，其实客户端对代理是无感知的，因为客户端不需要任何配置就可以访问，我们只需要将请求发送到反向代理服务器，由反向代理服务器去选择目标服务器获取数据后，在返回给客户端，此时反向代理服务器和目标服务器对外就是一个服务器，暴露的是代理服务器地址，隐藏了真实服务器IP地址。</p>
+</blockquote>
+<p><img src="/" class="lazyload" data-src="/2020/03/28/Nginx/QQ%E5%9B%BE%E7%89%8720200328225035.png"  alt></p>
+<h1 id="负载均衡"><a href="#负载均衡" class="headerlink" title="负载均衡"></a>负载均衡</h1><blockquote>
+<p>客户端发送多个请求到服务器，服务器处理请求，有一些可能要与数据库进行交互，服务器处理完毕后，再将结果返回给客户端</p>
+<p>这种架构模式对于早期的系统相对单一, 并发请求相对较少的情况下是比较适合的，成本也低。但是随着信息数量的不断增长，访问量和数据量的飞速增长，以及系统业务的复杂度增加，这种架构会造成服务器相应客户端的请求日益缓慢，并发量特别大的时候，<span style="color:red">还容易造成服务器直接崩溃</span>。很明显这是由于服务器性能的瓶颈造成的问题，那么如何解决这种情况呢 ?</p>
+<p>我们首先想到的可能是升级服务器的配置，比如提高CPU执行频率,加大内存等提高机器的物理性能来解决此问题，但是我们知道摩尔定律的日益失效，硬件的性能提升已经不能满足日益提升的需求了。最明显的一个例子，天猫双十一当天，某个热销商品的瞬时访问量是极其庞大的，那么类似，上面的系统架构，将机器都增加到现有的顶级物理配置，都是不能够满足需求的。那么怎么办呢 ?</p>
+<p>上面的分析我们去掉了增加服务器物理配置来解决问题的办法，也就是说纵向解决问题的办法行不通了，那么横向增加服务器的数量呢?这时候集群的概念产生了，<span style="color:red">单个服务器解决不了，我们增加服务器的数量，然后将请求分发到各个服务器上，将原先请求集中到单个服务器上的情况改为将请求分发到多个服务器上，将负载分发到不同的服务器，也就是我们<br>所说的负载均衡</span></p>
+</blockquote>
+<p><img src="/" class="lazyload" data-src="/2020/03/28/Nginx/QQ%E5%9B%BE%E7%89%8720200329104207.png"  alt></p>
+<h1 id="动静分离"><a href="#动静分离" class="headerlink" title="动静分离"></a>动静分离</h1><blockquote>
+<p>为了加快网站的解析速度，可以把动态页面和静态页面由不同的服务器来解析，加快解析度。降低原来单个服务器的压力。</p>
+<p>Nginx动静分离简单来说就是把动态跟静态请求分开,不能理解成只是单纯的把动态页面和静态页面物理分离。严格意义上说应该是动态请求跟静态请求分开，可以理解成使用Nginx处理静态页面，Tomeat处理动态页面。动静分离从目前实现角度来讲大致分为两种。</p>
+<p>一种是纯粹把静态文件独立成单独的城名,放在独立的服务器上,也是目前主流推崇的方案:</p>
+<p>另外一种方法就是动态跟静态文件混合在一起发布，通过nginx来分开。</p>
+<p>通过location指定不同的后綴名实现不同的请求转发。通过expires参数设置，可以使浏览器缓存过期时间，减少与服务器之前的请求和流量，具体Expires定义: 是给-一个资源设定一个过期时间，也就是说无需去服务端验证,直接通过浏览器自身确认是否过期即可，所以不会产生额外的流量。此种方法非常适合不经常变动的资源。(如果 经常更新的文件，不建议使用Expires 来缓存)，我这里设置3d,表示在这3天之内访问这个URL,发送一个请求，比对服务器该文件最后更新时间没有变化，则不会从服务器抓取，返回状态码304，如果有修改，则直接从服务器重新下载，返回状态码200</p>
+</blockquote>
+<p><img src="/" class="lazyload" data-src="/2020/03/28/Nginx/QQ%E5%9B%BE%E7%89%8720200329105000.png"  alt></p>
+<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><p><a href="https://www.cnblogs.com/niceyoo/p/11546370.html" target="_blank" rel="noopener">https://www.cnblogs.com/niceyoo/p/11546370.html</a></p>
+<p>使用Docker安装nginx</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">docker pull nginx</span><br></pre></td></tr></table></figure>
+
+<p>创建nginx容器</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">docker run -it -d --name mynginx -p 9999:9999 -v &#x2F;home&#x2F;nginx&#x2F;conf&#x2F;nginx.conf:&#x2F;etc&#x2F;nginx&#x2F;nginx.conf -v &#x2F;home&#x2F;nginx&#x2F;www:&#x2F;home&#x2F;nginx&#x2F;www -v &#x2F;home&#x2F;nginx&#x2F;static:&#x2F;home&#x2F;nginx&#x2F;static --privileged --net&#x3D;host nginx</span><br></pre></td></tr></table></figure>
+
+<p>编写nginx.conf</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">worker_processes  1;</span><br><span class="line"></span><br><span class="line">events &#123;</span><br><span class="line">    worker_connections  1024;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">http &#123;</span><br><span class="line">    include       mime.types;</span><br><span class="line">    default_type  application&#x2F;octet-stream;</span><br><span class="line"></span><br><span class="line">    sendfile        on;</span><br><span class="line">    #tcp_nopush     on;</span><br><span class="line"></span><br><span class="line">    #keepalive_timeout  0;</span><br><span class="line">    keepalive_timeout  65;</span><br><span class="line"></span><br><span class="line">    #gzip  on;</span><br><span class="line"></span><br><span class="line">    server &#123;</span><br><span class="line">        listen       80;</span><br><span class="line">        server_name  localhost;</span><br><span class="line"></span><br><span class="line">        # Vue路由模式为history需添加的配置</span><br><span class="line">        location &#x2F; &#123;</span><br><span class="line">            if (!-e $request_filename) &#123;</span><br><span class="line">                rewrite ^(.*)$ &#x2F;index.html?s&#x3D;$1 last;</span><br><span class="line">                break;</span><br><span class="line">            &#125;</span><br><span class="line">            root   &#x2F;home&#x2F;nginx&#x2F;www;</span><br><span class="line">            index  index.html;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        # 获取真实IP以及Websocket需添加的配置</span><br><span class="line">        proxy_set_header Host $host;</span><br><span class="line">        proxy_set_header X-Real-IP $remote_addr;</span><br><span class="line">        proxy_set_header REMOTE-HOST $remote_addr;</span><br><span class="line">        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;</span><br><span class="line">        proxy_set_header Upgrade $http_upgrade;</span><br><span class="line">        proxy_set_header Connection &quot;upgrade&quot;;</span><br><span class="line"></span><br><span class="line">        # 客户端Body大小限制（文件上传大小限制配置）</span><br><span class="line">        client_max_body_size 5m;</span><br><span class="line"></span><br><span class="line">        error_page   500 502 503 504 404  &#x2F;50x.html;</span><br><span class="line">        location &#x3D; &#x2F;50x.html &#123;</span><br><span class="line">            root   html;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    upstream mytomcat &#123;</span><br><span class="line">		server localhost:8080;</span><br><span class="line">	&#125;</span><br><span class="line">    </span><br><span class="line">        server &#123;</span><br><span class="line">            listen       80;</span><br><span class="line">            server_name  duxiutomcat.com;</span><br><span class="line"></span><br><span class="line">            proxy_set_header X-Forwarded-Host $host;</span><br><span class="line">            proxy_set_header X-Forwarded-Server $host;</span><br><span class="line">            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;</span><br><span class="line"></span><br><span class="line">            location &#x2F; &#123;</span><br><span class="line">                proxy_pass http:&#x2F;&#x2F;mytomcat;  # 转发路径</span><br><span class="line">                proxy_connect_timeout 600;</span><br><span class="line">                proxy_read_timeout 600;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="nginx-conf-配置文件"><a href="#nginx-conf-配置文件" class="headerlink" title="nginx.conf 配置文件"></a>nginx.conf 配置文件</h2><h3 id="第一部分：全局块"><a href="#第一部分：全局块" class="headerlink" title="第一部分：全局块"></a>第一部分：全局块</h3><blockquote>
+<p>从配置文件开始到 events 块之间的内容,主要会设置一些影响 nginx服务器整体运行的配置指令,主要包括配置运行Nginx服务器的用户(组)、允许生成的worker process数,进程PID存放路径、日志存放路径和类型以及配置文件的引入等</p>
+</blockquote>
+<p>比如上面的第一行配置</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">worker_processes  1;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>这是Nginx服务器并发处理服务的关键配置, <span style="color:red">worker processes值越大,可以支持的并发处理量也越多</span>,但是会受到硬件，软件等设备的限制</p>
+</blockquote>
+<h3 id="第二部分：events块"><a href="#第二部分：events块" class="headerlink" title="第二部分：events块"></a>第二部分：events块</h3><blockquote>
+<p>events 块涉及的指令主要影响 Nginx服务器与用户的网络连接。常用的设置包括是否开启对多work process 下的网络连接进行序列化, 是否允许同时接收多个网络连接,选取哪种事件驱动模型来处理连接请求，每个word process可以同时支持的最大连接数等。</p>
+<p>下述例子就表示每个 work process 支持的最大连接数为1024.0<br>这部分的配置对Nginx的性能影响较大, 在实际中应该灵活配置</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">events &#123;</span><br><span class="line">    worker_connections  1024;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="第三部分：http块"><a href="#第三部分：http块" class="headerlink" title="第三部分：http块"></a>第三部分：http块</h3><blockquote>
+<p>这算是Nginx 服务器配置中最烦繁的部分, 代理，缓存和日志定义等绝大多数功能和第三方模块的配置都在这里</p>
+<p>需要注意的是:  http块也可以包括http 全局块、server 块。</p>
+</blockquote>
+<h4 id="http全局块"><a href="#http全局块" class="headerlink" title="http全局块"></a>http全局块</h4><blockquote>
+<p>http全局块配置的指令包括文件引入、MIME-TYPE 定义、日志自定义，连接超时时间，单链接请求数上限等</p>
+</blockquote>
+<h4 id="server-块"><a href="#server-块" class="headerlink" title="server 块"></a>server 块</h4><blockquote>
+<p>这块和虚拟主机有密切关系,虚拟主机从用户角度看,和一台独立的硬件主机是完全一样的，该技术的产生是为了节省互联网服务器硬件成本</p>
+<p>每个http块可以包括多个server块，而每个server块就相当于一个虚拟主机<br>而每个server块也分为全局server 块,以及可以同时包含多个location块</p>
+</blockquote>
+<h5 id="全局server块"><a href="#全局server块" class="headerlink" title="全局server块"></a>全局server块</h5><blockquote>
+<p>最常见的配置是本虚拟机主机的监听配置和本虚拟主机的名称或IP配置。</p>
+</blockquote>
+<h5 id="location-块"><a href="#location-块" class="headerlink" title="location 块"></a>location 块</h5><blockquote>
+<p>一个server 块可以配置多个location 块。</p>
+<p>这块的主要作用是基于Nginx服务器接收到的请求字符串(例如server, name/url-string) , 对虚拟主机名称(也可以是IP别名)之外的字符串(例如前面的/uristring )进行匹配,对特定的请求进行理。地址定向、数据缓存和应答控制等功船,还有许多第三方模块的配置也在这里进行。</p>
+</blockquote>
+<h1 id="nginx配置实例"><a href="#nginx配置实例" class="headerlink" title="nginx配置实例"></a>nginx配置实例</h1><h2 id="反向代理1"><a href="#反向代理1" class="headerlink" title="反向代理1"></a>反向代理1</h2><p>使用tomcat演示配置反向代理</p>
+<p>1、修改nginx.conf, 添加下面的配置</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">upstream mytomcat &#123;</span><br><span class="line">		server localhost:8080;</span><br><span class="line">	&#125;</span><br><span class="line">    </span><br><span class="line">    server &#123;</span><br><span class="line">        listen       80;</span><br><span class="line">        server_name  duxiutomcat.com;</span><br><span class="line"></span><br><span class="line">        proxy_set_header X-Forwarded-Host $host;</span><br><span class="line">        proxy_set_header X-Forwarded-Server $host;</span><br><span class="line">        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;</span><br><span class="line"></span><br><span class="line">        location &#x2F; &#123;</span><br><span class="line">			proxy_pass http:&#x2F;&#x2F;mytomcat;  # 转发路径</span><br><span class="line">			proxy_connect_timeout 600;</span><br><span class="line">			proxy_read_timeout 600;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p>2、保存，重启nginx</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">docker start 容器ID</span><br></pre></td></tr></table></figure>
+
+<p>3、访问</p>
+<p><img src="/" class="lazyload" data-src="/2020/03/28/Nginx/QQ%E5%9B%BE%E7%89%8720200329153746.png"  alt></p>
+<p>想让windows也能访问，修改 C:\Windows\System32\drivers\etc 下的 host 文件</p>
+<p><img src="/" class="lazyload" data-src="/2020/03/28/Nginx/QQ%E5%9B%BE%E7%89%8720200329154036.png"  alt></p>
+<p>虚拟机IP地址加 配置文件 里 server_name 对应的 域名</p>
+<p>保存，访问</p>
+<p><img src="/" class="lazyload" data-src="/2020/03/28/Nginx/QQ%E5%9B%BE%E7%89%8720200329154220.png"  alt></p>
+<p>欧啦</p>
+<h2 id="反向代理2"><a href="#反向代理2" class="headerlink" title="反向代理2"></a>反向代理2</h2><p>要求</p>
+<blockquote>
+<p>当 访问 192.168.156.128:9001/8080/index.html 显示 8080 的 欢迎语句</p>
+<p>当 访问 192.168.156.128:9001/8081/index.html 显示 8081 的 欢迎语句</p>
+</blockquote>
+<p>再运行一个tomcat容器指定8081端口，nginx.conf添加 如下配置</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">        listen       9001;</span><br><span class="line">        server_name  192.168.156.128;</span><br><span class="line"></span><br><span class="line">        proxy_set_header X-Forwarded-Host $host;</span><br><span class="line">        proxy_set_header X-Forwarded-Server $host;</span><br><span class="line">        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;</span><br><span class="line">        </span><br><span class="line">		location ~ &#x2F;8080&#x2F; &#123;</span><br><span class="line">        	proxy_pass http:&#x2F;&#x2F;localhost:8080;</span><br><span class="line">		&#125;</span><br><span class="line">		</span><br><span class="line">		location ~ &#x2F;8081&#x2F; &#123;</span><br><span class="line">        	proxy_pass http:&#x2F;&#x2F;localhost:8081;</span><br><span class="line">		&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>重启 nginx ，tomcat1，tomcat2 容器</p>
+<p>效果</p>
+<p><img src="/" class="lazyload" data-src="/2020/03/28/Nginx/QQ%E5%9B%BE%E7%89%8720200329170208.png"  alt></p>
+<p><img src="/" class="lazyload" data-src="/2020/03/28/Nginx/QQ%E5%9B%BE%E7%89%8720200329170220.png"  alt></p>
+<h2 id="location-指令说明"><a href="#location-指令说明" class="headerlink" title="location 指令说明"></a>location 指令说明</h2><blockquote>
+<p>该指令用于匹配 URL</p>
+<p>语法如下：</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">location [ &#x3D; | ~ | ~* | ^~] uri&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>=      用于不含正则表达式的uri前，要求请求字符串与uri严格匹配，如果匹配成功，就停止继续向下搜索并立即处理该请求</p>
+<p>~      用于表示uri包含正则表达式，井且区分大小写</p>
+<p><del>*    用于表示uri包含正则表达式，并且不区分大小写<br>^</del>    用于不含正则表达式的uri 前，要求Nginx服务器找到标识uri和请求字符串匹配度最高的location 后，立即使用此location处理请求，而不再使用location块中的正则uri和请求字符串做匹配</p>
+<p>注意: 如果uri包含正则表达式，则必须要有~或者 ~* 标识</p>
+</blockquote>
+<h2 id="负载均衡-1"><a href="#负载均衡-1" class="headerlink" title="负载均衡"></a>负载均衡</h2><p>分别给两个tomcat的webapp下创建相同的目录loadbalancing给目录下创建html文件loadbalancing</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">upstream myserver &#123;</span><br><span class="line">	server 192.168.156.128:8080;</span><br><span class="line">	server 192.168.156.128:8081;</span><br><span class="line">&#125;</span><br><span class="line">server &#123;</span><br><span class="line">        listen       80;</span><br><span class="line">        server_name  myloadbalancing.com;</span><br><span class="line"></span><br><span class="line">        proxy_set_header X-Forwarded-Host $host;</span><br><span class="line">        proxy_set_header X-Forwarded-Server $host;</span><br><span class="line">        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;</span><br><span class="line"></span><br><span class="line">        location &#x2F; &#123;</span><br><span class="line">			proxy_pass http:&#x2F;&#x2F;myserver;  # 转发路径</span><br><span class="line">			proxy_connect_timeout 600;</span><br><span class="line">			proxy_read_timeout 600;</span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>重启 nginx ，tomcat1，tomcat2 容器，windows配置host </p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">192.168.156.128 myloadbalancing.com</span><br></pre></td></tr></table></figure>
+
+<p>效果</p>
+<p><img src="/" class="lazyload" data-src="/2020/03/28/Nginx/QQ%E5%9B%BE%E7%89%8720200329180419.png"  alt></p>
+<p><img src="/" class="lazyload" data-src="/2020/03/28/Nginx/QQ%E5%9B%BE%E7%89%8720200329180428.png"  alt></p>
+<p>成功</p>
+<blockquote>
+<p>随着互联网信息的爆炸性增长，负载均衡(load balance)已经不再是一个很陌生的话题，顾名思义，负載均衡即是将负载分摊到不同的服务单元，既保证服务的可用性，又保证响应足够快，给用户很好的体验，快速增长的访问量和数据流量催生了各式各样的负载均衡产品，很多专业的负载均衡硬件提供了很好的功能,但却价格不非,这使得负戴均衡软件大受欢迎，nginx就是其中的一个，在linux下有Nginx、LVS、 Haproxy等等服务可以提供负载均衡服务，而且Nginx提供了几种分配方式(策略)</p>
+</blockquote>
+<h3 id="负载均衡策略"><a href="#负载均衡策略" class="headerlink" title="负载均衡策略"></a>负载均衡策略</h3><h4 id="轮询-（默认）"><a href="#轮询-（默认）" class="headerlink" title="轮询 （默认）"></a>轮询 （默认）</h4><blockquote>
+<p>每个请求按时间顺序逐一分配到不同的后端服务器，如果后端服务器down掉，能自动剔除</p>
+</blockquote>
+<h4 id="weight"><a href="#weight" class="headerlink" title="weight"></a>weight</h4><blockquote>
+<p>weight代表权,重默认为1,权重越高被分配的客户端越多，</p>
+<p>指定轮询几率，weight 和访问比率成正比，用于后端服务器性能不均的情况。例如</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">upstream myserver &#123;</span><br><span class="line">	server 192.168.156.128:8080 weight&#x3D;10;</span><br><span class="line">	server 192.168.156.128:8081 weight&#x3D;5;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="ip-hash"><a href="#ip-hash" class="headerlink" title="ip_hash"></a>ip_hash</h4><blockquote>
+<p>每个请求按访问 ip 的hash结果分配，这样每个访客固定访问一个后端服务器，可以解决session的问题。例如：</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">upstream myserver &#123;</span><br><span class="line">ip_hash</span><br><span class="line">	server 192.168.156.128:8080;</span><br><span class="line">	server 192.168.156.128:8081;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="fair（第三方）"><a href="#fair（第三方）" class="headerlink" title="fair（第三方）"></a>fair（第三方）</h4><blockquote>
+<p>按后端服务器的响应时间来分配请求，响应时间短的优先分配</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">upstream myserver &#123;</span><br><span class="line">	server 192.168.156.128:8080;</span><br><span class="line">	server 192.168.156.128:8081;</span><br><span class="line">	fair</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="动静分离-1"><a href="#动静分离-1" class="headerlink" title="动静分离"></a>动静分离</h2><p>使用docker 创建 nginx 容器 时需要挂载一个目录，用于存放静态资源，如果没有就得重新 创建一个容器，或者更改配置文件<a href="https://blog.csdn.net/zedelei/article/details/90208183" target="_blank" rel="noopener">https://blog.csdn.net/zedelei/article/details/90208183</a></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">docker run -it -d --name mynginx -p 9999:9999 -v &#x2F;home&#x2F;nginx&#x2F;conf&#x2F;nginx.conf:&#x2F;etc&#x2F;nginx&#x2F;nginx.conf -v &#x2F;home&#x2F;nginx&#x2F;www:&#x2F;home&#x2F;nginx&#x2F;www -v &#x2F;home&#x2F;nginx&#x2F;static:&#x2F;home&#x2F;nginx&#x2F;static --privileged --net&#x3D;host nginx</span><br></pre></td></tr></table></figure>
+
+<p>从虚拟机 进入到 挂载得 static 文件目录，放入 资源</p>
+<p><img src="/" class="lazyload" data-src="/2020/03/28/Nginx/QQ%E5%9B%BE%E7%89%8720200330091517.png"  alt></p>
+<p>修改 nginx.conf</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">![QQ图片20200330094023](Nginx&#x2F;QQ图片20200330094023.png)server &#123;</span><br><span class="line">        listen       80;</span><br><span class="line">        server_name  localhost;</span><br><span class="line"></span><br><span class="line">        location ~\.(gif|jpg|jpeg|png|bmp|swf|css|js)$ &#123;</span><br><span class="line">        	root &#x2F;home&#x2F;nginx&#x2F;static&#x2F;image;</span><br><span class="line">    	&#125;</span><br><span class="line"></span><br><span class="line">        # 获取真实IP以及Websocket需添加的配置</span><br><span class="line">        proxy_set_header Host $host;</span><br><span class="line">        proxy_set_header X-Real-IP $remote_addr;</span><br><span class="line">        proxy_set_header REMOTE-HOST $remote_addr;</span><br><span class="line">        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;</span><br><span class="line">        proxy_set_header Upgrade $http_upgrade;</span><br><span class="line">        proxy_set_header Connection &quot;upgrade&quot;;</span><br><span class="line"></span><br><span class="line">        # 客户端Body大小限制（文件上传大小限制配置）</span><br><span class="line">        client_max_body_size 5m;</span><br><span class="line"></span><br><span class="line">        error_page   500 502 503 504 404  &#x2F;50x.html;</span><br><span class="line">        location &#x3D; &#x2F;50x.html &#123;</span><br><span class="line">            root   html;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p>重启 nginx 容器，查看效果</p>
+<p><img src="/" class="lazyload" data-src="/2020/03/28/Nginx/QQ%E5%9B%BE%E7%89%8720200330091836.png"  alt></p>
+<p>完成，可以根据不同文件创建不同文件夹和不同location进行区分</p>
+<h2 id="高可用集群"><a href="#高可用集群" class="headerlink" title="高可用集群"></a>高可用集群</h2><p> <img src="/" class="lazyload" data-src="/2020/03/28/Nginx/QQ%E5%9B%BE%E7%89%8720200330094023.png"  alt></p>
+<ul>
+<li>需要两台 nginx 服务器</li>
+<li>需要 keepalived</li>
+<li>需要虚拟 ip</li>
+</ul>
+<p><strong>克隆一份虚拟机</strong></p>
+<p><a href="https://www.cnblogs.com/jinjiangongzuoshi/p/9313438.html" target="_blank" rel="noopener">https://www.cnblogs.com/jinjiangongzuoshi/p/9313438.html</a></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">docker run -d --name centos --privileged&#x3D;true 470671670cac &#x2F;usr&#x2F;sbin&#x2F;init</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="nginx-原理"><a href="#nginx-原理" class="headerlink" title="nginx 原理"></a>nginx 原理</h1><p><img src="/" class="lazyload" data-src="/2020/03/28/Nginx/QQ%E5%9B%BE%E7%89%8720200331144112.png"  alt></p>
+<p><img src="/" class="lazyload" data-src="/2020/03/28/Nginx/QQ%E5%9B%BE%E7%89%8720200331144151.png"  alt></p>
+<p> <img src="/" class="lazyload" data-src="/2020/03/28/Nginx/QQ%E5%9B%BE%E7%89%8720200331144627.png"  alt></p>
+<blockquote>
+<p>客户端发送 命令 到 master ，master 发送信号 给 worker（可以有多个worker），worker 接收到信号 争抢 资源，任务</p>
+</blockquote>
+<h2 id="一个master-和-多个-worker-的好处"><a href="#一个master-和-多个-worker-的好处" class="headerlink" title="一个master 和 多个 worker 的好处"></a>一个master 和 多个 worker 的好处</h2><ol>
+<li><p>可以使用 nginx -s reload 热部署</p>
+</li>
+<li><p>每个 worker 都是独立的进程，所以不用加锁，节省了加锁带来的资源消耗</p>
+<p>当 一个 worker 异常，还有其他的 worker 可以接收请求，不会造成服务中断</p>
+</li>
+</ol>
+<h2 id="需要设置多少个worker"><a href="#需要设置多少个worker" class="headerlink" title="需要设置多少个worker"></a>需要设置多少个worker</h2><blockquote>
+<p>Nginx同redis类似都采用了io多路复用机制，每个worker都是一个独立的进程，但每个进程里只有一个主线程，通过异步非阻塞的方式来处理请求，即使是千上万个请求也不在话下。每个worker的线程可以把一个cpu的性能发挥到极致所以worker数和服务器的cpu数相等是最为适宜的。设少了会浪费gpu，设多了会造成cpu频繁切换上下文带来的损耗</p>
+</blockquote>
+<h2 id="连接数-worker-connection"><a href="#连接数-worker-connection" class="headerlink" title="连接数 worker_connection"></a>连接数 worker_connection</h2><p>发送请求，一般占用 worker 2 或则 4 个 连接数</p>
+<p><img src="/" class="lazyload" data-src="/2020/03/28/Nginx/QQ%E5%9B%BE%E7%89%8720200331145854.png"  alt></p>
+<p><img src="/" class="lazyload" data-src="/2020/03/28/Nginx/QQ%E5%9B%BE%E7%89%8720200331150856.png"  alt></p>
+]]></content>
+      <categories>
+        <category>服务中间件</category>
+        <category>Nginx</category>
+      </categories>
+      <tags>
+        <tag>Nginx</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Redis进阶</title>
     <url>/2020/03/14/Redis%E8%BF%9B%E9%98%B6/</url>
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h1 id="Redis发布订阅"><a href="#Redis发布订阅" class="headerlink" title="Redis发布订阅"></a>Redis发布订阅</h1><h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><blockquote>
@@ -1605,6 +1605,24 @@
       </tags>
   </entry>
   <entry>
+    <title>SpringCloud</title>
+    <url>/2020/03/31/SpringCloud/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><blockquote>
+<p>微服务架构是“新常态”。构建小型，独立且可运行的应用程序可以带来极大的灵活性，并为您的代码增加弹性。Spring Boot的许多专用功能使在大规模生产中轻松构建和运行微服务变得容易。而且请不要忘记，没有<a href="https://spring.io/cloud" target="_blank" rel="noopener">Spring Cloud</a> ‒简化管理并提高容错能力，任何微服务架构都是不完整的。</p>
+</blockquote>
+<p>脑图连接</p>
+<p><a href="https://www.processon.com/mindmap/5e918f635653bb1a6856fac6" target="_blank" rel="noopener">https://www.processon.com/mindmap/5e918f635653bb1a6856fac6</a></p>
+<p><img src="/" class="lazyload" data-src="/2020/03/31/SpringCloud/QQ%E5%9B%BE%E7%89%8720200411173623.png"  alt></p>
+]]></content>
+      <categories>
+        <category>框架</category>
+        <category>SpringCloud</category>
+      </categories>
+      <tags>
+        <tag>SpringCloud</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>SpringBoot</title>
     <url>/2020/03/26/SpringBoot/</url>
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h1 id="SpringBoot与缓存"><a href="#SpringBoot与缓存" class="headerlink" title="SpringBoot与缓存"></a>SpringBoot与缓存</h1><h2 id="Spring缓存抽象"><a href="#Spring缓存抽象" class="headerlink" title="Spring缓存抽象"></a>Spring缓存抽象</h2><h3 id="缓存注解"><a href="#缓存注解" class="headerlink" title="缓存注解"></a>缓存注解</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Cache</span><br><span class="line"></span><br><span class="line">缓存接口，定义缓存操作。实现又：RedisCache、EhCacheCache、ConcurrentMapCaChe等</span><br><span class="line"></span><br><span class="line">CacheManager</span><br><span class="line"></span><br><span class="line">缓存管理器，管理各种缓存（Cache）组件</span><br><span class="line"></span><br><span class="line">@Cacheable</span><br><span class="line"></span><br><span class="line">主要针对方法配置，能够根据方法的请求参数对其结果进行缓存</span><br><span class="line"></span><br><span class="line">@CacheEvict</span><br><span class="line"></span><br><span class="line">清空缓存</span><br><span class="line"></span><br><span class="line">@CachePut</span><br><span class="line"></span><br><span class="line">保证方法被调用，又希望结果被缓存</span><br><span class="line"></span><br><span class="line">@EnableCaching</span><br><span class="line"></span><br><span class="line">开启基于注解的缓存</span><br><span class="line"></span><br><span class="line">keyGenerator</span><br><span class="line"></span><br><span class="line">缓存数据时key生成策略</span><br><span class="line"></span><br><span class="line">serialize</span><br><span class="line"></span><br><span class="line">缓存数据时value序列化策略</span><br></pre></td></tr></table></figure>
@@ -1904,24 +1922,6 @@
       </tags>
   </entry>
   <entry>
-    <title>SpringCloud</title>
-    <url>/2020/03/31/SpringCloud/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><blockquote>
-<p>微服务架构是“新常态”。构建小型，独立且可运行的应用程序可以带来极大的灵活性，并为您的代码增加弹性。Spring Boot的许多专用功能使在大规模生产中轻松构建和运行微服务变得容易。而且请不要忘记，没有<a href="https://spring.io/cloud" target="_blank" rel="noopener">Spring Cloud</a> ‒简化管理并提高容错能力，任何微服务架构都是不完整的。</p>
-</blockquote>
-<p>脑图连接</p>
-<p><a href="https://www.processon.com/mindmap/5e918f635653bb1a6856fac6" target="_blank" rel="noopener">https://www.processon.com/mindmap/5e918f635653bb1a6856fac6</a></p>
-<p><img src="/" class="lazyload" data-src="/2020/03/31/SpringCloud/QQ%E5%9B%BE%E7%89%8720200411173623.png"  alt></p>
-]]></content>
-      <categories>
-        <category>框架</category>
-        <category>SpringCloud</category>
-      </categories>
-      <tags>
-        <tag>SpringCloud</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>SpringBoot整合Redis</title>
     <url>/2020/03/05/SpringBoot%E6%95%B4%E5%90%88Redis/</url>
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><hr>
@@ -1982,122 +1982,240 @@
       </tags>
   </entry>
   <entry>
-    <title>Vue-2-组件化</title>
-    <url>/2020/02/27/Vue-2-%E7%BB%84%E4%BB%B6%E5%8C%96/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h1 id="Vue组件化思想"><a href="#Vue组件化思想" class="headerlink" title="Vue组件化思想"></a>Vue组件化思想</h1><ul>
-<li><p>组件化事Vue.js中的重要思想</p>
+    <title>Thymeleaf 模板引擎</title>
+    <url>/2020/02/25/Thymeleaf-%E6%A8%A1%E6%9D%BF%E5%BC%95%E6%93%8E/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h1 id="Thymeleaf-简介"><a href="#Thymeleaf-简介" class="headerlink" title="Thymeleaf 简介"></a>Thymeleaf 简介</h1><p><img src="/" class="lazyload" data-src="/2020/02/25/Thymeleaf-%E6%A8%A1%E6%9D%BF%E5%BC%95%E6%93%8E/Thymeleay.png"  alt></p>
+<blockquote>
+<p>官网部分翻译：反正就是各种好</p>
 <ul>
-<li><p>它提供了-种抽象,让我们可以开发出一个个独立可复用的小组件来构造我们的应用。</p>
-</li>
-<li><p>任何的应用都会被抽象成一颗组件树。</p>
-<p><img src="/" class="lazyload" data-src="/2020/02/27/Vue-2-%E7%BB%84%E4%BB%B6%E5%8C%96/QQ%E5%9B%BE%E7%89%8720200413104643.png"  alt></p>
-</li>
+<li>Thymeleaf是用来开发Web和独立环境项目的服务器端的Java模版引擎</li>
+<li>Spring官方支持的服务的渲染模板中，并不包含jsp。而是Thymeleaf和Freemarker等，而Thymeleaf与SpringMVC的视图技术，及SpringBoot的自动化配置集成非常完美，几乎没有任何成本，你只用关注Thymeleaf的语法即可。</li>
 </ul>
-</li>
-<li><p>组件化思想的应用</p>
+</blockquote>
+<a id="more"></a>
+
+<h1 id="导入"><a href="#导入" class="headerlink" title="导入"></a>导入</h1><p>创建SpringBoot项目，在选择模块 <strong>Template Engines</strong> 中勾选 <strong>Thymeleaf</strong>，</p>
+<p>或者在创好项目之后再pom.xml文件中导入依赖 </p>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>nz.net.ultraq.thymeleaf<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>thymeleaf-layout-dialect<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>在项目resource目录中的templates创建html页面</p>
+<p>创建好html后需要在顶部的 html 标签中声明 thymeleaf 就可以使用它的语法了</p>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">"en"</span> <span class="attr">xmlns:th</span>=<span class="string">"http://www.thymeleaf.org"</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<blockquote>
+<p>使用前在application.properties中配置</p>
+<figure class="highlight properties"><table><tr><td class="code"><pre><span class="line"><span class="meta">spring.thymeleaf.cache</span>=<span class="string">false</span></span><br></pre></td></tr></table></figure>
+</blockquote>
+<p>作用：关闭Thymeleaf的缓存，修改页面后立即生效</p>
+</blockquote>
+<h1 id="语法"><a href="#语法" class="headerlink" title="语法"></a>语法</h1><h2 id="一、标准表达式语法"><a href="#一、标准表达式语法" class="headerlink" title="一、标准表达式语法"></a>一、标准表达式语法</h2><h3 id="它又分为："><a href="#它又分为：" class="headerlink" title="它又分为："></a>它又分为：</h3><ul>
+<li>消息</li>
+<li>变量</li>
+<li>选择表达式</li>
+<li>链接URL</li>
+<li>片段</li>
+<li>文字</li>
+<li>附加文本</li>
+<li>字面替代</li>
+<li>算术运算</li>
+<li>比较与平等</li>
+<li>条件表达式</li>
+<li>默认表达式</li>
+<li>无操作令牌</li>
+<li>数据转换/格式化</li>
+<li>预处理</li>
+</ul>
+<h4 id="变量"><a href="#变量" class="headerlink" title="变量"></a>变量</h4><figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">p</span>&gt;</span>Today is: <span class="tag">&lt;<span class="name">span</span> <span class="attr">th:text</span>=<span class="string">"$&#123;today&#125;"</span>&gt;</span>13 february 2011<span class="tag">&lt;/<span class="name">span</span>&gt;</span>.<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>意味着 &lt; span &gt;标签中的内容会被表达式${today}的值所替代，无论模板中它的内容是什么，之所以在模板中“多此一举“地填充它的内容，完全是为了它能够作为原型在浏览器中直接显示出来。<br>假设today的值为2015年8月14日，那么渲染结果为：&lt; p &gt;Today is: 2015年8月14日.&lt; /p &gt;。可见Thymeleaf的基本变量和JSP一样，都使用${.}表示获取变量的值。</p>
+</blockquote>
+<h4 id="URL"><a href="#URL" class="headerlink" title="URL"></a>URL</h4><p>URL在Web应用模板中占据着十分重要的地位，需要特别注意的是Thymeleaf对于URL的处理是通过语法@{…}来处理的。Thymeleaf支持绝对路径URL：</p>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">th:href</span>=<span class="string">"@&#123;http://www.thymeleaf.org&#125;"</span>&gt;</span>Thymeleaf<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>同时也能够支持相对路径URL：</p>
+<p>另外，如果需要Thymeleaf对URL进行渲染，那么务必使用<code>th:href</code>，<code>th:src</code>等属性，下面是一个例子</p>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="comment">&lt;!-- Will produce 'http://localhost:8080/gtvg/order/details?orderId=3' (plus rewriting) --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"details.html"</span> </span></span><br><span class="line"><span class="tag">   <span class="attr">th:href</span>=<span class="string">"@&#123;http://localhost:8080/gtvg/order/details(orderId=$&#123;o.id&#125;)&#125;"</span>&gt;</span>view<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!-- Will produce '/gtvg/order/details?orderId=3' (plus rewriting) --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"details.html"</span> <span class="attr">th:href</span>=<span class="string">"@&#123;/order/details(orderId=$&#123;o.id&#125;)&#125;"</span>&gt;</span>view<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!-- Will produce '/gtvg/order/3/details' (plus rewriting) --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"details.html"</span> <span class="attr">th:href</span>=<span class="string">"@&#123;/order/&#123;orderId&#125;/details(orderId=$&#123;o.id&#125;)&#125;"</span>&gt;</span>view<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>几点说明：<br>上例中URL最后的(orderId=${o.id})表示将括号内的内容作为URL参数处理，该语法避免使用字符串拼接，大大提高了可读性@{…}表达式中可以通过{orderId}访问Context中的orderId变量@{/order}是Context相关的相对路径，在渲染时会自动添加上当前Web应用的Context名字，假设context名字为app，那么结果应该是/app/order</p>
+<h4 id="字符串替换"><a href="#字符串替换" class="headerlink" title="字符串替换"></a>字符串替换</h4><figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">span</span> <span class="attr">th:text</span>=<span class="string">"'Welcome to our application, ' + $&#123;user.name&#125; + '!'"</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>一种更简洁的方式是：</p>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">span</span> <span class="attr">th:text</span>=<span class="string">"|Welcome to our application, $&#123;user.name&#125;!|"</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>当然这种形式限制比较多，|…|中只能包含变量表达式${…}，不能包含其他常量、条件表达式等</p>
+<h4 id="运算符"><a href="#运算符" class="headerlink" title="运算符"></a>运算符</h4><figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">span</span> <span class="attr">th:with</span>=<span class="string">"isEven=($&#123;prodStat.count&#125; % 2 == 0)"</span>&gt;</span><span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>逻辑运算符<code>&gt;, &lt;, &lt;=,&gt;=，==,!=</code>都可以使用，唯一需要注意的是使用&lt;,&gt;时需要用它的HTML转义符：</p>
+<h2 id="二、常用的表达式"><a href="#二、常用的表达式" class="headerlink" title="二、常用的表达式"></a>二、常用的表达式</h2><h4 id="for循环"><a href="#for循环" class="headerlink" title="for循环"></a>for循环</h4><p>使用<code>th:each</code>标签</p>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">table</span> <span class="attr">border</span>=<span class="string">"1"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">tr</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">th</span>&gt;</span>usrId<span class="tag">&lt;/<span class="name">th</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">th</span>&gt;</span>usrName<span class="tag">&lt;/<span class="name">th</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">th</span>&gt;</span>usrRoleId<span class="tag">&lt;/<span class="name">th</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">th</span>&gt;</span>index<span class="tag">&lt;/<span class="name">th</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">tr</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">tr</span> <span class="attr">th:each</span>=<span class="string">"user,status : $&#123;users&#125;"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">td</span> <span class="attr">th:text</span>=<span class="string">"$&#123;user.usrId&#125;"</span>&gt;</span>1<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">td</span> <span class="attr">th:text</span>=<span class="string">"$&#123;user.usrName&#125;"</span>&gt;</span>惑<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">td</span> <span class="attr">th:text</span>=<span class="string">"$&#123;user.usrRoleId&#125;"</span>&gt;</span>惑惑惑惑<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">td</span> <span class="attr">th:text</span>=<span class="string">"$&#123;status.index&#125;"</span>&gt;</span>0<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">tr</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">table</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>status 表示循环状态变量，属性有：</p>
 <ul>
-<li>有了组件化的思想,我们在之后的开发中就要充分的利用它。</li>
-<li>尽可能的将页面拆分成一个个小的、 可复用的组件。</li>
-<li>这样让我们的代码更加方便组织和管理,并且扩展性也更强。</li>
+<li>index:当前迭代对象的index（从0开始计算）</li>
+<li>count: 当前迭代对象的index(从1开始计算)</li>
+<li>size:被迭代对象的大小</li>
+<li>current:当前迭代变量</li>
+<li>even/odd:布尔值，当前循环是否是偶数/奇数（从0开始计算）</li>
+<li>first:布尔值，当前循环是否是第一个</li>
+<li>last:布尔值，当前循环是否是最后一个</li>
 </ul>
-</li>
-</ul>
-<h2 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h2><h3 id="注册组件的基本步骤"><a href="#注册组件的基本步骤" class="headerlink" title="注册组件的基本步骤"></a>注册组件的基本步骤</h3><h4 id="小示例"><a href="#小示例" class="headerlink" title="小示例"></a>小示例</h4><ul>
-<li>组件的使用分成三个步骤<ul>
-<li>创建组件构造器</li>
-<li>注册组件</li>
-<li>使用组件</li>
-</ul>
-</li>
-</ul>
-<p><img src="/" class="lazyload" data-src="/2020/02/27/Vue-2-%E7%BB%84%E4%BB%B6%E5%8C%96/%E6%B3%A8%E5%86%8C%E7%BB%84%E4%BB%B6%E6%AD%A5%E9%AA%A4.png"  alt></p>
-<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"app"</span>&gt;</span>&#123;&#123;message&#125;&#125;</span><br><span class="line">  <span class="comment">&lt;!--3、使用组件--&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">my-cpn</span>&gt;</span><span class="tag">&lt;/<span class="name">my-cpn</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">my-cpn</span>&gt;</span><span class="tag">&lt;/<span class="name">my-cpn</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">my-cpn</span>&gt;</span><span class="tag">&lt;/<span class="name">my-cpn</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"../js/vue.js"</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="actionscript">    <span class="comment">// 1、创建组件构造器对象</span></span></span><br><span class="line"><span class="actionscript">    <span class="keyword">const</span> cpnc = Vue.extend(&#123;</span></span><br><span class="line"><span class="handlebars"><span class="xml">        template: `<span class="tag">&lt;<span class="name">div</span>&gt;</span></span></span></span><br><span class="line"><span class="handlebars"><span class="xml">                      <span class="tag">&lt;<span class="name">h2</span>&gt;</span>Hello world<span class="tag">&lt;/<span class="name">h2</span>&gt;</span></span></span></span><br><span class="line"><span class="handlebars"><span class="xml">                      <span class="tag">&lt;<span class="name">p</span>&gt;</span>内容<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span></span></span><br><span class="line"><span class="handlebars"><span class="xml">                    <span class="tag">&lt;/<span class="name">div</span>&gt;</span>`</span></span></span><br><span class="line">    &#125;)</span><br><span class="line"></span><br><span class="line"><span class="actionscript">    <span class="comment">// 2、注册组件</span></span></span><br><span class="line"><span class="actionscript">    Vue.component(<span class="string">'my-cpn'</span>, cpnc)</span></span><br><span class="line"></span><br><span class="line"><span class="actionscript">    <span class="keyword">const</span> app = <span class="keyword">new</span> Vue(&#123;</span></span><br><span class="line"><span class="actionscript">        el: <span class="string">'#app'</span>,</span></span><br><span class="line">        data: &#123;</span><br><span class="line"><span class="actionscript">            message: <span class="string">'你好！！！'</span></span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;)</span><br><span class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h4 id="if-unless条件求值"><a href="#if-unless条件求值" class="headerlink" title="if / unless条件求值"></a>if / unless条件求值</h4><figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">th:if</span>=<span class="string">"$&#123;flag == 'yes'&#125;"</span> <span class="attr">th:href</span>=<span class="string">"@&#123;http://www.baidu.com/&#125;"</span>&gt;</span>百度<span class="tag">&lt;/<span class="name">a</span>&gt;</span><span class="tag">&lt;<span class="name">br</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">th:unless</span>=<span class="string">"$&#123;flag == 'no'&#125;"</span> <span class="attr">th:href</span>=<span class="string">"@&#123;http://www.baidu.com/&#125;"</span>&gt;</span>百度亿下<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br></pre></td></tr></table></figure>
 
-<p><img src="/" class="lazyload" data-src="/2020/02/27/Vue-2-%E7%BB%84%E4%BB%B6%E5%8C%96/QQ%E5%9B%BE%E7%89%8720200413112751.png"  alt></p>
-<p><img src="/" class="lazyload" data-src="/2020/02/27/Vue-2-%E7%BB%84%E4%BB%B6%E5%8C%96/QQ%E5%9B%BE%E7%89%8720200413112812.png"  alt></p>
-<h3 id="全局组件和局部组件"><a href="#全局组件和局部组件" class="headerlink" title="全局组件和局部组件"></a>全局组件和局部组件</h3><p><img src="/" class="lazyload" data-src="/2020/02/27/Vue-2-%E7%BB%84%E4%BB%B6%E5%8C%96/QQ%E5%9B%BE%E7%89%8720200413114352.png"  alt></p>
-<h3 id="父租件和子组件"><a href="#父租件和子组件" class="headerlink" title="父租件和子组件"></a>父租件和子组件</h3><p><img src="/" class="lazyload" data-src="/2020/02/27/Vue-2-%E7%BB%84%E4%BB%B6%E5%8C%96/QQ%E5%9B%BE%E7%89%8720200413120713.png"  alt></p>
-<h3 id="注册组件语法糖"><a href="#注册组件语法糖" class="headerlink" title="注册组件语法糖"></a>注册组件语法糖</h3><p><img src="/" class="lazyload" data-src="/2020/02/27/Vue-2-%E7%BB%84%E4%BB%B6%E5%8C%96/QQ%E5%9B%BE%E7%89%8720200413121925.png"  alt></p>
-<h3 id="模板分离写法"><a href="#模板分离写法" class="headerlink" title="模板分离写法"></a>模板分离写法</h3><p><img src="/" class="lazyload" data-src="/2020/02/27/Vue-2-%E7%BB%84%E4%BB%B6%E5%8C%96/QQ%E5%9B%BE%E7%89%8720200413122912.png"  alt></p>
-<h3 id="组件访问Vue实例数据"><a href="#组件访问Vue实例数据" class="headerlink" title="组件访问Vue实例数据"></a>组件访问Vue实例数据</h3><ul>
-<li>组件对象也有一个data属性(也可以有methods等属性，下面我们有用到)</li>
-<li>只是这个data属性必须是一个函数</li>
-<li>而且这个函数返回一个对象,对象内部保存着数据</li>
-</ul>
-<p><img src="/" class="lazyload" data-src="/2020/02/27/Vue-2-%E7%BB%84%E4%BB%B6%E5%8C%96/QQ%E5%9B%BE%E7%89%8720200413123814.png"  alt></p>
-<h4 id="组件中的data为什么是函数"><a href="#组件中的data为什么是函数" class="headerlink" title="组件中的data为什么是函数"></a>组件中的data为什么是函数</h4><p><img src="/" class="lazyload" data-src="/2020/02/27/Vue-2-%E7%BB%84%E4%BB%B6%E5%8C%96/QQ%E5%9B%BE%E7%89%8720200413125909.png"  alt></p>
-<p><img src="/" class="lazyload" data-src="/2020/02/27/Vue-2-%E7%BB%84%E4%BB%B6%E5%8C%96/QQ%E5%9B%BE%E7%89%8720200413125947.png"  alt></p>
-<h3 id="父子之间的通信"><a href="#父子之间的通信" class="headerlink" title="父子之间的通信"></a>父子之间的通信</h3><ul>
-<li><p>子组件是不能引用父组件或者Vue实例的数据的。在开发中,往往一些数据确实需要从 上层传递到下层</p>
+<blockquote>
+<p>Thymeleaf中使用th:if和th:unless属性进行条件判断，上面的例子中，div 标签只有在th:if中条件成立时才显示：</p>
+</blockquote>
+<blockquote>
+<p>th:unless于th:if恰好相反，只有表达式中的条件不成立，才会显示其内容。</p>
+</blockquote>
+<h4 id="switch"><a href="#switch" class="headerlink" title="switch"></a>switch</h4><figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">th:switch</span>=<span class="string">"$&#123;sex&#125;"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">p</span> <span class="attr">th:case</span>=<span class="string">"'woman'"</span>&gt;</span>她是一个姑娘...<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">p</span> <span class="attr">th:case</span>=<span class="string">"'man'"</span>&gt;</span>这是一个爷们!<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- *: case 的默认的选项 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">p</span> <span class="attr">th:case</span>=<span class="string">"*"</span>&gt;</span>未知性别的一个家伙。<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="内嵌变量"><a href="#内嵌变量" class="headerlink" title="内嵌变量"></a>内嵌变量</h4><p>为了模板更加易用，Thymeleaf还提供了一系列Utility对象（内置于Context中），可以通过#直接访问：</p>
 <ul>
-<li>比如在一 个页面中,我们从服务器请求到了很多的数据。</li>
-<li>其中一部分数据,并非是我们整个页面的大组件来展示的,而是需要下面的子组件进行展示。</li>
-<li>这个时候,并不会让子组件再次发送-个网络请求 ,而是直接让大组件(父组件)将数据传递给小组件(子组件)。</li>
+<li>dates ： java.util.Date的功能方法类。</li>
+<li>calendars : 类似#dates，面向java.util.Calendar</li>
+<li>numbers : 格式化数字的功能方法类</li>
+<li>strings : 字符串对象的功能类</li>
+<li>objects: 对objects的功能类操作。</li>
+<li>bools: 对布尔值求值的功能方法。</li>
+<li>arrays：对数组的功能类方法。</li>
+<li>lists: 对lists功能类方法</li>
+<li>sets</li>
+<li>maps</li>
 </ul>
-</li>
-<li><p>如何进行父子组件间的通信呢? Vue官方提到</p>
-<ul>
-<li><p>通过props（properties）向子组件传递数据</p>
-</li>
-<li><p>通过事件向父组件发送消息</p>
-<p><img src="/" class="lazyload" data-src="/2020/02/27/Vue-2-%E7%BB%84%E4%BB%B6%E5%8C%96/QQ%E5%9B%BE%E7%89%8720200413131338.png"  alt></p>
-</li>
-</ul>
-</li>
-</ul>
-<p>在下面的代码中, 我直接将Vue实例当做父组件,并且其中包含子组件来简化代码</p>
-<h4 id="props-基本用法"><a href="#props-基本用法" class="headerlink" title="props 基本用法"></a>props 基本用法</h4><ul>
-<li>在组件中,使用选项props来声明需要从父级接收到的数据。</li>
-<li>props的值有两种方式:<ul>
-<li>方式一 :字符串数组,数组中的字符串就是传递时的名称。</li>
-<li>方式二:对象,对象可以设置传递时的类型,也可以设置默认值等。</li>
-</ul>
-</li>
-</ul>
-<h5 id="数组形式"><a href="#数组形式" class="headerlink" title="数组形式"></a>数组形式</h5><p><img src="/" class="lazyload" data-src="/2020/02/27/Vue-2-%E7%BB%84%E4%BB%B6%E5%8C%96/QQ%E5%9B%BE%E7%89%8720200413150929.png"  alt></p>
-<h4 id="props数据验证"><a href="#props数据验证" class="headerlink" title="props数据验证"></a>props数据验证</h4><ul>
-<li>除了数组之外,我们也可以使用对象,当需要对props进行类型等验证时,就需要对象写法了。</li>
-<li>验证都支持哪些数据类型呢?<ul>
-<li>String</li>
-<li>Number</li>
-<li>Array</li>
-<li>Object</li>
-<li>Data</li>
-<li>Function</li>
-<li>Symbol</li>
-</ul>
-</li>
-<li>当我们有自定义构造函数时,验证也支持自定义的类型</li>
-</ul>
-<p><img src="/" class="lazyload" data-src="/2020/02/27/Vue-2-%E7%BB%84%E4%BB%B6%E5%8C%96/QQ%E5%9B%BE%E7%89%8720200414093609.png"  alt></p>
-<h4 id="驼峰命名格式"><a href="#驼峰命名格式" class="headerlink" title="驼峰命名格式"></a>驼峰命名格式</h4><p>一般我们都是以驼峰的形式来为属性命名，当是 vue 不支持这种方式，如果想要支持那就必须更改 v-bind 名字的格式</p>
-<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"app"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">cpn</span> <span class="attr">:c-info</span>=<span class="string">"info"</span> <span class="attr">:child-my-message</span>=<span class="string">"message"</span>&gt;</span><span class="tag">&lt;/<span class="name">cpn</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<p>‘ - ’ 后面代表大写 解析出来的就是 childMyMessage 其他的不变</p>
-<h4 id="子级向父级传递"><a href="#子级向父级传递" class="headerlink" title="子级向父级传递"></a>子级向父级传递</h4><p><img src="/" class="lazyload" data-src="/2020/02/27/Vue-2-%E7%BB%84%E4%BB%B6%E5%8C%96/QQ%E5%9B%BE%E7%89%8720200415154838.png"  alt></p>
-<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!--父组件模板--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"app"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">cpn</span> @<span class="attr">itemclick</span>=<span class="string">"cpnClick"</span>&gt;</span><span class="tag">&lt;/<span class="name">cpn</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!--子组件模板--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">template</span> <span class="attr">id</span>=<span class="string">"cpn"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">button</span> <span class="attr">v-for</span>=<span class="string">"item in categories"</span> @<span class="attr">click</span>=<span class="string">"btnClick(item)"</span>&gt;</span>&#123;&#123;item.name&#125;&#125;<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">template</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"../js/vue.js"</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="actionscript">    <span class="comment">// 1、 子组件</span></span></span><br><span class="line"><span class="actionscript">    <span class="keyword">const</span> cpn = &#123;</span></span><br><span class="line"><span class="actionscript">        template: <span class="string">'#cpn'</span>,</span></span><br><span class="line">        data() &#123;</span><br><span class="line"><span class="actionscript">            <span class="keyword">return</span> &#123;</span></span><br><span class="line">                categories: [</span><br><span class="line"><span class="actionscript">                    &#123;id: <span class="string">'aaa'</span>, name: <span class="string">'热门推荐'</span>&#125;,</span></span><br><span class="line"><span class="actionscript">                    &#123;id: <span class="string">'bbb'</span>, name: <span class="string">'手机数码'</span>&#125;,</span></span><br><span class="line"><span class="actionscript">                    &#123;id: <span class="string">'ccc'</span>, name: <span class="string">'家用家电'</span>&#125;,</span></span><br><span class="line"><span class="actionscript">                    &#123;id: <span class="string">'ddd'</span>, name: <span class="string">'电脑办公'</span>&#125;</span></span><br><span class="line">                ]</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;,</span><br><span class="line">        methods: &#123;</span><br><span class="line">            btnClick(item) &#123;</span><br><span class="line"><span class="actionscript">                alert(<span class="string">'你点击了：'</span> + item.name + <span class="string">'   发送给父组件，请求数据'</span>)</span></span><br><span class="line"><span class="actionscript">                <span class="comment">// 发送事件</span></span></span><br><span class="line"><span class="actionscript">                <span class="keyword">this</span>.$emit(<span class="string">'itemclick'</span>,item)</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"><span class="actionscript">    <span class="comment">// 2、 父组件</span></span></span><br><span class="line"><span class="actionscript">    <span class="keyword">const</span> app = <span class="keyword">new</span> Vue(&#123;</span></span><br><span class="line"><span class="actionscript">        el: <span class="string">'#app'</span>,</span></span><br><span class="line">        data: &#123;</span><br><span class="line"><span class="actionscript">            message: <span class="string">'你好！！！'</span></span></span><br><span class="line">        &#125;,</span><br><span class="line">        components: &#123;</span><br><span class="line">            cpn</span><br><span class="line">        &#125;,</span><br><span class="line">        methods: &#123;</span><br><span class="line">            cpnClick(item) &#123;</span><br><span class="line"><span class="javascript">                <span class="built_in">console</span>.log(<span class="string">'父组件接收到子组件的消息'</span>,item)</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;)</span><br><span class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<h4 id="父子组件的访问方式：-children"><a href="#父子组件的访问方式：-children" class="headerlink" title="父子组件的访问方式：$children"></a>父子组件的访问方式：$children</h4><h1 id="插槽-slot"><a href="#插槽-slot" class="headerlink" title="插槽 slot"></a>插槽 slot</h1><h2 id="为什么使用"><a href="#为什么使用" class="headerlink" title="为什么使用"></a>为什么使用</h2><p><img src="/" class="lazyload" data-src="/2020/02/27/Vue-2-%E7%BB%84%E4%BB%B6%E5%8C%96/QQ%E5%9B%BE%E7%89%8720200416163000.png"  alt></p>
-<p><img src="/" class="lazyload" data-src="/2020/02/27/Vue-2-%E7%BB%84%E4%BB%B6%E5%8C%96/QQ%E5%9B%BE%E7%89%8720200416163953.png"  alt></p>
-<p><img src="/" class="lazyload" data-src="/2020/02/27/Vue-2-%E7%BB%84%E4%BB%B6%E5%8C%96/QQ%E5%9B%BE%E7%89%8720200416164009.png"  alt></p>
-<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"app"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">cpn</span>&gt;</span><span class="tag">&lt;<span class="name">span</span>&gt;</span>哈哈哈<span class="tag">&lt;/<span class="name">span</span>&gt;</span><span class="tag">&lt;/<span class="name">cpn</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">cpn</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">span</span>&gt;</span>2222<span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">button</span>&gt;</span>按钮2<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">cpn</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">cpn</span>&gt;</span><span class="tag">&lt;/<span class="name">cpn</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">template</span> <span class="attr">id</span>=<span class="string">"cpn"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">h2</span>&gt;</span>我是组件<span class="tag">&lt;/<span class="name">h2</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">p</span>&gt;</span>我我是组件的p标签<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">slot</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">button</span>&gt;</span>按钮<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">slot</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">template</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"../js/vue.js"</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="actionscript">    <span class="keyword">const</span> app = <span class="keyword">new</span> Vue(&#123;</span></span><br><span class="line"><span class="actionscript">        el: <span class="string">'#app'</span>,</span></span><br><span class="line">        data: &#123;</span><br><span class="line"><span class="actionscript">            message: <span class="string">'你好！！！'</span></span></span><br><span class="line">        &#125;,</span><br><span class="line">        components: &#123;</span><br><span class="line">            cpn: &#123;</span><br><span class="line"><span class="actionscript">                template: <span class="string">'#cpn'</span></span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;)</span><br><span class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<h2 id="具名插槽"><a href="#具名插槽" class="headerlink" title="具名插槽"></a>具名插槽</h2><p>定义插槽时可以为它指定一个name</p>
-<p>当使用插槽得时候就可以根据 slot=”插槽名” 的方式指定使用的是哪一个插槽</p>
-<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"app"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">cpn</span>&gt;</span><span class="tag">&lt;<span class="name">span</span> <span class="attr">slot</span>=<span class="string">"center"</span>&gt;</span>标题<span class="tag">&lt;/<span class="name">span</span>&gt;</span><span class="tag">&lt;/<span class="name">cpn</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">cpn</span>&gt;</span><span class="tag">&lt;<span class="name">span</span> <span class="attr">slot</span>=<span class="string">"left"</span>&gt;</span>导航<span class="tag">&lt;/<span class="name">span</span>&gt;</span><span class="tag">&lt;/<span class="name">cpn</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">template</span> <span class="attr">id</span>=<span class="string">"cpn"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">slot</span> <span class="attr">name</span>=<span class="string">"left"</span>&gt;</span>左边<span class="tag">&lt;/<span class="name">slot</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">slot</span> <span class="attr">name</span>=<span class="string">"center"</span>&gt;</span>中间<span class="tag">&lt;/<span class="name">slot</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">slot</span> <span class="attr">name</span>=<span class="string">"right"</span>&gt;</span>右边<span class="tag">&lt;/<span class="name">slot</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">template</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"../js/vue.js"</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="actionscript">    <span class="keyword">const</span> app = <span class="keyword">new</span> Vue(&#123;</span></span><br><span class="line"><span class="actionscript">        el: <span class="string">'#app'</span>,</span></span><br><span class="line">        data: &#123;</span><br><span class="line"><span class="actionscript">            message: <span class="string">'你好！！！'</span></span></span><br><span class="line">        &#125;,</span><br><span class="line">        components: &#123;</span><br><span class="line">            cpn: &#123;</span><br><span class="line"><span class="actionscript">                template: <span class="string">'#cpn'</span></span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;)</span><br><span class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<h2 id="编译作用域"><a href="#编译作用域" class="headerlink" title="编译作用域"></a>编译作用域</h2><p><img src="/" class="lazyload" data-src="/2020/02/27/Vue-2-%E7%BB%84%E4%BB%B6%E5%8C%96/QQ%E5%9B%BE%E7%89%8720200416171111.png"  alt></p>
-<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"utf-8"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">title</span>&gt;</span><span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"app"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">cpn</span>&gt;</span><span class="tag">&lt;/<span class="name">cpn</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">template</span> <span class="attr">id</span>=<span class="string">"cpn"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">h2</span>&gt;</span>我是子组件<span class="tag">&lt;/<span class="name">h2</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">template</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"../js/vue.js"</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="actionscript">    <span class="keyword">const</span> app = <span class="keyword">new</span> Vue(&#123;</span></span><br><span class="line"><span class="actionscript">        el: <span class="string">'#app'</span>,</span></span><br><span class="line">        data: &#123;</span><br><span class="line"><span class="actionscript">            message: <span class="string">'你好！！！'</span></span></span><br><span class="line">        &#125;,</span><br><span class="line">        components: &#123;</span><br><span class="line">            cpn: &#123;</span><br><span class="line"><span class="actionscript">                template: <span class="string">'#cpn'</span></span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;)</span><br><span class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-
-
-<h2 id="作用域插槽"><a href="#作用域插槽" class="headerlink" title="作用域插槽"></a>作用域插槽</h2><p><img src="/" class="lazyload" data-src="/2020/02/27/Vue-2-%E7%BB%84%E4%BB%B6%E5%8C%96/QQ%E5%9B%BE%E7%89%8720200416171529.png"  alt></p>
-<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"app"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">cpn</span>&gt;</span><span class="tag">&lt;/<span class="name">cpn</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">cpn</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!--目的是获取组件中得pLanguages--&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">template</span> <span class="attr">v-slot</span>=<span class="string">"slot"</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">span</span> <span class="attr">v-for</span>=<span class="string">"item in slot.data"</span>&gt;</span>&#123;&#123;item&#125;&#125; **<span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">template</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">cpn</span>&gt;</span></span><br><span class="line"></span><br><span class="line">  <span class="tag">&lt;<span class="name">cpn</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!--目的是获取组件中得pLanguages--&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">template</span> <span class="attr">v-slot</span>=<span class="string">"slot"</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">span</span>&gt;</span>&#123;&#123;slot.data.join(' - ')&#125;&#125;<span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">template</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">cpn</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">template</span> <span class="attr">id</span>=<span class="string">"cpn"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">slot</span> <span class="attr">:data</span>=<span class="string">"pLanguages"</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">ul</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">li</span> <span class="attr">v-for</span>=<span class="string">"item in pLanguages"</span>&gt;</span>&#123;&#123;item&#125;&#125; --<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;/<span class="name">ul</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">slot</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">template</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"../js/vue.js"</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="actionscript">    <span class="keyword">const</span> app = <span class="keyword">new</span> Vue(&#123;</span></span><br><span class="line"><span class="actionscript">        el: <span class="string">'#app'</span>,</span></span><br><span class="line">        data: &#123;</span><br><span class="line"><span class="actionscript">            message: <span class="string">'你好！！！'</span></span></span><br><span class="line">        &#125;,</span><br><span class="line">        components: &#123;</span><br><span class="line">            cpn: &#123;</span><br><span class="line"><span class="actionscript">                template: <span class="string">'#cpn'</span>,</span></span><br><span class="line">                data() &#123;</span><br><span class="line"><span class="actionscript">                    <span class="keyword">return</span> &#123;</span></span><br><span class="line"><span class="actionscript">                        pLanguages: [<span class="string">'java'</span>, <span class="string">'php'</span>, <span class="string">'c++'</span>, <span class="string">'C#'</span>, <span class="string">'go'</span>]</span></span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;)</span><br><span class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>]]></content>
+<h1 id="常用th标签"><a href="#常用th标签" class="headerlink" title="常用th标签"></a>常用th标签</h1><table>
+<thead>
+<tr>
+<th align="center"><strong>标签</strong></th>
+<th align="center"><strong>说明</strong></th>
+<th align="center"><strong>例子</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">th:id</td>
+<td align="center">替换id</td>
+<td align="center">&lt; input th:id=”‘xxx’ + ${collect.id}”/&gt;</td>
+</tr>
+<tr>
+<td align="center">th:text</td>
+<td align="center">文本替换</td>
+<td align="center">&lt; p th:text=”${collect.description}”&gt;description&lt; /p&gt;</td>
+</tr>
+<tr>
+<td align="center">th:utext</td>
+<td align="center">支持html的文本替换</td>
+<td align="center">&lt; p th:utext=”${htmlcontent}”&gt;conten&lt; /p&gt;</td>
+</tr>
+<tr>
+<td align="center">th:object</td>
+<td align="center">替换对象</td>
+<td align="center">&lt; div th:object=”${session.user}”&gt;</td>
+</tr>
+<tr>
+<td align="center">th:value</td>
+<td align="center">属性赋值</td>
+<td align="center">&lt; input th:value=”${user.name}” /&gt;</td>
+</tr>
+<tr>
+<td align="center">th:with</td>
+<td align="center">变量赋值运算</td>
+<td align="center">&lt; div th:with=”isEven=${prodStat.count}%2==0”&gt;&lt; /div&gt;</td>
+</tr>
+<tr>
+<td align="center">th:style</td>
+<td align="center">设置样式</td>
+<td align="center">th:style=”‘display:’ + @{(${sitrue} ? ‘none’ : ‘inline-block’)} + ‘’”</td>
+</tr>
+<tr>
+<td align="center">th:onclick</td>
+<td align="center">点击事件</td>
+<td align="center">th:”‘getCollect()’”</td>
+</tr>
+<tr>
+<td align="center">th:each</td>
+<td align="center">属性赋值</td>
+<td align="center">tr th:each=”user,userStat:${users}”&gt;</td>
+</tr>
+<tr>
+<td align="center">th:if</td>
+<td align="center">判断条件</td>
+<td align="center">&lt; a th:if=”${userId == collect.userId}” &gt;</td>
+</tr>
+<tr>
+<td align="center">th:unless</td>
+<td align="center">和th:if判断相反</td>
+<td align="center">&lt; a th:href=”@{/login}” th:unless=${session.user != null}&gt;Login&lt; /a&gt;</td>
+</tr>
+<tr>
+<td align="center">th:href</td>
+<td align="center">链接地址</td>
+<td align="center">&lt;a th:href=”@{/login}” th:unless=${session.user != null}&gt;Login&lt; /a&gt;</td>
+</tr>
+<tr>
+<td align="center">th:switch</td>
+<td align="center">多路选择 配合th:case 使用</td>
+<td align="center">&lt; div th:switch=”${user.role}”&gt;</td>
+</tr>
+<tr>
+<td align="center">th:case</td>
+<td align="center">th:switch的一个分支</td>
+<td align="center">&lt; p th:case=”‘admin’”&gt;User is an administrator&lt; /p&gt;</td>
+</tr>
+<tr>
+<td align="center">th:fragment</td>
+<td align="center">布局标签，定义一个代码片段，方便其它地方引用</td>
+<td align="center">&lt; div th:fragment=”alert”&gt;</td>
+</tr>
+<tr>
+<td align="center">th:include</td>
+<td align="center">布局标签，替换内容到引入的文件</td>
+<td align="center">&lt; head th:include=”layout :: htmlhead” th:with=”title=’xx’”&gt;&lt; /head&gt;</td>
+</tr>
+<tr>
+<td align="center">th:replace</td>
+<td align="center">布局标签，替换整个标签到引入的文件</td>
+<td align="center">&lt; div th:replace=”fragments/header :: title”&gt;&lt; /div&gt;</td>
+</tr>
+<tr>
+<td align="center">th:selected</td>
+<td align="center">selected选择框 选中</td>
+<td align="center">th:selected=”(${xxx.id} == ${configObj.dd})”</td>
+</tr>
+<tr>
+<td align="center">th:src</td>
+<td align="center">图片类地址引入</td>
+<td align="center">&lt; img class=”img-responsive” alt=”App Logo” th:src=”@{/img/logo.png}” /&gt;</td>
+</tr>
+<tr>
+<td align="center">th:inline</td>
+<td align="center">定义js脚本可以使用变量</td>
+<td align="center">&lt; script type=”text/javascript” th:inline=”javascript”&gt;</td>
+</tr>
+<tr>
+<td align="center">th:action</td>
+<td align="center">表单提交的地址</td>
+<td align="center">&lt; form action=”subscribe.html” th:action=”@{/subscribe}”&gt;</td>
+</tr>
+<tr>
+<td align="center">th:remove</td>
+<td align="center">删除某个属性</td>
+<td align="center">&lt; tr th:remove=”all”&gt;1.all:删除包含标签和所有的孩子。2.body:不包含标记删除,但删除其所有的孩子。3.tag:包含标记的删除,但不删除它的孩子。4.all-but-first:删除所有包含标签的孩子,除了第一个。5.none:什么也不做。这个值是有用的动态评估。</td>
+</tr>
+<tr>
+<td align="center">th:attr</td>
+<td align="center">设置标签属性，多个属性可以用逗号分隔</td>
+<td align="center">比如 &lt; p th:attr=”src=@{/image/aa.jpg},title=${title}”&gt;内容&lt; /p&gt;，这样如果${title}=‘这个是title’ 则结果就是&lt; p src=”/image/aa.jpg” title=”这个是title”&gt;内容&lt; /p&gt;</td>
+</tr>
+</tbody></table>
+]]></content>
       <categories>
-        <category>Vue</category>
+        <category>模板引擎</category>
+        <category>Thymeleaf</category>
       </categories>
       <tags>
-        <tag>Vue</tag>
+        <tag>Tyhmeleaf</tag>
+        <tag>模板引擎</tag>
       </tags>
   </entry>
   <entry>
@@ -2394,243 +2512,6 @@
       </categories>
       <tags>
         <tag>Vue</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Thymeleaf 模板引擎</title>
-    <url>/2020/02/25/Thymeleaf-%E6%A8%A1%E6%9D%BF%E5%BC%95%E6%93%8E/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h1 id="Thymeleaf-简介"><a href="#Thymeleaf-简介" class="headerlink" title="Thymeleaf 简介"></a>Thymeleaf 简介</h1><p><img src="/" class="lazyload" data-src="/2020/02/25/Thymeleaf-%E6%A8%A1%E6%9D%BF%E5%BC%95%E6%93%8E/Thymeleay.png"  alt></p>
-<blockquote>
-<p>官网部分翻译：反正就是各种好</p>
-<ul>
-<li>Thymeleaf是用来开发Web和独立环境项目的服务器端的Java模版引擎</li>
-<li>Spring官方支持的服务的渲染模板中，并不包含jsp。而是Thymeleaf和Freemarker等，而Thymeleaf与SpringMVC的视图技术，及SpringBoot的自动化配置集成非常完美，几乎没有任何成本，你只用关注Thymeleaf的语法即可。</li>
-</ul>
-</blockquote>
-<a id="more"></a>
-
-<h1 id="导入"><a href="#导入" class="headerlink" title="导入"></a>导入</h1><p>创建SpringBoot项目，在选择模块 <strong>Template Engines</strong> 中勾选 <strong>Thymeleaf</strong>，</p>
-<p>或者在创好项目之后再pom.xml文件中导入依赖 </p>
-<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>nz.net.ultraq.thymeleaf<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>thymeleaf-layout-dialect<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<p>在项目resource目录中的templates创建html页面</p>
-<p>创建好html后需要在顶部的 html 标签中声明 thymeleaf 就可以使用它的语法了</p>
-<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">"en"</span> <span class="attr">xmlns:th</span>=<span class="string">"http://www.thymeleaf.org"</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<blockquote>
-<p>使用前在application.properties中配置</p>
-<figure class="highlight properties"><table><tr><td class="code"><pre><span class="line"><span class="meta">spring.thymeleaf.cache</span>=<span class="string">false</span></span><br></pre></td></tr></table></figure>
-</blockquote>
-<p>作用：关闭Thymeleaf的缓存，修改页面后立即生效</p>
-</blockquote>
-<h1 id="语法"><a href="#语法" class="headerlink" title="语法"></a>语法</h1><h2 id="一、标准表达式语法"><a href="#一、标准表达式语法" class="headerlink" title="一、标准表达式语法"></a>一、标准表达式语法</h2><h3 id="它又分为："><a href="#它又分为：" class="headerlink" title="它又分为："></a>它又分为：</h3><ul>
-<li>消息</li>
-<li>变量</li>
-<li>选择表达式</li>
-<li>链接URL</li>
-<li>片段</li>
-<li>文字</li>
-<li>附加文本</li>
-<li>字面替代</li>
-<li>算术运算</li>
-<li>比较与平等</li>
-<li>条件表达式</li>
-<li>默认表达式</li>
-<li>无操作令牌</li>
-<li>数据转换/格式化</li>
-<li>预处理</li>
-</ul>
-<h4 id="变量"><a href="#变量" class="headerlink" title="变量"></a>变量</h4><figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">p</span>&gt;</span>Today is: <span class="tag">&lt;<span class="name">span</span> <span class="attr">th:text</span>=<span class="string">"$&#123;today&#125;"</span>&gt;</span>13 february 2011<span class="tag">&lt;/<span class="name">span</span>&gt;</span>.<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>意味着 &lt; span &gt;标签中的内容会被表达式${today}的值所替代，无论模板中它的内容是什么，之所以在模板中“多此一举“地填充它的内容，完全是为了它能够作为原型在浏览器中直接显示出来。<br>假设today的值为2015年8月14日，那么渲染结果为：&lt; p &gt;Today is: 2015年8月14日.&lt; /p &gt;。可见Thymeleaf的基本变量和JSP一样，都使用${.}表示获取变量的值。</p>
-</blockquote>
-<h4 id="URL"><a href="#URL" class="headerlink" title="URL"></a>URL</h4><p>URL在Web应用模板中占据着十分重要的地位，需要特别注意的是Thymeleaf对于URL的处理是通过语法@{…}来处理的。Thymeleaf支持绝对路径URL：</p>
-<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">th:href</span>=<span class="string">"@&#123;http://www.thymeleaf.org&#125;"</span>&gt;</span>Thymeleaf<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<p>同时也能够支持相对路径URL：</p>
-<p>另外，如果需要Thymeleaf对URL进行渲染，那么务必使用<code>th:href</code>，<code>th:src</code>等属性，下面是一个例子</p>
-<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="comment">&lt;!-- Will produce 'http://localhost:8080/gtvg/order/details?orderId=3' (plus rewriting) --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"details.html"</span> </span></span><br><span class="line"><span class="tag">   <span class="attr">th:href</span>=<span class="string">"@&#123;http://localhost:8080/gtvg/order/details(orderId=$&#123;o.id&#125;)&#125;"</span>&gt;</span>view<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!-- Will produce '/gtvg/order/details?orderId=3' (plus rewriting) --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"details.html"</span> <span class="attr">th:href</span>=<span class="string">"@&#123;/order/details(orderId=$&#123;o.id&#125;)&#125;"</span>&gt;</span>view<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!-- Will produce '/gtvg/order/3/details' (plus rewriting) --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"details.html"</span> <span class="attr">th:href</span>=<span class="string">"@&#123;/order/&#123;orderId&#125;/details(orderId=$&#123;o.id&#125;)&#125;"</span>&gt;</span>view<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<p>几点说明：<br>上例中URL最后的(orderId=${o.id})表示将括号内的内容作为URL参数处理，该语法避免使用字符串拼接，大大提高了可读性@{…}表达式中可以通过{orderId}访问Context中的orderId变量@{/order}是Context相关的相对路径，在渲染时会自动添加上当前Web应用的Context名字，假设context名字为app，那么结果应该是/app/order</p>
-<h4 id="字符串替换"><a href="#字符串替换" class="headerlink" title="字符串替换"></a>字符串替换</h4><figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">span</span> <span class="attr">th:text</span>=<span class="string">"'Welcome to our application, ' + $&#123;user.name&#125; + '!'"</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<p>一种更简洁的方式是：</p>
-<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">span</span> <span class="attr">th:text</span>=<span class="string">"|Welcome to our application, $&#123;user.name&#125;!|"</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<p>当然这种形式限制比较多，|…|中只能包含变量表达式${…}，不能包含其他常量、条件表达式等</p>
-<h4 id="运算符"><a href="#运算符" class="headerlink" title="运算符"></a>运算符</h4><figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">span</span> <span class="attr">th:with</span>=<span class="string">"isEven=($&#123;prodStat.count&#125; % 2 == 0)"</span>&gt;</span><span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<p>逻辑运算符<code>&gt;, &lt;, &lt;=,&gt;=，==,!=</code>都可以使用，唯一需要注意的是使用&lt;,&gt;时需要用它的HTML转义符：</p>
-<h2 id="二、常用的表达式"><a href="#二、常用的表达式" class="headerlink" title="二、常用的表达式"></a>二、常用的表达式</h2><h4 id="for循环"><a href="#for循环" class="headerlink" title="for循环"></a>for循环</h4><p>使用<code>th:each</code>标签</p>
-<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">table</span> <span class="attr">border</span>=<span class="string">"1"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">tr</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">th</span>&gt;</span>usrId<span class="tag">&lt;/<span class="name">th</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">th</span>&gt;</span>usrName<span class="tag">&lt;/<span class="name">th</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">th</span>&gt;</span>usrRoleId<span class="tag">&lt;/<span class="name">th</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">th</span>&gt;</span>index<span class="tag">&lt;/<span class="name">th</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">tr</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">tr</span> <span class="attr">th:each</span>=<span class="string">"user,status : $&#123;users&#125;"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">td</span> <span class="attr">th:text</span>=<span class="string">"$&#123;user.usrId&#125;"</span>&gt;</span>1<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">td</span> <span class="attr">th:text</span>=<span class="string">"$&#123;user.usrName&#125;"</span>&gt;</span>惑<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">td</span> <span class="attr">th:text</span>=<span class="string">"$&#123;user.usrRoleId&#125;"</span>&gt;</span>惑惑惑惑<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">td</span> <span class="attr">th:text</span>=<span class="string">"$&#123;status.index&#125;"</span>&gt;</span>0<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">tr</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">table</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<p>status 表示循环状态变量，属性有：</p>
-<ul>
-<li>index:当前迭代对象的index（从0开始计算）</li>
-<li>count: 当前迭代对象的index(从1开始计算)</li>
-<li>size:被迭代对象的大小</li>
-<li>current:当前迭代变量</li>
-<li>even/odd:布尔值，当前循环是否是偶数/奇数（从0开始计算）</li>
-<li>first:布尔值，当前循环是否是第一个</li>
-<li>last:布尔值，当前循环是否是最后一个</li>
-</ul>
-<h4 id="if-unless条件求值"><a href="#if-unless条件求值" class="headerlink" title="if / unless条件求值"></a>if / unless条件求值</h4><figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">th:if</span>=<span class="string">"$&#123;flag == 'yes'&#125;"</span> <span class="attr">th:href</span>=<span class="string">"@&#123;http://www.baidu.com/&#125;"</span>&gt;</span>百度<span class="tag">&lt;/<span class="name">a</span>&gt;</span><span class="tag">&lt;<span class="name">br</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">th:unless</span>=<span class="string">"$&#123;flag == 'no'&#125;"</span> <span class="attr">th:href</span>=<span class="string">"@&#123;http://www.baidu.com/&#125;"</span>&gt;</span>百度亿下<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>Thymeleaf中使用th:if和th:unless属性进行条件判断，上面的例子中，div 标签只有在th:if中条件成立时才显示：</p>
-</blockquote>
-<blockquote>
-<p>th:unless于th:if恰好相反，只有表达式中的条件不成立，才会显示其内容。</p>
-</blockquote>
-<h4 id="switch"><a href="#switch" class="headerlink" title="switch"></a>switch</h4><figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">th:switch</span>=<span class="string">"$&#123;sex&#125;"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">p</span> <span class="attr">th:case</span>=<span class="string">"'woman'"</span>&gt;</span>她是一个姑娘...<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">p</span> <span class="attr">th:case</span>=<span class="string">"'man'"</span>&gt;</span>这是一个爷们!<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- *: case 的默认的选项 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">p</span> <span class="attr">th:case</span>=<span class="string">"*"</span>&gt;</span>未知性别的一个家伙。<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<h4 id="内嵌变量"><a href="#内嵌变量" class="headerlink" title="内嵌变量"></a>内嵌变量</h4><p>为了模板更加易用，Thymeleaf还提供了一系列Utility对象（内置于Context中），可以通过#直接访问：</p>
-<ul>
-<li>dates ： java.util.Date的功能方法类。</li>
-<li>calendars : 类似#dates，面向java.util.Calendar</li>
-<li>numbers : 格式化数字的功能方法类</li>
-<li>strings : 字符串对象的功能类</li>
-<li>objects: 对objects的功能类操作。</li>
-<li>bools: 对布尔值求值的功能方法。</li>
-<li>arrays：对数组的功能类方法。</li>
-<li>lists: 对lists功能类方法</li>
-<li>sets</li>
-<li>maps</li>
-</ul>
-<h1 id="常用th标签"><a href="#常用th标签" class="headerlink" title="常用th标签"></a>常用th标签</h1><table>
-<thead>
-<tr>
-<th align="center"><strong>标签</strong></th>
-<th align="center"><strong>说明</strong></th>
-<th align="center"><strong>例子</strong></th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="center">th:id</td>
-<td align="center">替换id</td>
-<td align="center">&lt; input th:id=”‘xxx’ + ${collect.id}”/&gt;</td>
-</tr>
-<tr>
-<td align="center">th:text</td>
-<td align="center">文本替换</td>
-<td align="center">&lt; p th:text=”${collect.description}”&gt;description&lt; /p&gt;</td>
-</tr>
-<tr>
-<td align="center">th:utext</td>
-<td align="center">支持html的文本替换</td>
-<td align="center">&lt; p th:utext=”${htmlcontent}”&gt;conten&lt; /p&gt;</td>
-</tr>
-<tr>
-<td align="center">th:object</td>
-<td align="center">替换对象</td>
-<td align="center">&lt; div th:object=”${session.user}”&gt;</td>
-</tr>
-<tr>
-<td align="center">th:value</td>
-<td align="center">属性赋值</td>
-<td align="center">&lt; input th:value=”${user.name}” /&gt;</td>
-</tr>
-<tr>
-<td align="center">th:with</td>
-<td align="center">变量赋值运算</td>
-<td align="center">&lt; div th:with=”isEven=${prodStat.count}%2==0”&gt;&lt; /div&gt;</td>
-</tr>
-<tr>
-<td align="center">th:style</td>
-<td align="center">设置样式</td>
-<td align="center">th:style=”‘display:’ + @{(${sitrue} ? ‘none’ : ‘inline-block’)} + ‘’”</td>
-</tr>
-<tr>
-<td align="center">th:onclick</td>
-<td align="center">点击事件</td>
-<td align="center">th:”‘getCollect()’”</td>
-</tr>
-<tr>
-<td align="center">th:each</td>
-<td align="center">属性赋值</td>
-<td align="center">tr th:each=”user,userStat:${users}”&gt;</td>
-</tr>
-<tr>
-<td align="center">th:if</td>
-<td align="center">判断条件</td>
-<td align="center">&lt; a th:if=”${userId == collect.userId}” &gt;</td>
-</tr>
-<tr>
-<td align="center">th:unless</td>
-<td align="center">和th:if判断相反</td>
-<td align="center">&lt; a th:href=”@{/login}” th:unless=${session.user != null}&gt;Login&lt; /a&gt;</td>
-</tr>
-<tr>
-<td align="center">th:href</td>
-<td align="center">链接地址</td>
-<td align="center">&lt;a th:href=”@{/login}” th:unless=${session.user != null}&gt;Login&lt; /a&gt;</td>
-</tr>
-<tr>
-<td align="center">th:switch</td>
-<td align="center">多路选择 配合th:case 使用</td>
-<td align="center">&lt; div th:switch=”${user.role}”&gt;</td>
-</tr>
-<tr>
-<td align="center">th:case</td>
-<td align="center">th:switch的一个分支</td>
-<td align="center">&lt; p th:case=”‘admin’”&gt;User is an administrator&lt; /p&gt;</td>
-</tr>
-<tr>
-<td align="center">th:fragment</td>
-<td align="center">布局标签，定义一个代码片段，方便其它地方引用</td>
-<td align="center">&lt; div th:fragment=”alert”&gt;</td>
-</tr>
-<tr>
-<td align="center">th:include</td>
-<td align="center">布局标签，替换内容到引入的文件</td>
-<td align="center">&lt; head th:include=”layout :: htmlhead” th:with=”title=’xx’”&gt;&lt; /head&gt;</td>
-</tr>
-<tr>
-<td align="center">th:replace</td>
-<td align="center">布局标签，替换整个标签到引入的文件</td>
-<td align="center">&lt; div th:replace=”fragments/header :: title”&gt;&lt; /div&gt;</td>
-</tr>
-<tr>
-<td align="center">th:selected</td>
-<td align="center">selected选择框 选中</td>
-<td align="center">th:selected=”(${xxx.id} == ${configObj.dd})”</td>
-</tr>
-<tr>
-<td align="center">th:src</td>
-<td align="center">图片类地址引入</td>
-<td align="center">&lt; img class=”img-responsive” alt=”App Logo” th:src=”@{/img/logo.png}” /&gt;</td>
-</tr>
-<tr>
-<td align="center">th:inline</td>
-<td align="center">定义js脚本可以使用变量</td>
-<td align="center">&lt; script type=”text/javascript” th:inline=”javascript”&gt;</td>
-</tr>
-<tr>
-<td align="center">th:action</td>
-<td align="center">表单提交的地址</td>
-<td align="center">&lt; form action=”subscribe.html” th:action=”@{/subscribe}”&gt;</td>
-</tr>
-<tr>
-<td align="center">th:remove</td>
-<td align="center">删除某个属性</td>
-<td align="center">&lt; tr th:remove=”all”&gt;1.all:删除包含标签和所有的孩子。2.body:不包含标记删除,但删除其所有的孩子。3.tag:包含标记的删除,但不删除它的孩子。4.all-but-first:删除所有包含标签的孩子,除了第一个。5.none:什么也不做。这个值是有用的动态评估。</td>
-</tr>
-<tr>
-<td align="center">th:attr</td>
-<td align="center">设置标签属性，多个属性可以用逗号分隔</td>
-<td align="center">比如 &lt; p th:attr=”src=@{/image/aa.jpg},title=${title}”&gt;内容&lt; /p&gt;，这样如果${title}=‘这个是title’ 则结果就是&lt; p src=”/image/aa.jpg” title=”这个是title”&gt;内容&lt; /p&gt;</td>
-</tr>
-</tbody></table>
-]]></content>
-      <categories>
-        <category>模板引擎</category>
-        <category>Thymeleaf</category>
-      </categories>
-      <tags>
-        <tag>Tyhmeleaf</tag>
-        <tag>模板引擎</tag>
       </tags>
   </entry>
   <entry>
@@ -2976,6 +2857,125 @@
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">npm run build</span><br><span class="line">npm run dev</span><br></pre></td></tr></table></figure>
 
 ]]></content>
+      <categories>
+        <category>Vue</category>
+      </categories>
+      <tags>
+        <tag>Vue</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Vue-2-组件化</title>
+    <url>/2020/02/27/Vue-2-%E7%BB%84%E4%BB%B6%E5%8C%96/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h1 id="Vue组件化思想"><a href="#Vue组件化思想" class="headerlink" title="Vue组件化思想"></a>Vue组件化思想</h1><ul>
+<li><p>组件化事Vue.js中的重要思想</p>
+<ul>
+<li><p>它提供了-种抽象,让我们可以开发出一个个独立可复用的小组件来构造我们的应用。</p>
+</li>
+<li><p>任何的应用都会被抽象成一颗组件树。</p>
+<p><img src="/" class="lazyload" data-src="/2020/02/27/Vue-2-%E7%BB%84%E4%BB%B6%E5%8C%96/QQ%E5%9B%BE%E7%89%8720200413104643.png"  alt></p>
+</li>
+</ul>
+</li>
+<li><p>组件化思想的应用</p>
+<ul>
+<li>有了组件化的思想,我们在之后的开发中就要充分的利用它。</li>
+<li>尽可能的将页面拆分成一个个小的、 可复用的组件。</li>
+<li>这样让我们的代码更加方便组织和管理,并且扩展性也更强。</li>
+</ul>
+</li>
+</ul>
+<h2 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h2><h3 id="注册组件的基本步骤"><a href="#注册组件的基本步骤" class="headerlink" title="注册组件的基本步骤"></a>注册组件的基本步骤</h3><h4 id="小示例"><a href="#小示例" class="headerlink" title="小示例"></a>小示例</h4><ul>
+<li>组件的使用分成三个步骤<ul>
+<li>创建组件构造器</li>
+<li>注册组件</li>
+<li>使用组件</li>
+</ul>
+</li>
+</ul>
+<p><img src="/" class="lazyload" data-src="/2020/02/27/Vue-2-%E7%BB%84%E4%BB%B6%E5%8C%96/%E6%B3%A8%E5%86%8C%E7%BB%84%E4%BB%B6%E6%AD%A5%E9%AA%A4.png"  alt></p>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"app"</span>&gt;</span>&#123;&#123;message&#125;&#125;</span><br><span class="line">  <span class="comment">&lt;!--3、使用组件--&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">my-cpn</span>&gt;</span><span class="tag">&lt;/<span class="name">my-cpn</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">my-cpn</span>&gt;</span><span class="tag">&lt;/<span class="name">my-cpn</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">my-cpn</span>&gt;</span><span class="tag">&lt;/<span class="name">my-cpn</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"../js/vue.js"</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="actionscript">    <span class="comment">// 1、创建组件构造器对象</span></span></span><br><span class="line"><span class="actionscript">    <span class="keyword">const</span> cpnc = Vue.extend(&#123;</span></span><br><span class="line"><span class="handlebars"><span class="xml">        template: `<span class="tag">&lt;<span class="name">div</span>&gt;</span></span></span></span><br><span class="line"><span class="handlebars"><span class="xml">                      <span class="tag">&lt;<span class="name">h2</span>&gt;</span>Hello world<span class="tag">&lt;/<span class="name">h2</span>&gt;</span></span></span></span><br><span class="line"><span class="handlebars"><span class="xml">                      <span class="tag">&lt;<span class="name">p</span>&gt;</span>内容<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span></span></span><br><span class="line"><span class="handlebars"><span class="xml">                    <span class="tag">&lt;/<span class="name">div</span>&gt;</span>`</span></span></span><br><span class="line">    &#125;)</span><br><span class="line"></span><br><span class="line"><span class="actionscript">    <span class="comment">// 2、注册组件</span></span></span><br><span class="line"><span class="actionscript">    Vue.component(<span class="string">'my-cpn'</span>, cpnc)</span></span><br><span class="line"></span><br><span class="line"><span class="actionscript">    <span class="keyword">const</span> app = <span class="keyword">new</span> Vue(&#123;</span></span><br><span class="line"><span class="actionscript">        el: <span class="string">'#app'</span>,</span></span><br><span class="line">        data: &#123;</span><br><span class="line"><span class="actionscript">            message: <span class="string">'你好！！！'</span></span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;)</span><br><span class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="/" class="lazyload" data-src="/2020/02/27/Vue-2-%E7%BB%84%E4%BB%B6%E5%8C%96/QQ%E5%9B%BE%E7%89%8720200413112751.png"  alt></p>
+<p><img src="/" class="lazyload" data-src="/2020/02/27/Vue-2-%E7%BB%84%E4%BB%B6%E5%8C%96/QQ%E5%9B%BE%E7%89%8720200413112812.png"  alt></p>
+<h3 id="全局组件和局部组件"><a href="#全局组件和局部组件" class="headerlink" title="全局组件和局部组件"></a>全局组件和局部组件</h3><p><img src="/" class="lazyload" data-src="/2020/02/27/Vue-2-%E7%BB%84%E4%BB%B6%E5%8C%96/QQ%E5%9B%BE%E7%89%8720200413114352.png"  alt></p>
+<h3 id="父租件和子组件"><a href="#父租件和子组件" class="headerlink" title="父租件和子组件"></a>父租件和子组件</h3><p><img src="/" class="lazyload" data-src="/2020/02/27/Vue-2-%E7%BB%84%E4%BB%B6%E5%8C%96/QQ%E5%9B%BE%E7%89%8720200413120713.png"  alt></p>
+<h3 id="注册组件语法糖"><a href="#注册组件语法糖" class="headerlink" title="注册组件语法糖"></a>注册组件语法糖</h3><p><img src="/" class="lazyload" data-src="/2020/02/27/Vue-2-%E7%BB%84%E4%BB%B6%E5%8C%96/QQ%E5%9B%BE%E7%89%8720200413121925.png"  alt></p>
+<h3 id="模板分离写法"><a href="#模板分离写法" class="headerlink" title="模板分离写法"></a>模板分离写法</h3><p><img src="/" class="lazyload" data-src="/2020/02/27/Vue-2-%E7%BB%84%E4%BB%B6%E5%8C%96/QQ%E5%9B%BE%E7%89%8720200413122912.png"  alt></p>
+<h3 id="组件访问Vue实例数据"><a href="#组件访问Vue实例数据" class="headerlink" title="组件访问Vue实例数据"></a>组件访问Vue实例数据</h3><ul>
+<li>组件对象也有一个data属性(也可以有methods等属性，下面我们有用到)</li>
+<li>只是这个data属性必须是一个函数</li>
+<li>而且这个函数返回一个对象,对象内部保存着数据</li>
+</ul>
+<p><img src="/" class="lazyload" data-src="/2020/02/27/Vue-2-%E7%BB%84%E4%BB%B6%E5%8C%96/QQ%E5%9B%BE%E7%89%8720200413123814.png"  alt></p>
+<h4 id="组件中的data为什么是函数"><a href="#组件中的data为什么是函数" class="headerlink" title="组件中的data为什么是函数"></a>组件中的data为什么是函数</h4><p><img src="/" class="lazyload" data-src="/2020/02/27/Vue-2-%E7%BB%84%E4%BB%B6%E5%8C%96/QQ%E5%9B%BE%E7%89%8720200413125909.png"  alt></p>
+<p><img src="/" class="lazyload" data-src="/2020/02/27/Vue-2-%E7%BB%84%E4%BB%B6%E5%8C%96/QQ%E5%9B%BE%E7%89%8720200413125947.png"  alt></p>
+<h3 id="父子之间的通信"><a href="#父子之间的通信" class="headerlink" title="父子之间的通信"></a>父子之间的通信</h3><ul>
+<li><p>子组件是不能引用父组件或者Vue实例的数据的。在开发中,往往一些数据确实需要从 上层传递到下层</p>
+<ul>
+<li>比如在一 个页面中,我们从服务器请求到了很多的数据。</li>
+<li>其中一部分数据,并非是我们整个页面的大组件来展示的,而是需要下面的子组件进行展示。</li>
+<li>这个时候,并不会让子组件再次发送-个网络请求 ,而是直接让大组件(父组件)将数据传递给小组件(子组件)。</li>
+</ul>
+</li>
+<li><p>如何进行父子组件间的通信呢? Vue官方提到</p>
+<ul>
+<li><p>通过props（properties）向子组件传递数据</p>
+</li>
+<li><p>通过事件向父组件发送消息</p>
+<p><img src="/" class="lazyload" data-src="/2020/02/27/Vue-2-%E7%BB%84%E4%BB%B6%E5%8C%96/QQ%E5%9B%BE%E7%89%8720200413131338.png"  alt></p>
+</li>
+</ul>
+</li>
+</ul>
+<p>在下面的代码中, 我直接将Vue实例当做父组件,并且其中包含子组件来简化代码</p>
+<h4 id="props-基本用法"><a href="#props-基本用法" class="headerlink" title="props 基本用法"></a>props 基本用法</h4><ul>
+<li>在组件中,使用选项props来声明需要从父级接收到的数据。</li>
+<li>props的值有两种方式:<ul>
+<li>方式一 :字符串数组,数组中的字符串就是传递时的名称。</li>
+<li>方式二:对象,对象可以设置传递时的类型,也可以设置默认值等。</li>
+</ul>
+</li>
+</ul>
+<h5 id="数组形式"><a href="#数组形式" class="headerlink" title="数组形式"></a>数组形式</h5><p><img src="/" class="lazyload" data-src="/2020/02/27/Vue-2-%E7%BB%84%E4%BB%B6%E5%8C%96/QQ%E5%9B%BE%E7%89%8720200413150929.png"  alt></p>
+<h4 id="props数据验证"><a href="#props数据验证" class="headerlink" title="props数据验证"></a>props数据验证</h4><ul>
+<li>除了数组之外,我们也可以使用对象,当需要对props进行类型等验证时,就需要对象写法了。</li>
+<li>验证都支持哪些数据类型呢?<ul>
+<li>String</li>
+<li>Number</li>
+<li>Array</li>
+<li>Object</li>
+<li>Data</li>
+<li>Function</li>
+<li>Symbol</li>
+</ul>
+</li>
+<li>当我们有自定义构造函数时,验证也支持自定义的类型</li>
+</ul>
+<p><img src="/" class="lazyload" data-src="/2020/02/27/Vue-2-%E7%BB%84%E4%BB%B6%E5%8C%96/QQ%E5%9B%BE%E7%89%8720200414093609.png"  alt></p>
+<h4 id="驼峰命名格式"><a href="#驼峰命名格式" class="headerlink" title="驼峰命名格式"></a>驼峰命名格式</h4><p>一般我们都是以驼峰的形式来为属性命名，当是 vue 不支持这种方式，如果想要支持那就必须更改 v-bind 名字的格式</p>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"app"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">cpn</span> <span class="attr">:c-info</span>=<span class="string">"info"</span> <span class="attr">:child-my-message</span>=<span class="string">"message"</span>&gt;</span><span class="tag">&lt;/<span class="name">cpn</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>‘ - ’ 后面代表大写 解析出来的就是 childMyMessage 其他的不变</p>
+<h4 id="子级向父级传递"><a href="#子级向父级传递" class="headerlink" title="子级向父级传递"></a>子级向父级传递</h4><p><img src="/" class="lazyload" data-src="/2020/02/27/Vue-2-%E7%BB%84%E4%BB%B6%E5%8C%96/QQ%E5%9B%BE%E7%89%8720200415154838.png"  alt></p>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!--父组件模板--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"app"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">cpn</span> @<span class="attr">itemclick</span>=<span class="string">"cpnClick"</span>&gt;</span><span class="tag">&lt;/<span class="name">cpn</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!--子组件模板--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">template</span> <span class="attr">id</span>=<span class="string">"cpn"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">button</span> <span class="attr">v-for</span>=<span class="string">"item in categories"</span> @<span class="attr">click</span>=<span class="string">"btnClick(item)"</span>&gt;</span>&#123;&#123;item.name&#125;&#125;<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">template</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"../js/vue.js"</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="actionscript">    <span class="comment">// 1、 子组件</span></span></span><br><span class="line"><span class="actionscript">    <span class="keyword">const</span> cpn = &#123;</span></span><br><span class="line"><span class="actionscript">        template: <span class="string">'#cpn'</span>,</span></span><br><span class="line">        data() &#123;</span><br><span class="line"><span class="actionscript">            <span class="keyword">return</span> &#123;</span></span><br><span class="line">                categories: [</span><br><span class="line"><span class="actionscript">                    &#123;id: <span class="string">'aaa'</span>, name: <span class="string">'热门推荐'</span>&#125;,</span></span><br><span class="line"><span class="actionscript">                    &#123;id: <span class="string">'bbb'</span>, name: <span class="string">'手机数码'</span>&#125;,</span></span><br><span class="line"><span class="actionscript">                    &#123;id: <span class="string">'ccc'</span>, name: <span class="string">'家用家电'</span>&#125;,</span></span><br><span class="line"><span class="actionscript">                    &#123;id: <span class="string">'ddd'</span>, name: <span class="string">'电脑办公'</span>&#125;</span></span><br><span class="line">                ]</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;,</span><br><span class="line">        methods: &#123;</span><br><span class="line">            btnClick(item) &#123;</span><br><span class="line"><span class="actionscript">                alert(<span class="string">'你点击了：'</span> + item.name + <span class="string">'   发送给父组件，请求数据'</span>)</span></span><br><span class="line"><span class="actionscript">                <span class="comment">// 发送事件</span></span></span><br><span class="line"><span class="actionscript">                <span class="keyword">this</span>.$emit(<span class="string">'itemclick'</span>,item)</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"><span class="actionscript">    <span class="comment">// 2、 父组件</span></span></span><br><span class="line"><span class="actionscript">    <span class="keyword">const</span> app = <span class="keyword">new</span> Vue(&#123;</span></span><br><span class="line"><span class="actionscript">        el: <span class="string">'#app'</span>,</span></span><br><span class="line">        data: &#123;</span><br><span class="line"><span class="actionscript">            message: <span class="string">'你好！！！'</span></span></span><br><span class="line">        &#125;,</span><br><span class="line">        components: &#123;</span><br><span class="line">            cpn</span><br><span class="line">        &#125;,</span><br><span class="line">        methods: &#123;</span><br><span class="line">            cpnClick(item) &#123;</span><br><span class="line"><span class="javascript">                <span class="built_in">console</span>.log(<span class="string">'父组件接收到子组件的消息'</span>,item)</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;)</span><br><span class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="父子组件的访问方式：-children"><a href="#父子组件的访问方式：-children" class="headerlink" title="父子组件的访问方式：$children"></a>父子组件的访问方式：$children</h4><h1 id="插槽-slot"><a href="#插槽-slot" class="headerlink" title="插槽 slot"></a>插槽 slot</h1><h2 id="为什么使用"><a href="#为什么使用" class="headerlink" title="为什么使用"></a>为什么使用</h2><p><img src="/" class="lazyload" data-src="/2020/02/27/Vue-2-%E7%BB%84%E4%BB%B6%E5%8C%96/QQ%E5%9B%BE%E7%89%8720200416163000.png"  alt></p>
+<p><img src="/" class="lazyload" data-src="/2020/02/27/Vue-2-%E7%BB%84%E4%BB%B6%E5%8C%96/QQ%E5%9B%BE%E7%89%8720200416163953.png"  alt></p>
+<p><img src="/" class="lazyload" data-src="/2020/02/27/Vue-2-%E7%BB%84%E4%BB%B6%E5%8C%96/QQ%E5%9B%BE%E7%89%8720200416164009.png"  alt></p>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"app"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">cpn</span>&gt;</span><span class="tag">&lt;<span class="name">span</span>&gt;</span>哈哈哈<span class="tag">&lt;/<span class="name">span</span>&gt;</span><span class="tag">&lt;/<span class="name">cpn</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">cpn</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">span</span>&gt;</span>2222<span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">button</span>&gt;</span>按钮2<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">cpn</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">cpn</span>&gt;</span><span class="tag">&lt;/<span class="name">cpn</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">template</span> <span class="attr">id</span>=<span class="string">"cpn"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">h2</span>&gt;</span>我是组件<span class="tag">&lt;/<span class="name">h2</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">p</span>&gt;</span>我我是组件的p标签<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">slot</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">button</span>&gt;</span>按钮<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">slot</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">template</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"../js/vue.js"</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="actionscript">    <span class="keyword">const</span> app = <span class="keyword">new</span> Vue(&#123;</span></span><br><span class="line"><span class="actionscript">        el: <span class="string">'#app'</span>,</span></span><br><span class="line">        data: &#123;</span><br><span class="line"><span class="actionscript">            message: <span class="string">'你好！！！'</span></span></span><br><span class="line">        &#125;,</span><br><span class="line">        components: &#123;</span><br><span class="line">            cpn: &#123;</span><br><span class="line"><span class="actionscript">                template: <span class="string">'#cpn'</span></span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;)</span><br><span class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="具名插槽"><a href="#具名插槽" class="headerlink" title="具名插槽"></a>具名插槽</h2><p>定义插槽时可以为它指定一个name</p>
+<p>当使用插槽得时候就可以根据 slot=”插槽名” 的方式指定使用的是哪一个插槽</p>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"app"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">cpn</span>&gt;</span><span class="tag">&lt;<span class="name">span</span> <span class="attr">slot</span>=<span class="string">"center"</span>&gt;</span>标题<span class="tag">&lt;/<span class="name">span</span>&gt;</span><span class="tag">&lt;/<span class="name">cpn</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">cpn</span>&gt;</span><span class="tag">&lt;<span class="name">span</span> <span class="attr">slot</span>=<span class="string">"left"</span>&gt;</span>导航<span class="tag">&lt;/<span class="name">span</span>&gt;</span><span class="tag">&lt;/<span class="name">cpn</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">template</span> <span class="attr">id</span>=<span class="string">"cpn"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">slot</span> <span class="attr">name</span>=<span class="string">"left"</span>&gt;</span>左边<span class="tag">&lt;/<span class="name">slot</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">slot</span> <span class="attr">name</span>=<span class="string">"center"</span>&gt;</span>中间<span class="tag">&lt;/<span class="name">slot</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">slot</span> <span class="attr">name</span>=<span class="string">"right"</span>&gt;</span>右边<span class="tag">&lt;/<span class="name">slot</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">template</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"../js/vue.js"</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="actionscript">    <span class="keyword">const</span> app = <span class="keyword">new</span> Vue(&#123;</span></span><br><span class="line"><span class="actionscript">        el: <span class="string">'#app'</span>,</span></span><br><span class="line">        data: &#123;</span><br><span class="line"><span class="actionscript">            message: <span class="string">'你好！！！'</span></span></span><br><span class="line">        &#125;,</span><br><span class="line">        components: &#123;</span><br><span class="line">            cpn: &#123;</span><br><span class="line"><span class="actionscript">                template: <span class="string">'#cpn'</span></span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;)</span><br><span class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="编译作用域"><a href="#编译作用域" class="headerlink" title="编译作用域"></a>编译作用域</h2><p><img src="/" class="lazyload" data-src="/2020/02/27/Vue-2-%E7%BB%84%E4%BB%B6%E5%8C%96/QQ%E5%9B%BE%E7%89%8720200416171111.png"  alt></p>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"utf-8"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">title</span>&gt;</span><span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"app"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">cpn</span>&gt;</span><span class="tag">&lt;/<span class="name">cpn</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">template</span> <span class="attr">id</span>=<span class="string">"cpn"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">h2</span>&gt;</span>我是子组件<span class="tag">&lt;/<span class="name">h2</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">template</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"../js/vue.js"</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="actionscript">    <span class="keyword">const</span> app = <span class="keyword">new</span> Vue(&#123;</span></span><br><span class="line"><span class="actionscript">        el: <span class="string">'#app'</span>,</span></span><br><span class="line">        data: &#123;</span><br><span class="line"><span class="actionscript">            message: <span class="string">'你好！！！'</span></span></span><br><span class="line">        &#125;,</span><br><span class="line">        components: &#123;</span><br><span class="line">            cpn: &#123;</span><br><span class="line"><span class="actionscript">                template: <span class="string">'#cpn'</span></span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;)</span><br><span class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="作用域插槽"><a href="#作用域插槽" class="headerlink" title="作用域插槽"></a>作用域插槽</h2><p><img src="/" class="lazyload" data-src="/2020/02/27/Vue-2-%E7%BB%84%E4%BB%B6%E5%8C%96/QQ%E5%9B%BE%E7%89%8720200416171529.png"  alt></p>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"app"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">cpn</span>&gt;</span><span class="tag">&lt;/<span class="name">cpn</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">cpn</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!--目的是获取组件中得pLanguages--&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">template</span> <span class="attr">v-slot</span>=<span class="string">"slot"</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">span</span> <span class="attr">v-for</span>=<span class="string">"item in slot.data"</span>&gt;</span>&#123;&#123;item&#125;&#125; **<span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">template</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">cpn</span>&gt;</span></span><br><span class="line"></span><br><span class="line">  <span class="tag">&lt;<span class="name">cpn</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!--目的是获取组件中得pLanguages--&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">template</span> <span class="attr">v-slot</span>=<span class="string">"slot"</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">span</span>&gt;</span>&#123;&#123;slot.data.join(' - ')&#125;&#125;<span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">template</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">cpn</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">template</span> <span class="attr">id</span>=<span class="string">"cpn"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">slot</span> <span class="attr">:data</span>=<span class="string">"pLanguages"</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">ul</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">li</span> <span class="attr">v-for</span>=<span class="string">"item in pLanguages"</span>&gt;</span>&#123;&#123;item&#125;&#125; --<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;/<span class="name">ul</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">slot</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">template</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"../js/vue.js"</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="actionscript">    <span class="keyword">const</span> app = <span class="keyword">new</span> Vue(&#123;</span></span><br><span class="line"><span class="actionscript">        el: <span class="string">'#app'</span>,</span></span><br><span class="line">        data: &#123;</span><br><span class="line"><span class="actionscript">            message: <span class="string">'你好！！！'</span></span></span><br><span class="line">        &#125;,</span><br><span class="line">        components: &#123;</span><br><span class="line">            cpn: &#123;</span><br><span class="line"><span class="actionscript">                template: <span class="string">'#cpn'</span>,</span></span><br><span class="line">                data() &#123;</span><br><span class="line"><span class="actionscript">                    <span class="keyword">return</span> &#123;</span></span><br><span class="line"><span class="actionscript">                        pLanguages: [<span class="string">'java'</span>, <span class="string">'php'</span>, <span class="string">'c++'</span>, <span class="string">'C#'</span>, <span class="string">'go'</span>]</span></span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;)</span><br><span class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>]]></content>
       <categories>
         <category>Vue</category>
       </categories>
